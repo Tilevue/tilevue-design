@@ -1,0 +1,219 @@
+/* ── Glass: the owner's photo, heavily blurred and darkened, fills the whole page behind everything (warm glows
+      when there is no photo). On top: a left-aligned hero with a bold white name and amber accents, a frosted
+      "dock" of social buttons, and frosted-glass cards. ── */
+:root:has(main[data-look="glass"]),
+[data-look="glass"] {
+  --color-page: #0b0907;
+  --color-card: #17130f; /* solid: popups and anything outside the grid; cards in the grid are see-through (below) */
+  --color-ink: #ffffff;
+  --color-accent: #ffb800;
+  --radius-card: 26px;
+  --look-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), inset 0 0 0 1px rgb(255 255 255 / 0.08), 0 24px 48px -24px rgb(0 0 0 / 0.7);
+  --font-sans: var(--font-albert), system-ui, sans-serif;
+}
+[data-look="glass"] {
+  position: relative;
+  isolation: isolate; /* keeps the two backdrop layers (z-index -1) above the page colour and below the content */
+}
+/* backdrop, layer 1: the photo (components/Header.tsx sets --photo), blurred into soft colour. Fixed, so it stays
+   put while the page scrolls over it. */
+[data-look="glass"] header::before {
+  content: "";
+  position: fixed;
+  inset: -90px;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(
+    --photo,
+    radial-gradient(60% 50% at 72% 30%, #ff7a1a, transparent 70%),
+    radial-gradient(50% 50% at 18% 70%, #ffb800, transparent 70%),
+    radial-gradient(40% 40% at 90% 90%, #7a4a2a, transparent 70%)
+  );
+  background-position: center;
+  background-size: cover;
+  filter: blur(56px) saturate(1.5);
+}
+/* backdrop, layer 2: a dark veil so text stays readable; it thickens as the page scrolls */
+[data-look="glass"] header::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(100deg, rgb(8 6 4 / 0.82) 0%, rgb(8 6 4 / 0.5) 55%, rgb(8 6 4 / 0.3) 100%), rgb(8 6 4 / 0.3);
+}
+/* hero: centred (photo, label, name, dock), with room above */
+[data-look="glass"] header {
+  width: min(100cqw - 32px, 848px);
+  margin-inline: auto;
+  padding-top: max(56px, 12vh);
+  gap: 22px;
+}
+/* the clock is the small amber label above the name */
+[data-look="glass"] .page-clock {
+  height: auto;
+  color: var(--color-accent);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+[data-look="glass"] .page-name {
+  color: #fff;
+  font-size: min(88px, calc((100cqw - 32px) / var(--fit)));
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+/* photo: a small circle with an amber edge, above the name */
+[data-look="glass"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px var(--color-accent), 0 0 34px -4px color-mix(in srgb, var(--color-accent) 70%, transparent);
+  transition: scale 300ms var(--ease-spring);
+}
+[data-look="glass"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 3px rgb(0 0 0 / 0.55);
+}
+/* social buttons: one frosted dock; the first button is the white "active" pill */
+[data-look="glass"] .page-socials {
+  gap: 4px;
+  padding: 6px;
+  border-radius: 30px;
+  background: rgb(255 255 255 / 0.1);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+}
+[data-look="glass"] .page-socials a {
+  height: 44px;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  transition: background-color 250ms var(--ease-smooth), color 250ms var(--ease-smooth), scale 250ms var(--ease-spring);
+}
+[data-look="glass"] .page-socials a:first-child,
+[data-look="glass"] .page-socials a:active {
+  background: #fff;
+  color: #14110d;
+}
+/* cards: see-through inside the grid (popups opened from a card stay solid) */
+[data-look="glass"] .bento {
+  --color-card: rgb(255 255 255 / 0.08);
+  --color-fill: rgb(255 255 255 / 0.1);
+  --color-pill: rgb(255 255 255 / 0.1);
+  --color-hover: rgb(255 255 255 / 0.13);
+  --color-hover-strong: rgb(255 255 255 / 0.16);
+  --color-muted: rgb(255 255 255 / 0.68);
+  --color-subtle: rgb(255 255 255 / 0.56);
+}
+[data-look="glass"] dialog {
+  --color-card: #17130f;
+  --color-fill: #241e17;
+  --color-hover: #241e17;
+}
+/* ponytail: one blur per card — fine for a page of cards; if long pages stutter on old phones, drop the blur under
+   a width or on (prefers-reduced-transparency) and keep the tint. */
+[data-look="glass"] :is(.bento > .card, .bento > * > .card) {
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);
+  /* layer 1: a light streak that sweeps across on tap / hover; layer 2: a faint amber tint from the top-left */
+  background-image:
+    linear-gradient(115deg, transparent 42%, rgb(255 255 255 / 0.16) 50%, transparent 58%),
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--color-accent) 12%, transparent), transparent 60%);
+  background-size: 260% 100%, 100% 100%;
+  background-position: 130% 0, 0 0;
+  background-repeat: no-repeat;
+  transition-property: background-color, background-position, scale, translate, box-shadow;
+  transition-duration: 200ms, 800ms, 200ms, 300ms, 300ms;
+  transition-timing-function: var(--ease-smooth);
+}
+/* icons: amber lines, no badge (the arrow stays white) */
+[data-look="glass"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: var(--color-accent);
+}
+[data-look="glass"] .bento .card-arrow {
+  color: inherit; /* white on a card, dark inside a white button */
+  transition: translate 300ms var(--ease-spring);
+}
+/* tap: the light streak crosses the card and its edge glows amber */
+[data-look="glass"] .bento a.card:active {
+  background-position: -30% 0, 0 0;
+  --tw-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 70%, transparent),
+    0 0 44px -12px var(--color-accent);
+}
+@media (hover: hover) {
+  [data-look="glass"] .bento a.card:hover {
+    translate: 0 -4px;
+    background-position: -30% 0, 0 0;
+    --tw-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4), inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 70%, transparent),
+      0 0 44px -12px var(--color-accent), 0 30px 50px -24px rgb(0 0 0 / 0.8);
+  }
+  [data-look="glass"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="glass"] .page-avatar:hover {
+    scale: 1.08;
+  }
+  [data-look="glass"] .page-socials a:hover {
+    background: #fff;
+    color: #14110d;
+  }
+}
+@keyframes glass-breathe {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.12) translate(-2%, 1.5%); }
+}
+@keyframes glass-veil {
+  from { opacity: 0.72; }
+  to { opacity: 1; }
+}
+@keyframes glass-focus {
+  from { opacity: 0; filter: blur(16px); transform: translateY(18px); }
+}
+@keyframes glass-in {
+  from { opacity: 0; transform: translateY(34px) scale(0.96); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* always: the blurred backdrop slowly breathes */
+  [data-look="glass"] header::before {
+    animation: glass-breathe 24s ease-in-out infinite;
+  }
+  /* on load: label, photo and name come into focus one after another, then the dock rises */
+  [data-look="glass"] .page-clock {
+    animation: glass-focus 700ms var(--ease-smooth) both;
+  }
+  [data-look="glass"] .page-avatar {
+    animation: glass-focus 800ms var(--ease-smooth) 100ms both;
+  }
+  [data-look="glass"] .page-name span {
+    animation: glass-focus 900ms var(--ease-smooth) 220ms both;
+  }
+  [data-look="glass"] .page-name span + span {
+    animation-delay: 340ms;
+  }
+  [data-look="glass"] .page-socials {
+    animation: glass-in 700ms var(--ease-smooth) 560ms both;
+  }
+  @supports (animation-timeline: view()) {
+    /* on scroll: the veil over the backdrop thickens over the first screen, and each pane floats up into place */
+    [data-look="glass"] header::after {
+      animation: glass-veil linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 90vh;
+    }
+    [data-look="glass"] :is(.bento > .card, .bento > * > .card) {
+      animation: glass-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+  }
+}

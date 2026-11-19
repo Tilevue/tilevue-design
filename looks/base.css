@@ -1,0 +1,90 @@
+/*
+ * Shared rules for every look. A look is switched on with data-look="<id>" on the page wrapper (looks/registry.ts).
+ *
+ * A look file only has to set four colours — --color-page, --color-card, --color-ink, --color-accent — plus its
+ * fonts and shapes. The other tokens below are derived from those four, and any look may override them.
+ * Looks are fixed: they don't follow the visitor's light/dark setting (the standard page does).
+ *
+ * `:root:has(main[data-look])` gives <body> the same tokens, so the area around the page matches the look.
+ */
+:root:has(main[data-look]),
+[data-look] {
+  --color-muted: color-mix(in srgb, var(--color-ink) 60%, var(--color-card));
+  --color-subtle: color-mix(in srgb, var(--color-ink) 50%, var(--color-card));
+  --color-fill: color-mix(in srgb, var(--color-ink) 6%, var(--color-card));
+  --color-pill: var(--color-fill);
+  --color-hover: var(--color-fill);
+  --color-hover-strong: color-mix(in srgb, var(--color-ink) 11%, var(--color-card));
+  --color-popup: var(--color-fill);
+  --color-ring: color-mix(in srgb, var(--color-ink) 10%, transparent);
+  /* the card outline + shadow; looks replace this one token instead of fighting Tailwind's shadow utilities */
+  --look-shadow: 0 0 0 1px var(--color-ring), 0 1px 2px 0 rgb(0 0 0 / 0.1);
+}
+[data-look] {
+  background-color: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+main[data-look] {
+  min-height: 100svh;
+}
+[data-look] .shadow-card {
+  --tw-shadow: var(--look-shadow);
+}
+
+/*
+ * Look previews (components/LookThumb.tsx): a page rendered at phone width inside a 390px box, then scaled down.
+ * `container-type` makes the looks' cqw units measure this box instead of the window, so the preview is laid out
+ * exactly like a phone screen; the transform on it also keeps any position: fixed layer (Glass, Lumière) inside.
+ */
+.look-thumb {
+  container-type: inline-size;
+  width: 390px;
+  transform-origin: 0 0;
+  background-color: var(--color-page);
+  color: var(--color-ink);
+}
+/* the grid's cell size is written in window units (app/globals.css .bento); in a preview it follows the box */
+.look-thumb .bento {
+  --cols: 2;
+  --cell: calc((100cqw - 32px - var(--gap)) / 2);
+}
+/* The card preview in the editor's edit sheet (components/editor/Editor.tsx → CardPreview): one card on a patch of
+   the look's page. `contain: paint` keeps any position: fixed layer inside the patch. */
+.look-swatch {
+  contain: paint;
+}
+/* previews are still pictures: two dozen of them all animating would be noise (and costly). !important because
+   each look sets its own animations with more specific selectors. The wrapper carries the class itself, so its own
+   ::before/::after (snow, skies) need naming too — `.look-thumb ::before` only reaches its descendants. */
+.look-thumb,
+.look-thumb *,
+.look-thumb::before,
+.look-thumb::after,
+.look-thumb ::before,
+.look-thumb ::after,
+.look-swatch,
+.look-swatch *,
+.look-swatch::before,
+.look-swatch::after,
+.look-swatch ::before,
+.look-swatch ::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+/*
+ * Brand logos (components/icons.tsx → StoredIcon) come in two versions: the brand's own full-colour logo and a
+ * one-colour version (simple-icons) drawn in the current text colour. The standard page shows the colour logo.
+ * A look shows the one-colour version, so logos take the look's icon colour — unless its registry entry says
+ * `icons: "color"` (data-look-icons="color").
+ */
+.icon-mono {
+  display: none;
+}
+[data-look]:not([data-look-icons="color"]) .icon-mono {
+  display: block;
+}
+[data-look]:not([data-look-icons="color"]) .icon-color:has(+ .icon-mono) {
+  display: none;
+}

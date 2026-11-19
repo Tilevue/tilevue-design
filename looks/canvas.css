@@ -1,0 +1,223 @@
+/* ── Canvas: a design-tool artboard — grid + ruler, name in a selection frame, flat colour blocks, mono labels,
+      polaroid photo, handwritten note. Square corners, no shadows. ── */
+:root:has(main[data-look="canvas"]),
+[data-look="canvas"] {
+  --color-page: #ffffff;
+  --color-card: #ffffff;
+  --color-ink: #141414;
+  --color-accent: #2fc1f0;
+  --color-ring: color-mix(in srgb, var(--color-ink) 18%, transparent);
+  --color-pill: var(--color-card);
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 0px;
+  --look-shadow: 0 0 0 2px var(--color-ink);
+  --look-badge: var(--color-ink);
+  --look-badge-ink: #ffffff;
+  --look-select: var(--color-accent);
+}
+/* layout: a tiled board — cards sit edge to edge and share one 2px ink line (gap = line width) */
+[data-look="canvas"] .bento {
+  --gap: 2px;
+}
+[data-look="canvas"] {
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-ink) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 7%, transparent) 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+/* a ruler along the top edge */
+[data-look="canvas"]::before {
+  content: "";
+  display: block;
+  height: 26px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 55%, transparent) 0 1px, transparent 1px 100px) left bottom / 100% 14px no-repeat,
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--color-ink) 30%, transparent) 0 1px, transparent 1px 10px) left bottom / 100% 6px no-repeat,
+    var(--color-page);
+}
+/* name: pixel display font inside a selection frame with corner handles, a handwritten note above it */
+[data-look="canvas"] .page-name {
+  position: relative;
+  margin-top: 34px;
+  padding: 0.16em 0.3em 0.2em;
+  color: var(--color-ink);
+  font-family: var(--font-pixelify), var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 0.95;
+  text-transform: uppercase;
+  outline: 2px solid var(--color-accent);
+}
+[data-look="canvas"] .page-name span {
+  font-size: 0.86em; /* room for the frame inside the fit-to-screen size */
+}
+[data-look="canvas"] .page-name::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  pointer-events: none;
+  --h: linear-gradient(var(--color-accent), var(--color-accent));
+  --e: linear-gradient(var(--color-ink), var(--color-ink));
+  background:
+    var(--h) 2px 2px / 8px 8px, var(--e) 0 0 / 12px 12px,
+    var(--h) calc(100% - 2px) 2px / 8px 8px, var(--e) 100% 0 / 12px 12px,
+    var(--h) 2px calc(100% - 2px) / 8px 8px, var(--e) 0 100% / 12px 12px,
+    var(--h) calc(100% - 2px) calc(100% - 2px) / 8px 8px, var(--e) 100% 100% / 12px 12px;
+  background-repeat: no-repeat;
+}
+[data-look="canvas"] .page-name::after {
+  content: attr(data-note); /* the owner's text, or the look's default (looks/registry.ts lookNote) */
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  translate: -50%;
+  rotate: -4deg;
+  font-family: var(--font-caveat), cursive;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 5px;
+}
+/* photo: a tilted polaroid above the name */
+[data-look="canvas"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 108px;
+  height: 128px;
+  margin: 0 auto 26px;
+  padding: 8px 8px 28px;
+  background: #fff;
+  rotate: -7deg;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-ink) 12%, transparent), 0 10px 24px -6px rgb(0 0 0 / 0.28);
+  transition: rotate 300ms var(--ease-spring), scale 300ms var(--ease-spring);
+}
+[data-look="canvas"] .page-avatar :is(button, img, span) {
+  border-radius: 0;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* social buttons: square outlined tabs; the pressed / hovered one fills with the accent */
+[data-look="canvas"] .page-socials {
+  gap: 0;
+}
+[data-look="canvas"] .page-socials a {
+  height: 44px;
+  margin-left: -1.5px;
+  border-radius: 0;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1.5px var(--color-ink);
+}
+[data-look="canvas"] .page-socials a:is(:hover, :active) {
+  background: var(--color-accent);
+}
+/* flat colour blocks */
+[data-look="canvas"] .bento > :nth-child(6n + 2) { --color-card: #2fc1f0; --look-select: var(--color-ink); }
+[data-look="canvas"] .bento > :nth-child(6n + 4) { --color-card: #f2b632; }
+[data-look="canvas"] .bento > :nth-child(6n + 5) { --color-card: #35c486; }
+[data-look="canvas"] .bento > :nth-child(9n + 9) { --color-card: #ff5c8a; }
+[data-look="canvas"] .bento > :is(:nth-child(6n + 2), :nth-child(6n + 4), :nth-child(6n + 5), :nth-child(9n + 9)) {
+  --color-muted: color-mix(in srgb, var(--color-ink) 78%, var(--color-card));
+  --color-subtle: var(--color-muted);
+  --color-hover: var(--color-card);
+  --color-fill: color-mix(in srgb, #fff 40%, var(--color-card));
+}
+/* small grey text becomes mono caps labels */
+[data-look="canvas"] .bento :is(.text-muted, .text-subtle):not(svg) {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+/* icons: solid ink squares (colour logos: white square with an outline) */
+[data-look="canvas"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--color-ink);
+}
+[data-look="canvas"] .bento .card-top > .card-icon {
+  box-sizing: content-box;
+  padding: 7px;
+  margin: -5px;
+  background: var(--look-badge);
+  color: var(--look-badge-ink);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth);
+}
+[data-look="canvas"] .bento .card-top > .card-icon svg {
+  color: inherit;
+}
+[data-look="canvas"] .bento .card-icon:has(> img[src^="/icons/"]) {
+  --look-badge: #fff;
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+}
+/* tap / hover: the card is "selected" — a frame just inside its edge (the tiles touch, so there's no room outside) */
+[data-look="canvas"] :is(.bento > .card, .bento > * > .card) {
+  outline: 2px dashed transparent;
+  outline-offset: -9px;
+  transition-property: outline-color, scale, background-color;
+}
+[data-look="canvas"] .bento a.card:active {
+  outline-color: var(--look-select);
+}
+@media (hover: hover) {
+  [data-look="canvas"] :is(.bento > .card, .bento > * > .card):hover {
+    outline-color: var(--look-select);
+  }
+  [data-look="canvas"] :is(.bento > .card, .bento > * > .card):hover .card-top > .card-icon:is(:is(svg.lucide, .icon-mono), span.size-5:not(.bg-current)) {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+  [data-look="canvas"] .page-avatar:hover {
+    rotate: 3deg;
+    scale: 1.06;
+  }
+}
+@keyframes canvas-drop {
+  from { opacity: 0; transform: translateY(-40px) rotate(14deg); }
+}
+@keyframes canvas-frame {
+  from { opacity: 0; transform: scale(0.86); outline-color: transparent; }
+  60% { outline-color: transparent; }
+}
+@keyframes canvas-write {
+  from { clip-path: inset(-20% 100% -40% 0); }
+  to { clip-path: inset(-20% -5% -40% 0); }
+}
+@keyframes canvas-in {
+  from { opacity: 0; transform: translateY(36px) rotate(1.5deg); }
+}
+@keyframes canvas-sway {
+  0%, 100% { transform: rotate(0); }
+  50% { transform: rotate(4deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the polaroid drops in, the name is placed and its frame snaps on, the note writes itself, then the tabs */
+  [data-look="canvas"] .page-avatar {
+    animation: canvas-drop 600ms var(--ease-spring) both, canvas-sway 6s ease-in-out 1s infinite;
+  }
+  [data-look="canvas"] .page-name {
+    animation: canvas-frame 600ms var(--ease-spring) 200ms both;
+  }
+  [data-look="canvas"] .page-name::after {
+    animation: canvas-write 700ms var(--ease-smooth) 750ms both;
+  }
+  [data-look="canvas"] .page-socials a {
+    animation: canvas-in 450ms var(--ease-smooth) 600ms both;
+  }
+  [data-look="canvas"] .page-socials a:nth-child(2) { animation-delay: 670ms; }
+  [data-look="canvas"] .page-socials a:nth-child(3) { animation-delay: 740ms; }
+  [data-look="canvas"] .page-socials a:nth-child(n + 4) { animation-delay: 810ms; }
+  /* on scroll: cards slide up onto the artboard */
+  @supports (animation-timeline: view()) {
+    [data-look="canvas"] :is(.bento > .card, .bento > * > .card) {
+      animation: canvas-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

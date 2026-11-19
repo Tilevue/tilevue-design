@@ -1,0 +1,166 @@
+/* ── Forest: deep teal with a faint plus-grid, a cream script name, a tilted cream-framed photo, cream panels,
+      mint pills, warm yellow accents. ── */
+:root:has(main[data-look="forest"]),
+[data-look="forest"] {
+  --color-page: #004643;
+  --color-card: #f5f1ea;
+  --color-ink: #0f3b39;
+  --color-accent: #f5b942;
+  --color-muted: color-mix(in srgb, var(--color-ink) 66%, var(--color-card));
+  --color-subtle: color-mix(in srgb, var(--color-ink) 58%, var(--color-card));
+  --color-fill: color-mix(in srgb, var(--color-ink) 7%, var(--color-card));
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 28px;
+  --look-cream: #f6efe2;
+  --look-mint: #a8d5c8;
+  --look-icon: #00706b;
+  --look-shadow: 0 16px 34px -22px rgb(0 20 18 / 0.7);
+  --font-sans: var(--font-sofia), system-ui, sans-serif;
+}
+[data-look="forest"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cpath d='M32 28v8M28 32h8' stroke='%23ffffff' stroke-opacity='.09' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+[data-look="forest"] :is(header, footer),
+[data-look="forest"] > p {
+  --color-ink: var(--look-cream);
+  --color-muted: color-mix(in srgb, var(--look-cream) 75%, transparent);
+  --color-subtle: color-mix(in srgb, var(--look-cream) 70%, transparent);
+}
+[data-look="forest"] header {
+  padding-top: 52px;
+  gap: 26px;
+}
+[data-look="forest"] .page-clock {
+  height: auto;
+  color: #f7e3a6;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+/* photo: a tilted rounded print in a cream frame, above the name */
+[data-look="forest"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: clamp(130px, 34cqw, 210px);
+  height: calc(clamp(130px, 34cqw, 210px) * 4 / 3);
+  margin: 0 auto 18px;
+  rotate: -4deg;
+  border-radius: 22px;
+  box-shadow: 0 0 0 6px var(--look-cream), 0 26px 40px -18px rgb(0 0 0 / 0.55);
+}
+[data-look="forest"] .page-avatar :is(button, img, span) {
+  border-radius: 22px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* name: cream script */
+[data-look="forest"] .page-name {
+  color: var(--look-cream);
+  font-family: var(--font-yellowtail), cursive;
+  font-size: min(124px, calc((100cqw - 32px) / var(--fit) * 1.15));
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+[data-look="forest"] .page-socials {
+  gap: 10px;
+}
+[data-look="forest"] .page-socials a {
+  height: 44px;
+  border-radius: 999px;
+  background: var(--look-mint);
+  color: #0f3b39;
+  transition: scale 250ms var(--ease-spring), background-color 200ms var(--ease-smooth);
+}
+[data-look="forest"] .page-socials a:first-child {
+  background: var(--color-accent);
+}
+[data-look="forest"] .page-socials a:active {
+  scale: 0.92;
+}
+/* panels: cream; every few a lighter teal panel with cream text */
+[data-look="forest"] .bento > :nth-child(6n + 3) {
+  --color-card: #0b5a55;
+  --color-ink: var(--look-cream);
+  --color-muted: color-mix(in srgb, var(--look-cream) 76%, transparent);
+  --color-subtle: color-mix(in srgb, var(--look-cream) 70%, transparent);
+  --color-fill: rgb(255 255 255 / 0.1);
+  --color-hover: var(--color-card);
+  --look-icon: var(--color-accent);
+}
+[data-look="forest"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--look-icon);
+}
+[data-look="forest"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="forest"] :is(.bento > .card, .bento > * > .card) {
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+  transition-property: scale, translate, outline-color;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-spring);
+}
+[data-look="forest"] .bento a.card:active {
+  scale: 0.97;
+}
+@media (hover: hover) {
+  [data-look="forest"] .bento a.card:hover:not(:active) {
+    translate: 0 -4px;
+    outline-color: var(--look-mint);
+  }
+  [data-look="forest"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="forest"] .page-avatar:hover {
+    rotate: -1deg;
+  }
+}
+@keyframes forest-deal {
+  from { opacity: 0; rotate: -18deg; scale: 0.8; }
+}
+@keyframes forest-sway {
+  0%, 100% { rotate: -4deg; }
+  50% { rotate: -2deg; }
+}
+@keyframes forest-write {
+  from { clip-path: inset(-20% 100% -30% -5%); }
+  to { clip-path: inset(-20% -5% -30% -5%); }
+}
+@keyframes forest-pop {
+  from { opacity: 0; transform: scale(0.5); }
+}
+@keyframes forest-in {
+  from { opacity: 0; transform: translateY(36px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the print is dealt onto the page, the script name writes itself, the pills pop; the print sways */
+  [data-look="forest"] .page-avatar {
+    transition: rotate 400ms var(--ease-spring);
+    animation: forest-deal 800ms var(--ease-spring) both, forest-sway 6s ease-in-out 1s infinite;
+  }
+  [data-look="forest"] .page-name span {
+    animation: forest-write 1000ms var(--ease-smooth) 300ms both;
+  }
+  [data-look="forest"] .page-name span + span {
+    animation-delay: 700ms;
+  }
+  [data-look="forest"] .page-socials a {
+    animation: forest-pop 450ms var(--ease-spring) 1000ms both;
+  }
+  [data-look="forest"] .page-socials a:nth-child(2) { animation-delay: 1080ms; }
+  [data-look="forest"] .page-socials a:nth-child(n + 3) { animation-delay: 1160ms; }
+  @supports (animation-timeline: view()) {
+    [data-look="forest"] :is(.bento > .card, .bento > * > .card) {
+      animation: forest-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

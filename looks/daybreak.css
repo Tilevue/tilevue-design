@@ -1,0 +1,236 @@
+/* ── Daybreak: a painted sky behind the page — blue at the top through lavender to a golden horizon — with soft
+      clouds, sun rays and a rooftop-and-power-line skyline under the name. The photo is the sun. Serif name with an
+      italic second line, mono labels, frosted panels. ── */
+:root:has(main[data-look="daybreak"]),
+[data-look="daybreak"] {
+  --color-page: #e9eef6;
+  --color-card: rgb(255 255 255 / 0.72);
+  --color-ink: #1b2135;
+  --color-accent: #e8a33d;
+  --color-muted: #59607a;
+  --color-subtle: #6a7088;
+  --color-fill: rgb(27 33 53 / 0.06);
+  --color-hover: rgb(255 255 255 / 0.85);
+  --color-hover-strong: rgb(255 255 255 / 0.9);
+  --radius-card: 18px;
+  --look-shadow: 0 0 0 1px rgb(255 255 255 / 0.6), 0 20px 40px -24px rgb(30 40 80 / 0.45);
+  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
+}
+[data-look="daybreak"] {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+  background:
+    radial-gradient(26% 18% at 50% 58%, rgb(255 238 196 / 0.95), transparent 70%),
+    linear-gradient(180deg, #5d7fd6 0, #8f95dd 24%, #cfa6cc 46%, #f4c39a 64%, #f6dcbd 78%, #e9eef6 100%) 0 0 / 100% max(1150px, 135vh) no-repeat,
+    #e9eef6;
+}
+[data-look="daybreak"] dialog {
+  --color-card: #ffffff;
+}
+/* sun rays from above the photo, slowly swaying */
+[data-look="daybreak"]::before {
+  content: "";
+  position: absolute;
+  top: -320px;
+  left: -50%;
+  z-index: -1;
+  width: 200%;
+  height: 1250px;
+  pointer-events: none;
+  background: repeating-conic-gradient(from 0deg at 50% 26%, rgb(255 255 255 / 0.16) 0 2.5deg, transparent 2.5deg 8deg);
+  -webkit-mask-image: radial-gradient(42% 56% at 50% 26%, #000, transparent 75%);
+  mask-image: radial-gradient(42% 56% at 50% 26%, #000, transparent 75%);
+  transform-origin: 50% 26%;
+}
+/* soft clouds drifting */
+[data-look="daybreak"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10%;
+  z-index: -1;
+  width: 120%;
+  height: 900px;
+  pointer-events: none;
+  background:
+    radial-gradient(22% 17% at 12% 24%, rgb(255 251 242 / 0.9), transparent 70%),
+    radial-gradient(16% 13% at 22% 36%, rgb(255 246 236 / 0.75), transparent 70%),
+    radial-gradient(14% 11% at 6% 40%, rgb(255 248 240 / 0.7), transparent 70%),
+    radial-gradient(18% 12% at 86% 16%, rgb(255 255 255 / 0.55), transparent 70%),
+    radial-gradient(12% 9% at 78% 26%, rgb(255 255 255 / 0.45), transparent 70%);
+}
+[data-look="daybreak"] header {
+  position: relative;
+  isolation: isolate;
+  padding-top: 52px;
+  padding-bottom: 70px;
+  gap: 26px;
+  --color-ink: #ffffff;
+  --color-muted: rgb(255 255 255 / 0.85);
+  --color-subtle: rgb(255 255 255 / 0.85);
+}
+/* the skyline: rooftops, two poles and the sagging wires between them */
+[data-look="daybreak"] header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: -1;
+  width: 100cqw;
+  height: clamp(120px, 22cqw, 220px);
+  translate: -50% 0;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%231b2135' stroke-width='2' stroke-opacity='.8'%3E%3Cpath d='M104 34Q720 120 1336 34'/%3E%3Cpath d='M104 50Q720 140 1336 50'/%3E%3Cpath d='M104 66Q720 158 1336 66'/%3E%3C/g%3E%3Cg fill='%231b2135'%3E%3Crect x='100' y='20' width='8' height='200'/%3E%3Crect x='82' y='30' width='44' height='5'/%3E%3Crect x='1332' y='20' width='8' height='200'/%3E%3Crect x='1314' y='30' width='44' height='5'/%3E%3Cpath d='M0 220V138h70l34-26 34 26h48V112h96l24-20 24 20h40v34h74l44-32 44 32h36V100h128l28-22 28 22h56v52h86l32-24 32 24h70V118h96l38-28 38 28h56v34h84l32-22 32 22h44v68z'/%3E%3C/g%3E%3C/svg%3E") center bottom / 100% 100% no-repeat;
+}
+/* the clock: a mono label with a sun dot and "DAYLIGHT" */
+[data-look="daybreak"] .page-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: auto;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+[data-look="daybreak"] .page-clock::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+}
+[data-look="daybreak"] .page-clock::after {
+  content: "DAYLIGHT";
+  color: #ffd27a;
+}
+/* photo: the sun — round, wrapped in a warm glow */
+[data-look="daybreak"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 24px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgb(255 240 205 / 0.9), 0 0 60px 24px rgb(255 214 140 / 0.75), 0 0 140px 60px rgb(255 200 120 / 0.35);
+}
+[data-look="daybreak"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* name: serif, white with a soft shadow; the second line italic */
+[data-look="daybreak"] .page-name {
+  color: #fff;
+  font-family: var(--font-instrument), Georgia, serif;
+  font-size: min(112px, calc((100cqw - 32px) / var(--fit) * 1.15));
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  text-shadow: 0 4px 30px rgb(40 30 80 / 0.35);
+}
+[data-look="daybreak"] .page-name span + span {
+  font-style: italic;
+}
+[data-look="daybreak"] .page-socials {
+  gap: 8px;
+}
+[data-look="daybreak"] .page-socials a {
+  height: 42px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.22);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: background-color 250ms var(--ease-smooth), color 250ms var(--ease-smooth);
+}
+[data-look="daybreak"] .page-socials a:first-child,
+[data-look="daybreak"] .page-socials a:active {
+  background: #fff;
+  color: #1b2135;
+}
+/* panels: frosted white on the sky; gold icons; small grey text becomes a mono label */
+[data-look="daybreak"] :is(.bento > .card, .bento > * > .card) {
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  transition-property: background-color, translate, box-shadow, scale;
+  transition-duration: 350ms;
+  transition-timing-function: var(--ease-smooth);
+}
+[data-look="daybreak"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: #c9822b;
+}
+[data-look="daybreak"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="daybreak"] .bento a.card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  [data-look="daybreak"] .bento a.card:hover {
+    translate: 0 -5px;
+    --tw-shadow: 0 0 0 1px rgb(255 255 255 / 0.8), 0 30px 50px -24px rgb(30 40 80 / 0.5), 0 0 40px -10px rgb(255 200 120 / 0.6);
+  }
+  [data-look="daybreak"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="daybreak"] .page-socials a:hover {
+    background: #fff;
+    color: #1b2135;
+  }
+}
+@keyframes daybreak-rise {
+  from { opacity: 0; transform: translateY(70px) scale(0.85); filter: brightness(0.6); }
+}
+@keyframes daybreak-rays {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes daybreak-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4%); }
+}
+@keyframes daybreak-glow {
+  0%, 100% { box-shadow: 0 0 0 4px rgb(255 240 205 / 0.9), 0 0 60px 24px rgb(255 214 140 / 0.75), 0 0 140px 60px rgb(255 200 120 / 0.35); }
+  50% { box-shadow: 0 0 0 4px rgb(255 240 205 / 0.9), 0 0 76px 32px rgb(255 214 140 / 0.85), 0 0 170px 80px rgb(255 200 120 / 0.4); }
+}
+@keyframes daybreak-up {
+  from { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+}
+@keyframes daybreak-fade {
+  to { opacity: 0.25; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the sun rises, the name and buttons come up; always: rays sway, clouds drift, the sun glows */
+  [data-look="daybreak"] .page-avatar {
+    animation: daybreak-rise 1400ms var(--ease-smooth) both, daybreak-glow 6s ease-in-out 1.5s infinite;
+  }
+  [data-look="daybreak"]::before {
+    animation: daybreak-rays 18s ease-in-out infinite;
+  }
+  [data-look="daybreak"]::after {
+    animation: daybreak-drift 40s ease-in-out infinite;
+  }
+  [data-look="daybreak"] .page-name span {
+    animation: daybreak-up 900ms var(--ease-smooth) 500ms both;
+  }
+  [data-look="daybreak"] .page-name span + span {
+    animation-delay: 650ms;
+  }
+  [data-look="daybreak"] .page-socials a {
+    animation: daybreak-up 600ms var(--ease-smooth) 900ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="daybreak"] :is(.bento > .card, .bento > * > .card) {
+      animation: daybreak-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

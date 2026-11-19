@@ -1,0 +1,200 @@
+/* ── Tiles: the whole page is one bento grid, the header included. The header becomes three tiles — the photo inset
+      in a mint tile on the left; on the right a white pill bar of social buttons above a mint name tile (the clock
+      sits small in its corner). Cards are soft pastel tiles (mint, peach, butter, white), each outlined in a slightly
+      deeper shade of its own colour, with tight gaps on a warm off-white page. Same layout on phones. ── */
+:root:has(main[data-look="tiles"]),
+[data-look="tiles"] {
+  --color-page: #fff6f1;
+  --color-card: #ffffff;
+  --color-ink: #1d1d1f;
+  --color-accent: #b9e4d8;
+  --look-mint: #b9e4d8;
+  --look-mint-edge: #97d3c3;
+  --look-line: #eadfd6;
+  --radius-card: 20px;
+  --look-shadow: 0 0 0 1px var(--look-line);
+  /* the header's sizes: grid width, photo tile, gap */
+  --look-w: min(100cqw - 32px, 848px);
+  --look-photo: clamp(132px, 36cqw, 236px);
+  --look-gap: 10px;
+}
+
+/* header: a 2-column grid of tiles — photo | social bar over the name tile */
+[data-look="tiles"] header {
+  display: grid;
+  grid-template-columns: var(--look-photo) 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "photo socials" "photo name";
+  align-items: stretch;
+  gap: var(--look-gap);
+  width: var(--look-w);
+  margin: 0 auto var(--look-gap);
+  padding: 24px 0 0;
+}
+[data-look="tiles"] .page-identity {
+  display: contents;
+}
+/* photo tile: the photo inset in mint */
+[data-look="tiles"] .page-avatar {
+  grid-area: photo;
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0;
+  padding: 8px;
+  border-radius: 22px;
+  background: var(--look-mint);
+  box-shadow: 0 0 0 1px var(--look-mint-edge);
+}
+[data-look="tiles"] .page-avatar :is(button, img, span) {
+  border-radius: 15px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* name tile: mint, the name at the bottom-left */
+[data-look="tiles"] .page-name {
+  grid-area: name;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 96px;
+  padding: 40px 18px 16px;
+  border-radius: 22px;
+  background: var(--look-mint);
+  box-shadow: 0 0 0 1px var(--look-mint-edge);
+  text-align: left;
+  color: var(--color-ink);
+  /* the tile's inner width: grid − photo − gap − padding */
+  font-size: min(52px, calc((var(--look-w) - var(--look-photo) - var(--look-gap) - 36px) / var(--fit) * 1.02));
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+/* the clock: small, in the name tile's top-left corner */
+[data-look="tiles"] .page-clock {
+  grid-area: name;
+  z-index: 1;
+  align-self: start;
+  justify-self: start;
+  height: auto;
+  margin: 14px 18px 0;
+  color: color-mix(in srgb, var(--color-ink) 62%, var(--look-mint));
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+/* social bar: one white pill tile, buttons spread evenly */
+[data-look="tiles"] .page-socials {
+  grid-area: socials;
+  justify-content: space-around;
+  max-width: none;
+  padding: 4px;
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 0 0 1px var(--look-line);
+}
+[data-look="tiles"] .page-socials a {
+  flex: 1;
+  width: auto;
+  max-width: 96px;
+  height: 40px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  transition: background-color 200ms var(--ease-smooth);
+}
+[data-look="tiles"] .page-socials a:active {
+  background: #f4ece6;
+}
+
+/* cards: pastel tiles in turn — mint, peach, butter, white — each outlined in its own deeper shade */
+[data-look="tiles"] .bento {
+  --gap: var(--look-gap);
+}
+[data-look="tiles"] .bento > :nth-child(4n + 1) {
+  --color-card: #dff3ec;
+  --look-shadow: 0 0 0 1px var(--look-mint-edge);
+}
+[data-look="tiles"] .bento > :nth-child(4n + 2) {
+  --color-card: #ffe6d6;
+  --look-shadow: 0 0 0 1px #f5c7a8;
+}
+[data-look="tiles"] .bento > :nth-child(4n + 3) {
+  --color-card: #fbf8d6;
+  --look-shadow: 0 0 0 1px #ebe39a;
+}
+[data-look="tiles"] .bento > * {
+  --color-hover: var(--color-card);
+  --color-fill: color-mix(in srgb, var(--color-ink) 6%, var(--color-card));
+}
+/* popups opened from a card sit in its slot: back to white */
+[data-look="tiles"] dialog {
+  --color-card: #ffffff;
+  --color-fill: #f6efe9;
+  --look-shadow: 0 0 0 1px var(--look-line);
+}
+[data-look="tiles"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: var(--color-ink);
+}
+[data-look="tiles"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="tiles"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: translate, scale, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-spring);
+}
+[data-look="tiles"] .bento a.card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  [data-look="tiles"] .bento a.card:hover {
+    translate: 0 -3px;
+    --tw-shadow: 0 0 0 1px color-mix(in srgb, var(--color-ink) 22%, transparent), 0 14px 28px -18px rgb(80 50 30 / 0.35);
+  }
+  [data-look="tiles"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="tiles"] .page-socials a:hover {
+    background: #f4ece6;
+  }
+}
+
+@keyframes tiles-pop {
+  from { opacity: 0; scale: 0.94; }
+}
+@keyframes tiles-rise {
+  from { opacity: 0; transform: translateY(0.3em); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the three header tiles pop in one after another, then the name rises inside its tile; cards pop in
+     as they scroll into view */
+  [data-look="tiles"] .page-avatar {
+    animation: tiles-pop 600ms var(--ease-spring) both;
+  }
+  [data-look="tiles"] .page-socials {
+    animation: tiles-pop 600ms var(--ease-spring) 100ms both;
+  }
+  [data-look="tiles"] .page-name {
+    animation: tiles-pop 600ms var(--ease-spring) 200ms both;
+  }
+  [data-look="tiles"] .page-name span {
+    animation: tiles-rise 600ms var(--ease-smooth) 450ms both;
+  }
+  [data-look="tiles"] .page-clock {
+    animation: tiles-rise 500ms var(--ease-smooth) 400ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="tiles"] :is(.bento > .card, .bento > * > .card) {
+      animation: tiles-pop linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}

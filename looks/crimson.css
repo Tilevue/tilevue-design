@@ -1,0 +1,202 @@
+/* ── Crimson: a deep red page fading to maroon; a huge condensed cream name that fades out at its foot, with a
+      script note slanting over it and the photo standing in front of it; cream rounded panels; a dark-red pill bar
+      of social buttons with one cream button. ── */
+:root:has(main[data-look="crimson"]),
+[data-look="crimson"] {
+  --color-page: #5a1311;
+  --color-card: #f6efe6;
+  --color-ink: #3a0e0c;
+  --color-accent: #b02a22;
+  --color-muted: color-mix(in srgb, var(--color-ink) 66%, var(--color-card));
+  --color-subtle: color-mix(in srgb, var(--color-ink) 58%, var(--color-card));
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 24px;
+  --look-cream: #f6efe6;
+  --look-red: #b02a22;
+  --look-pink: #f29a8e;
+  --look-icon: var(--look-red);
+  --look-shadow: 0 18px 40px -22px rgb(20 0 0 / 0.75);
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+}
+[data-look="crimson"] {
+  background-image: linear-gradient(180deg, #b02a22 0, #7d1c17 min(560px, 60vh), #5a1311 min(980px, 105vh));
+  background-repeat: no-repeat;
+}
+/* text straight on the red (clock, footer, the line under the header) is cream */
+[data-look="crimson"] :is(header, footer),
+[data-look="crimson"] > p {
+  --color-ink: var(--look-cream);
+  --color-muted: color-mix(in srgb, var(--look-cream) 78%, transparent);
+  --color-subtle: color-mix(in srgb, var(--look-cream) 72%, transparent);
+}
+[data-look="crimson"] header {
+  padding-top: 64px;
+  gap: 30px;
+}
+/* name: huge condensed capitals, cream fading into the red towards the bottom of each line */
+[data-look="crimson"] .page-name {
+  position: relative;
+  margin-top: max(24px, 0.28em); /* room for the script note, so it clears the clock */
+  font-family: var(--font-anton), var(--font-sans);
+  font-size: min(150px, calc((100cqw - 32px) / var(--fit) * 1.05));
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+[data-look="crimson"] .page-name span {
+  background: linear-gradient(180deg, var(--look-cream) 42%, color-mix(in srgb, var(--look-cream) 18%, transparent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* the script note slants across the top of the name (the owner's text, or the look's default — looks/registry.ts) */
+[data-look="crimson"] .page-name::after {
+  content: attr(data-note);
+  position: absolute;
+  bottom: calc(100% - 0.32em);
+  left: 50%;
+  translate: -50%;
+  z-index: 2;
+  rotate: -5deg;
+  color: var(--look-pink);
+  font-family: var(--font-dafoe), cursive;
+  font-size: max(30px, 0.42em);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  text-shadow: 0 2px 14px rgb(60 0 0 / 0.35);
+}
+/* photo: bigger, standing in front of the name (between its two lines, as the standard header places it) */
+[data-look="crimson"] .page-avatar {
+  z-index: 1;
+  width: clamp(96px, 22cqw, 150px);
+  height: clamp(96px, 22cqw, 150px);
+  transition: scale 400ms var(--ease-spring);
+}
+[data-look="crimson"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 24px 40px -14px rgb(30 0 0 / 0.7);
+  --tw-ring-shadow: 0 0 0 4px var(--look-cream);
+}
+/* social buttons: one dark-red pill bar; the first button is the cream "let's talk" pill */
+[data-look="crimson"] .page-socials {
+  gap: 4px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgb(40 4 3 / 0.42);
+}
+[data-look="crimson"] .page-socials a {
+  height: 42px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--look-cream);
+  transition: background-color 250ms var(--ease-smooth), color 250ms var(--ease-smooth), scale 250ms var(--ease-spring);
+}
+[data-look="crimson"] .page-socials a:first-child,
+[data-look="crimson"] .page-socials a:active {
+  background: var(--look-cream);
+  color: var(--look-red);
+}
+/* cards: cream panels; every few cards, a maroon panel with cream text */
+[data-look="crimson"] .bento {
+  --gap: 18px;
+}
+[data-look="crimson"] .bento > :nth-child(5n + 3) {
+  --color-card: #6b1714;
+  --color-ink: var(--look-cream);
+  --color-muted: color-mix(in srgb, var(--look-cream) 76%, transparent);
+  --color-subtle: color-mix(in srgb, var(--look-cream) 70%, transparent);
+  --color-fill: rgb(255 255 255 / 0.1);
+  --color-hover: var(--color-card);
+  --color-ring: rgb(255 255 255 / 0.18);
+  --look-icon: var(--look-pink);
+}
+[data-look="crimson"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--look-icon);
+}
+[data-look="crimson"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="crimson"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, scale, translate, rotate, box-shadow;
+  transition-duration: 350ms;
+  transition-timing-function: var(--ease-spring);
+}
+/* tap: pressed in */
+[data-look="crimson"] .bento a.card:active {
+  scale: 0.97;
+}
+/* hover: lifted like a photo picked off the table (alternate cards lean opposite ways) */
+@media (hover: hover) {
+  [data-look="crimson"] .bento a.card:hover:not(:active) {
+    translate: 0 -6px;
+    rotate: -1.2deg;
+    --tw-shadow: 0 30px 50px -22px rgb(20 0 0 / 0.85);
+  }
+  [data-look="crimson"] .bento > :nth-child(even) a.card:hover:not(:active),
+  [data-look="crimson"] .bento > a.card:nth-child(even):hover:not(:active) {
+    rotate: 1.2deg;
+  }
+  [data-look="crimson"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="crimson"] .page-avatar:hover {
+    scale: 1.06;
+  }
+  [data-look="crimson"] .page-socials a:hover {
+    background: var(--look-cream);
+    color: var(--look-red);
+  }
+}
+@keyframes crimson-rise {
+  from { opacity: 0; transform: translateY(0.45em); clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(-20% -5% -20% -5%); }
+}
+@keyframes crimson-write {
+  from { clip-path: inset(-40% 100% -40% -10%); }
+  to { clip-path: inset(-40% -10% -40% -10%); }
+}
+@keyframes crimson-photo {
+  from { opacity: 0; transform: scale(1.18) translateY(16px); }
+}
+@keyframes crimson-up {
+  from { opacity: 0; transform: translateY(26px); }
+}
+@keyframes crimson-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes crimson-in {
+  from { opacity: 0; transform: translateY(44px) rotate(2deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: each name line rises out of its own edge, the photo steps forward, the script note is written across,
+     then the bar rises. Afterwards the photo floats gently. */
+  [data-look="crimson"] .page-name span {
+    animation: crimson-rise 900ms var(--ease-smooth) both;
+  }
+  [data-look="crimson"] .page-name span + span {
+    animation-delay: 140ms;
+  }
+  [data-look="crimson"] .page-avatar {
+    animation: crimson-photo 900ms var(--ease-smooth) 250ms both, crimson-float 6s ease-in-out 1.4s infinite;
+  }
+  [data-look="crimson"] .page-name::after {
+    animation: crimson-write 900ms var(--ease-smooth) 650ms both;
+  }
+  [data-look="crimson"] .page-socials {
+    animation: crimson-up 600ms var(--ease-smooth) 900ms both;
+  }
+  /* on scroll: panels rise and settle from a slight lean */
+  @supports (animation-timeline: view()) {
+    [data-look="crimson"] :is(.bento > .card, .bento > * > .card) {
+      animation: crimson-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+  }
+}

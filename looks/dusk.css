@@ -1,0 +1,222 @@
+/* ── Dusk: a quiet evening sky over dark hills, drawn in CSS and fixed behind the page. The header is one big panel
+      of smoky glass: a small bold label, a rounded-square photo beside a large two-line name (stacked on phones)
+      and glass pill buttons. Cards are dark frosted glass with very round corners and a faint top highlight. ── */
+:root:has(main[data-look="dusk"]),
+[data-look="dusk"] {
+  --color-page: #0c0b0d;
+  --color-card: #1b1a1e; /* solid: popups and anything outside the grid; cards in the grid are see-through (below) */
+  --color-ink: #f5f3f1;
+  --color-accent: #c8b6e2;
+  --color-muted: rgb(245 243 241 / 0.62);
+  --color-subtle: rgb(245 243 241 / 0.5);
+  --radius-card: 32px;
+  --look-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1), inset 0 0 0 1px rgb(255 255 255 / 0.06), 0 30px 60px -32px rgb(0 0 0 / 0.9);
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+}
+[data-look="dusk"] {
+  position: relative;
+  isolation: isolate; /* keeps the sky (z-index -1) above the page colour and below the content */
+}
+
+/* the sky: layer 1 = gradient sky with a warm glow on the horizon + two dark hills; fixed, so the page scrolls over it.
+   On the page wrapper, not the header: the header's backdrop-filter would trap a fixed layer inside the panel. */
+[data-look="dusk"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 400' preserveAspectRatio='none'%3E%3Cpath d='M0 170C240 110 420 200 650 150C860 105 1080 185 1440 130V400H0Z' fill='%23161317'/%3E%3Cpath d='M0 260C300 215 520 290 820 248C1080 212 1260 268 1440 236V400H0Z' fill='%230c0b0d'/%3E%3C/svg%3E")
+      bottom / 100% 46% no-repeat,
+    radial-gradient(90% 40% at 50% 58%, rgb(224 168 146 / 0.3), transparent 70%),
+    linear-gradient(180deg, #67637a 0%, #4c4859 26%, #3b3542 44%, #2b2329 55%, #141114 66%, #0c0b0d 100%);
+  background-size: 100% 46%, 100% 100%, 100% 140%;
+  background-position: bottom, center, top;
+}
+/* layer 2: a fine film grain over everything, so the gradients don't band */
+[data-look="dusk"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.08;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* header: one smoky glass panel */
+[data-look="dusk"] header {
+  width: min(100cqw - 32px, 700px);
+  margin: 24px auto 40px;
+  padding: 36px 24px 32px;
+  gap: 26px;
+  border-radius: 40px;
+  background:
+    radial-gradient(80% 60% at 50% 100%, rgb(255 255 255 / 0.05), transparent 70%),
+    rgb(26 24 29 / 0.55);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1), inset 0 0 0 1px rgb(255 255 255 / 0.06), 0 40px 80px -40px rgb(0 0 0 / 0.9);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.2);
+}
+/* the clock: a small bold label at the top of the panel */
+[data-look="dusk"] .page-clock {
+  height: auto;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+/* photo + name: stacked and centred on phones, side by side from 768px */
+[data-look="dusk"] .page-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+[data-look="dusk"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  flex: none;
+  width: clamp(104px, 30cqw, 128px);
+  height: clamp(104px, 30cqw, 128px);
+  margin: 0;
+}
+[data-look="dusk"] .page-avatar :is(button, img, span) {
+  border-radius: 30%; /* a soft rounded square */
+  --tw-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.8);
+  --tw-ring-shadow: 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+[data-look="dusk"] .page-name {
+  color: var(--color-ink);
+  font-size: min(56px, calc((100cqw - 80px) / var(--fit) * 1.05));
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+/* (not in look previews: they are phone-sized boxes, whatever the window width) */
+@media (min-width: 768px) {
+  [data-look="dusk"]:not(.look-thumb) .page-identity {
+    flex-direction: row;
+    gap: 32px;
+  }
+  [data-look="dusk"]:not(.look-thumb) .page-avatar {
+    width: 196px;
+    height: 196px;
+  }
+  /* the panel's inner width (700 − 48) minus the photo and the gap */
+  [data-look="dusk"]:not(.look-thumb) .page-name {
+    text-align: left;
+    font-size: min(76px, calc((min(100cqw - 32px, 700px) - 48px - 228px) / var(--fit) * 1.05));
+  }
+}
+/* social buttons: separate glass pills */
+[data-look="dusk"] .page-socials {
+  gap: 8px;
+}
+[data-look="dusk"] .page-socials a {
+  height: 46px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.05);
+  color: var(--color-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.1), inset 0 0 0 1px rgb(255 255 255 / 0.09);
+  transition: background-color 250ms var(--ease-smooth), scale 250ms var(--ease-spring);
+}
+[data-look="dusk"] .page-socials a:active {
+  scale: 0.95;
+  background: rgb(255 255 255 / 0.12);
+}
+
+/* cards: see-through inside the grid (popups opened from a card stay solid) */
+[data-look="dusk"] .bento {
+  --color-card: rgb(26 24 29 / 0.55);
+  --color-fill: rgb(255 255 255 / 0.07);
+  --color-pill: rgb(255 255 255 / 0.07);
+  --color-hover: rgb(36 34 40 / 0.65);
+  --color-hover-strong: rgb(255 255 255 / 0.12);
+}
+[data-look="dusk"] dialog {
+  --color-card: #1b1a1e;
+  --color-fill: #26242a;
+  --color-hover: #26242a;
+}
+/* ponytail: one blur per card — fine for a page of cards; drop it under (prefers-reduced-transparency) if old phones stutter */
+[data-look="dusk"] :is(.bento > .card, .bento > * > .card) {
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  backdrop-filter: blur(24px) saturate(1.2);
+  background-image: radial-gradient(90% 70% at 50% 110%, rgb(255 255 255 / 0.05), transparent 70%);
+  transition-property: background-color, translate, scale, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-smooth);
+}
+/* icons: soft white lines */
+[data-look="dusk"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.6;
+  color: rgb(245 243 241 / 0.8);
+}
+[data-look="dusk"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="dusk"] .bento a.card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  [data-look="dusk"] .bento a.card:hover {
+    translate: 0 -3px;
+    --tw-shadow: inset 0 1px 0 rgb(255 255 255 / 0.16), inset 0 0 0 1px rgb(255 255 255 / 0.1), 0 34px 60px -30px rgb(0 0 0 / 0.95);
+  }
+  [data-look="dusk"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="dusk"] .page-socials a:hover {
+    background: rgb(255 255 255 / 0.12);
+  }
+}
+
+@keyframes dusk-panel {
+  from { opacity: 0; transform: translateY(24px); filter: blur(10px); }
+}
+@keyframes dusk-photo {
+  from { opacity: 0; transform: scale(0.9); }
+}
+@keyframes dusk-rise {
+  from { opacity: 0; transform: translateY(0.3em); }
+}
+@keyframes dusk-up {
+  from { opacity: 0; transform: translateY(28px); }
+}
+@keyframes dusk-sky {
+  to { background-position: bottom, center, bottom; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the panel settles out of a blur, the photo grows in, the name lines rise, the buttons follow;
+     the sky very slowly darkens towards night */
+  [data-look="dusk"] header {
+    animation: dusk-panel 900ms var(--ease-smooth) both;
+  }
+  [data-look="dusk"]::before {
+    animation: dusk-sky 40s ease-in-out infinite alternate;
+  }
+  [data-look="dusk"] .page-avatar > * {
+    animation: dusk-photo 800ms var(--ease-smooth) 200ms both;
+  }
+  [data-look="dusk"] .page-name span {
+    animation: dusk-rise 700ms var(--ease-smooth) 320ms both;
+  }
+  [data-look="dusk"] .page-name span + span {
+    animation-delay: 420ms;
+  }
+  [data-look="dusk"] .page-socials {
+    animation: dusk-rise 600ms var(--ease-smooth) 560ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="dusk"] :is(.bento > .card, .bento > * > .card) {
+      animation: dusk-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}

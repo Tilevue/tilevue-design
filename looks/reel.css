@@ -1,0 +1,194 @@
+/* ── Reel: black with a magenta glow and a fine crosshatch; a huge crosshatch-textured name with the photo in front
+      of it; a glowing pink swoosh; dark panels with pink gradient panels mixed in. ── */
+:root:has(main[data-look="reel"]),
+[data-look="reel"] {
+  --color-page: #050205;
+  --color-card: #120a12;
+  --color-ink: #ffffff;
+  --color-accent: #e83fd0;
+  --color-muted: #a99aa8;
+  --color-subtle: #8f828e;
+  --color-fill: #1d121d;
+  --color-pill: #1d121d;
+  --color-hover: #170d17;
+  --color-hover-strong: #1d121d;
+  --color-popup: #150c15;
+  --color-ring: rgb(255 255 255 / 0.07);
+  --radius-card: 14px;
+  --look-shadow: 0 0 0 1px rgb(255 255 255 / 0.07);
+  --look-icon: #f05ad8;
+  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
+}
+[data-look="reel"] {
+  background:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 6px) 0 0 / 100% 700px no-repeat,
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 6px) 0 0 / 100% 700px no-repeat,
+    radial-gradient(70% 55% at 50% 0%, rgb(200 40 180 / 0.55), transparent 70%) 0 0 / 100% 900px no-repeat,
+    #050205;
+  overflow-x: clip; /* the swoosh is wider than a phone screen; without this the whole page widened on phones */
+}
+[data-look="reel"] header {
+  position: relative;
+  isolation: isolate;
+  padding-top: 40px;
+  gap: 28px;
+}
+/* the swoosh */
+[data-look="reel"] header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  z-index: -1;
+  width: min(1100px, 150cqw);
+  height: 240px;
+  translate: -50% 0;
+  rotate: -8deg;
+  border-bottom: 6px solid var(--color-accent);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 14px rgb(232 63 208 / 0.8));
+  pointer-events: none;
+}
+/* the clock: a pink "available"-style pill with a dot */
+[data-look="reel"] .page-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: auto;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgb(232 63 208 / 0.16);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+[data-look="reel"] .page-clock::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+/* name: huge, condensed, filled with a crosshatch so it reads as texture behind the photo */
+[data-look="reel"] .page-name {
+  font-family: var(--font-shoulders), var(--font-sans);
+  font-size: min(190px, calc((100cqw - 32px) / var(--fit) * 1.05));
+  font-weight: 900;
+  letter-spacing: 0.01em;
+  line-height: 0.86;
+  text-transform: uppercase;
+  background:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.85) 0 1.5px, transparent 1.5px 4px),
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.55) 0 1px, transparent 1px 5px);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* photo: large, in front of the name (between its lines, as the header places it), with a pink rim light */
+[data-look="reel"] .page-avatar {
+  z-index: 1;
+  width: clamp(110px, 28cqw, 200px);
+  height: clamp(110px, 28cqw, 200px);
+}
+[data-look="reel"] .page-avatar :is(button, img, span) {
+  --tw-ring-shadow: 0 0 0 2px rgb(232 63 208 / 0.9);
+  --tw-shadow: 0 0 50px -6px rgb(232 63 208 / 0.8), 0 30px 50px -20px rgb(0 0 0 / 0.9);
+}
+[data-look="reel"] .page-socials {
+  gap: 4px;
+  padding: 5px;
+  border-radius: 10px;
+  background: #171217;
+}
+[data-look="reel"] .page-socials a {
+  height: 40px;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  transition: background-color 200ms var(--ease-smooth);
+}
+[data-look="reel"] .page-socials a:first-child,
+[data-look="reel"] .page-socials a:active {
+  background: var(--color-accent);
+}
+/* panels: dark; every few a pink gradient panel */
+[data-look="reel"] .bento > :nth-child(5n + 2) {
+  --color-card: #c62fb2;
+  --color-muted: rgb(255 255 255 / 0.8);
+  --color-subtle: rgb(255 255 255 / 0.8);
+  --color-fill: rgb(255 255 255 / 0.16);
+  --color-hover: var(--color-card);
+  --look-icon: #ffffff;
+}
+[data-look="reel"] .bento > :nth-child(5n + 2) :is(.card),
+[data-look="reel"] .bento > .card:nth-child(5n + 2) {
+  background-image: linear-gradient(140deg, #f04fd8, #9d1f9a);
+}
+[data-look="reel"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: var(--look-icon);
+}
+[data-look="reel"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="reel"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: translate, box-shadow, scale;
+  transition-duration: 300ms;
+}
+[data-look="reel"] .bento a.card:active {
+  scale: 0.97;
+  --tw-shadow: 0 0 0 1px var(--color-accent), 0 0 34px -10px var(--color-accent);
+}
+@media (hover: hover) {
+  [data-look="reel"] .bento a.card:hover {
+    translate: 0 -4px;
+    --tw-shadow: 0 0 0 1px var(--color-accent), 0 0 40px -10px var(--color-accent);
+  }
+  [data-look="reel"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="reel"] .page-socials a:hover {
+    background: var(--color-accent);
+  }
+}
+@keyframes reel-up {
+  from { opacity: 0; transform: translateY(0.3em); filter: blur(10px); }
+}
+@keyframes reel-swoosh {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(-20% -5% -20% -5%); }
+}
+@keyframes reel-photo {
+  from { opacity: 0; transform: scale(1.25); }
+}
+@keyframes reel-in {
+  from { opacity: 0; transform: translateY(36px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name rises out of a blur, the swoosh draws across, the photo zooms in, the pill and bar follow */
+  [data-look="reel"] .page-name span {
+    animation: reel-up 900ms var(--ease-smooth) both;
+  }
+  [data-look="reel"] .page-name span + span {
+    animation-delay: 130ms;
+  }
+  [data-look="reel"] header::after {
+    animation: reel-swoosh 1100ms var(--ease-smooth) 400ms both;
+  }
+  [data-look="reel"] .page-avatar > button {
+    animation: reel-photo 900ms var(--ease-smooth) 300ms both;
+  }
+  [data-look="reel"] :is(.page-clock, .page-socials) {
+    animation: reel-in 600ms var(--ease-smooth) 800ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="reel"] :is(.bento > .card, .bento > * > .card) {
+      animation: reel-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

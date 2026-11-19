@@ -1,0 +1,206 @@
+/* ── Split: two colours, one page. On desktop the page splits down the middle — electric lime on the left, violet on
+      the right. The name's first line ends at the split on the lime side (black), its second line starts there on the
+      violet side (white), and the round photo sits right on the line. On phones the halves stack: a lime header block
+      over a violet page. Heavy grotesk type, cream pill buttons, cream and navy cards. ── */
+:root:has(main[data-look="split"]),
+[data-look="split"] {
+  --color-page: #4428e6;
+  --color-card: #faf8f3;
+  --color-ink: #141414;
+  --color-accent: #d6f24a;
+  --look-violet: #4428e6;
+  --look-lime: #d6f24a;
+  --radius-card: 24px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
+}
+
+/* phones (and look previews): the header is a lime block across the top, the page below is violet */
+[data-look="split"] header {
+  padding: 44px 16px 36px;
+  margin-bottom: 24px;
+  gap: 22px;
+  border-radius: 0 0 36px 36px;
+  background: var(--look-lime);
+}
+/* the clock: a small bold label in capitals */
+[data-look="split"] .page-clock {
+  height: auto;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* photo: a round badge with a cream ring and a thin black outline around it */
+[data-look="split"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 112px;
+  height: 112px;
+  margin: 6px auto 18px;
+}
+[data-look="split"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 0 5px #faf8f3, 0 0 0 7.5px var(--color-ink);
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-look="split"] .page-name {
+  color: var(--color-ink);
+  font-size: min(80px, calc((100cqw - 32px) / var(--fit) * 1.04));
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+/* social buttons: cream pills */
+[data-look="split"] .page-socials {
+  gap: 8px;
+}
+[data-look="split"] .page-socials a {
+  height: 48px;
+  border-radius: 999px;
+  background: #faf8f3;
+  color: var(--color-ink);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="split"] .page-socials a:active {
+  scale: 0.95;
+  background: var(--color-ink);
+  color: #faf8f3;
+}
+
+/* desktop: the page splits down the middle (stripes, so it doesn't matter that they scroll) */
+@media (min-width: 768px) {
+  [data-look="split"]:not(.look-thumb) {
+    background: linear-gradient(90deg, var(--look-lime) 50%, var(--look-violet) 50%);
+  }
+  [data-look="split"]:not(.look-thumb) header {
+    width: 100%;
+    padding: 64px 0 56px;
+    margin-bottom: 8px;
+    border-radius: 0;
+    background: transparent;
+  }
+  /* the clock on the lime half, right-aligned to the split; the buttons on the violet half, from the split */
+  [data-look="split"]:not(.look-thumb) .page-clock {
+    align-self: flex-start;
+    justify-content: flex-end;
+    width: 50%;
+    padding-right: 28px;
+    text-align: right;
+  }
+  [data-look="split"]:not(.look-thumb) .page-socials {
+    align-self: flex-end;
+    justify-content: flex-start;
+    width: 50%;
+    max-width: none;
+    padding-left: 28px;
+  }
+  [data-look="split"]:not(.look-thumb) .page-identity {
+    width: 100%;
+    max-width: none;
+  }
+  [data-look="split"]:not(.look-thumb) .page-name {
+    width: 100%;
+    font-size: min(124px, calc((50cqw - 44px) / var(--fit) * 1.04));
+  }
+  /* two lines: the first ends at the split (black on lime), the second starts there (white on violet) */
+  [data-look="split"]:not(.look-thumb) .page-name span:first-child:not(:last-child) {
+    width: 50%;
+    padding-right: 28px;
+    text-align: right;
+  }
+  [data-look="split"]:not(.look-thumb) .page-name span:last-child:not(:first-child) {
+    margin-left: 50%;
+    padding-left: 28px;
+    text-align: left;
+    color: #ffffff;
+  }
+  /* one line straddles the split: white with "difference" turns it dark violet on lime and lime-ish on violet */
+  [data-look="split"]:not(.look-thumb) .page-name span:only-child {
+    color: #ffffff;
+    mix-blend-mode: difference;
+  }
+}
+
+/* cards: cream, and a deep navy one every few */
+[data-look="split"] .bento > :nth-child(5n + 3) {
+  --color-card: #17304e;
+  --color-ink: #faf8f3;
+  --color-muted: rgb(250 248 243 / 0.72);
+  --color-subtle: rgb(250 248 243 / 0.6);
+  --color-fill: rgb(250 248 243 / 0.12);
+  --color-hover: #1d3a5d;
+}
+[data-look="split"] dialog {
+  --color-card: #faf8f3;
+  --color-ink: #141414;
+  --color-muted: color-mix(in srgb, #141414 60%, #faf8f3);
+  --color-subtle: color-mix(in srgb, #141414 50%, #faf8f3);
+  --color-fill: color-mix(in srgb, #141414 6%, #faf8f3);
+}
+[data-look="split"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--color-ink);
+}
+[data-look="split"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="split"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: translate, scale, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-spring);
+}
+[data-look="split"] .bento a.card:active {
+  scale: 0.97;
+}
+@media (hover: hover) {
+  [data-look="split"] .bento a.card:hover {
+    translate: 0 -4px;
+    --tw-shadow: 0 0 0 3px var(--look-lime), 0 18px 34px -16px rgb(0 0 0 / 0.45);
+  }
+  [data-look="split"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="split"] .page-socials a:hover {
+    background: var(--color-ink);
+    color: #faf8f3;
+  }
+}
+
+@keyframes split-left {
+  from { opacity: 0; transform: translateX(-60px); }
+}
+@keyframes split-right {
+  from { opacity: 0; transform: translateX(60px); }
+}
+@keyframes split-spin {
+  from { opacity: 0; transform: rotate(-120deg) scale(0.6); }
+}
+@keyframes split-up {
+  from { opacity: 0; transform: translateY(28px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name's halves slide in from opposite sides, the photo badge spins in, the rest follows */
+  [data-look="split"] .page-name span:first-child {
+    animation: split-left 800ms var(--ease-smooth) 150ms both;
+  }
+  [data-look="split"] .page-name span + span {
+    animation: split-right 800ms var(--ease-smooth) 250ms both;
+  }
+  [data-look="split"] .page-avatar > * {
+    animation: split-spin 800ms var(--ease-spring) both;
+  }
+  [data-look="split"] :is(.page-clock, .page-socials) {
+    animation: split-up 600ms var(--ease-smooth) 500ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="split"] :is(.bento > .card, .bento > * > .card) {
+      animation: split-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}

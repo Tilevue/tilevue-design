@@ -1,0 +1,179 @@
+/* ── Index: pure black, left aligned; the name in heavy capitals with a ®; the cards become numbered rows —
+      "( 01 )", "( 02 )"… — on a hairline that draws itself as each row scrolls in. ── */
+:root:has(main[data-look="index"]),
+[data-look="index"] {
+  --color-page: #000000;
+  --color-card: transparent;
+  --color-ink: #ffffff;
+  --color-accent: #ffffff;
+  --color-muted: #8c8c8c;
+  --color-subtle: #767676;
+  --color-fill: #161616;
+  --color-pill: #161616;
+  --color-hover: transparent;
+  --color-hover-strong: #161616;
+  --color-popup: #111111;
+  --color-ring: rgb(255 255 255 / 0.12);
+  --radius-card: 0px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+}
+[data-look="index"] dialog {
+  --color-card: #111111;
+}
+[data-look="index"] header {
+  align-items: flex-start;
+  width: min(100cqw - 32px, 848px);
+  margin-inline: auto;
+  padding-top: 48px;
+  gap: 22px;
+}
+[data-look="index"] .page-identity {
+  align-items: flex-start;
+}
+[data-look="index"] .page-clock {
+  height: auto;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+[data-look="index"] .page-clock::before { content: "( "; }
+[data-look="index"] .page-clock::after { content: " )"; }
+[data-look="index"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 0 18px;
+}
+[data-look="index"] .page-avatar :is(button, img, span) {
+  border-radius: 0;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-look="index"] .page-avatar img {
+  filter: grayscale(1);
+}
+/* name: heavy capitals, left aligned, with a ® after the last line */
+[data-look="index"] .page-name {
+  color: #fff;
+  font-family: var(--font-hanken), var(--font-sans);
+  font-size: min(150px, calc((100cqw - 32px) / var(--fit) * 0.88));
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+  text-align: left;
+  text-transform: uppercase;
+}
+[data-look="index"] .page-name span:last-child::after {
+  content: "\00AE";
+  margin-left: 0.04em;
+  font-size: 0.32em;
+  vertical-align: top;
+  line-height: 1.6;
+}
+[data-look="index"] .page-socials {
+  justify-content: flex-start;
+  gap: 4px;
+}
+[data-look="index"] .page-socials a {
+  height: 40px;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth);
+}
+[data-look="index"] .page-socials a:first-child,
+[data-look="index"] .page-socials a:active {
+  background: #fff;
+  color: #000;
+}
+/* rows: transparent, a hairline on top, numbered; text cards get room above for the number */
+[data-look="index"] .bento {
+  counter-reset: row;
+}
+[data-look="index"] :is(.bento > .card, .bento > * > .card) {
+  counter-increment: row;
+  background-image: linear-gradient(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.35));
+  background-position: 0 0;
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  transition-property: translate, background-size, scale;
+  transition-duration: 350ms;
+  transition-timing-function: var(--ease-smooth);
+}
+[data-look="index"] :is(.bento > .card, .bento > * > .card)::before {
+  content: "( " counter(row, decimal-leading-zero) " )";
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 3;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 0.6);
+  pointer-events: none;
+}
+[data-look="index"] :is(.bento > .card, .bento > * > .card):is(.p-2, .p-2\.5, .p-3, .p-4) {
+  padding-top: 36px;
+}
+[data-look="index"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.5;
+  color: #fff;
+}
+[data-look="index"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="index"] .bento a.card:active {
+  scale: 0.98;
+}
+/* hover: the row nudges right and its hairline turns full white */
+@media (hover: hover) {
+  [data-look="index"] .bento a.card:hover {
+    translate: 6px 0;
+    background-image: linear-gradient(#fff, #fff);
+  }
+  [data-look="index"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="index"] .page-socials a:hover {
+    background: #fff;
+    color: #000;
+  }
+}
+@keyframes index-line {
+  from { transform: translateY(0.6em); clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(-10% -10% -10% -5%); }
+}
+@keyframes index-draw {
+  from { background-size: 0% 1px; opacity: 0.2; }
+  to { background-size: 100% 1px; opacity: 1; }
+}
+@keyframes index-fade {
+  from { opacity: 0; transform: translateY(10px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: name lines slide up out of their edge, the rest fades in; on scroll each row's hairline draws itself */
+  [data-look="index"] .page-name span {
+    animation: index-line 900ms var(--ease-smooth) 100ms both;
+  }
+  [data-look="index"] .page-name span + span {
+    animation-delay: 230ms;
+  }
+  [data-look="index"] :is(.page-clock, .page-avatar, .page-socials) {
+    animation: index-fade 700ms var(--ease-smooth) 600ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="index"] :is(.bento > .card, .bento > * > .card) {
+      animation: index-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}

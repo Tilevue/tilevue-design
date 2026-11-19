@@ -1,0 +1,172 @@
+/* ── Lumière: black under a fine halftone dot screen; a big regular-weight name; an oval photo in a thick black
+      frame overlapping it; social links as small icons divided by slashes; black-and-white photos in panels that
+      turn colour on hover. ── */
+:root:has(main[data-look="lumiere"]),
+[data-look="lumiere"] {
+  --color-page: #050505;
+  --color-card: #121212;
+  --color-ink: #f2f2f2;
+  --color-accent: #e8432e;
+  --color-muted: #8f8f8f;
+  --color-subtle: #7a7a7a;
+  --color-fill: #1c1c1c;
+  --color-pill: #1c1c1c;
+  --color-hover: #161616;
+  --color-hover-strong: #1c1c1c;
+  --color-popup: #141414;
+  --color-ring: rgb(255 255 255 / 0.06);
+  --radius-card: 8px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+}
+[data-look="lumiere"] {
+  position: relative;
+}
+/* the dot screen over everything (photos included), like print */
+[data-look="lumiere"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: radial-gradient(rgb(255 255 255 / 0.09) 0.8px, transparent 1.2px) 0 0 / 4px 4px;
+}
+[data-look="lumiere"] header {
+  padding-top: 40px;
+  gap: 30px;
+}
+/* the clock: small grey text with a trailing slash */
+[data-look="lumiere"] .page-clock {
+  height: auto;
+  color: #a8a8a8;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+[data-look="lumiere"] .page-clock::after {
+  content: " /";
+}
+[data-look="lumiere"] .page-name {
+  color: #f2f2f2;
+  font-family: var(--font-hanken), var(--font-sans);
+  font-size: min(170px, calc((100cqw - 32px) / var(--fit) * 1.0));
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+}
+/* photo: an oval in a thick black frame, above the name (over it, it hid most of the letters) */
+[data-look="lumiere"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  margin: 0 auto 26px;
+  width: clamp(96px, 22cqw, 170px);
+  height: calc(clamp(96px, 22cqw, 170px) * 1.25);
+  border-radius: 50%;
+  box-shadow: 0 0 0 clamp(8px, 1.6cqw, 14px) #050505;
+  transition: scale 500ms var(--ease-spring);
+}
+[data-look="lumiere"] .page-avatar :is(button, img, span) {
+  border-radius: 50%;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* social: small grey icons divided by slashes */
+[data-look="lumiere"] .page-socials {
+  gap: 0;
+}
+[data-look="lumiere"] .page-socials a {
+  width: auto;
+  height: 32px;
+  padding: 0 4px;
+  border-radius: 0;
+  background: transparent;
+  color: #a8a8a8;
+  transition: color 200ms var(--ease-smooth);
+}
+[data-look="lumiere"] .page-socials a:not(:last-child)::after {
+  content: "/";
+  margin-left: 14px;
+  margin-right: 10px;
+  color: #5a5a5a;
+  font-size: 15px;
+}
+[data-look="lumiere"] .page-socials a:active {
+  color: #fff;
+}
+/* panels: black-and-white photos (colour on hover / tap), grey icons */
+[data-look="lumiere"] :is(.bento > .card, .bento > * > .card) img:not(.size-5):not([src^="/icons/"]) {
+  filter: grayscale(1) contrast(1.08);
+  transition: filter 600ms var(--ease-smooth), scale 900ms var(--ease-smooth);
+}
+[data-look="lumiere"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.5;
+  color: #cfcfcf;
+}
+[data-look="lumiere"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="lumiere"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: scale, translate;
+  transition-duration: 300ms;
+}
+[data-look="lumiere"] .bento a.card:active {
+  scale: 0.98;
+}
+[data-look="lumiere"] .bento a.card:active img:not(.size-5):not([src^="/icons/"]) {
+  filter: none;
+}
+@media (hover: hover) {
+  [data-look="lumiere"] .bento a.card:hover img:not(.size-5):not([src^="/icons/"]) {
+    filter: none;
+    scale: 1.04;
+  }
+  [data-look="lumiere"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="lumiere"] .page-avatar:hover {
+    scale: 1.05;
+  }
+  [data-look="lumiere"] .page-socials a:hover {
+    color: #fff;
+  }
+}
+@keyframes lumiere-line {
+  from { transform: translateY(0.5em); clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(-10% -5% -10% -5%); }
+}
+@keyframes lumiere-oval {
+  from { opacity: 0; transform: scale(0.5); }
+}
+@keyframes lumiere-fade {
+  from { opacity: 0; }
+}
+@keyframes lumiere-in {
+  from { opacity: 0; transform: translateY(40px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name lines slide up out of their own edge, the framed oval grows in, the links fade in */
+  [data-look="lumiere"] .page-name span {
+    animation: lumiere-line 1000ms var(--ease-smooth) both;
+  }
+  [data-look="lumiere"] .page-name span + span {
+    animation-delay: 150ms;
+  }
+  [data-look="lumiere"] .page-avatar > button {
+    animation: lumiere-oval 900ms var(--ease-spring) 500ms both;
+  }
+  [data-look="lumiere"] :is(.page-clock, .page-socials) {
+    animation: lumiere-fade 800ms var(--ease-smooth) 700ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="lumiere"] :is(.bento > .card, .bento > * > .card) {
+      animation: lumiere-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

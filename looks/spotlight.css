@@ -1,0 +1,164 @@
+/* ── Spotlight: black, a tall capsule photo lit in blue; a big bold name overlaps the foot of the capsule and, where
+      it crosses the photo, inverts to warm peach (difference blend). Mono label, a white pill, image-led panels. ── */
+:root:has(main[data-look="spotlight"]),
+[data-look="spotlight"] {
+  --color-page: #000000;
+  --color-card: #0e0e0e;
+  --color-ink: #ffffff;
+  --color-accent: #2f5bff;
+  --color-muted: #8d8d8d;
+  --color-subtle: #7a7a7a;
+  --color-fill: #1a1a1a;
+  --color-pill: #1a1a1a;
+  --color-hover: #121212;
+  --color-hover-strong: #1a1a1a;
+  --color-popup: #121212;
+  --color-ring: rgb(255 255 255 / 0.08);
+  --radius-card: 12px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-schibsted), system-ui, sans-serif;
+}
+[data-look="spotlight"] header {
+  padding-top: 40px;
+  gap: 26px;
+}
+/* the clock: a plain mono label */
+[data-look="spotlight"] .page-clock {
+  height: auto;
+  color: #fff;
+  font-family: var(--font-chivo), ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+/* photo: a tall capsule with a blue glow; the name below rises into its foot */
+[data-look="spotlight"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: clamp(170px, 56cqw, 360px);
+  height: calc(clamp(170px, 56cqw, 360px) * 10 / 7);
+  margin: 0 auto;
+  z-index: 0; /* the header puts the photo on top (z-10); here the name must sit over it for the blend */
+  border-radius: 999px;
+  box-shadow: 0 0 90px -20px color-mix(in srgb, var(--color-accent) 75%, transparent);
+}
+[data-look="spotlight"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-look="spotlight"] .page-name {
+  position: relative;
+  z-index: 1;
+  margin-top: -0.62em;
+  color: #fff;
+  font-size: min(150px, calc((100cqw - 32px) / var(--fit) * 0.9)); /* 1.0 overflowed a phone with "Maya Chen" */
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.88;
+  mix-blend-mode: difference; /* over the blue photo the white letters turn peach */
+}
+/* social buttons: the first is a white pill, the rest plain white icons */
+[data-look="spotlight"] .page-socials {
+  gap: 4px;
+}
+[data-look="spotlight"] .page-socials a {
+  height: 40px;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="spotlight"] .page-socials a:first-child,
+[data-look="spotlight"] .page-socials a:active {
+  background: #fff;
+  color: #000;
+}
+/* panels: dark, flat; white line icons; big photos ease in on hover */
+[data-look="spotlight"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: #fff;
+}
+[data-look="spotlight"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="spotlight"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, scale, box-shadow;
+  transition-duration: 300ms;
+}
+[data-look="spotlight"] :is(.bento > .card, .bento > * > .card) img:not(.size-5):not([src^="/icons/"]) {
+  transition: scale 900ms var(--ease-smooth);
+}
+[data-look="spotlight"] .bento a.card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  [data-look="spotlight"] .bento a.card:hover {
+    --tw-shadow: 0 0 0 1px rgb(47 91 255 / 0.5), 0 0 50px -16px var(--color-accent);
+  }
+  [data-look="spotlight"] .bento a.card:hover img:not(.size-5):not([src^="/icons/"]) {
+    scale: 1.05;
+  }
+  [data-look="spotlight"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="spotlight"] .page-socials a:hover {
+    background: #fff;
+    color: #000;
+  }
+}
+@keyframes spotlight-open {
+  from { opacity: 0; clip-path: inset(48% 0 48% 0 round 999px); }
+  30% { opacity: 1; }
+  to { clip-path: inset(0 round 999px); }
+}
+@keyframes spotlight-glow {
+  0%, 100% { box-shadow: 0 0 90px -20px rgb(47 91 255 / 0.75); }
+  50% { box-shadow: 0 0 130px -14px rgb(47 91 255 / 0.95); }
+}
+@keyframes spotlight-rise {
+  from { opacity: 0; transform: translateY(0.35em); filter: blur(12px); }
+}
+@keyframes spotlight-up {
+  from { opacity: 0; transform: translateY(20px); }
+}
+@keyframes spotlight-away {
+  to { scale: 0.9; opacity: 0.55; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the capsule opens out of a thin line, the name lines rise out of a blur, label and buttons follow;
+     afterwards the blue light slowly breathes */
+  [data-look="spotlight"] .page-avatar {
+    animation: spotlight-open 1100ms var(--ease-smooth) both, spotlight-glow 6s ease-in-out 1.2s infinite;
+  }
+  [data-look="spotlight"] .page-name span {
+    animation: spotlight-rise 900ms var(--ease-smooth) 500ms both;
+  }
+  [data-look="spotlight"] .page-name span + span {
+    animation-delay: 620ms;
+  }
+  [data-look="spotlight"] .page-clock {
+    animation: spotlight-up 600ms var(--ease-smooth) both;
+  }
+  [data-look="spotlight"] .page-socials a {
+    animation: spotlight-up 500ms var(--ease-smooth) 900ms both;
+  }
+  [data-look="spotlight"] .page-socials a:nth-child(2) { animation-delay: 960ms; }
+  [data-look="spotlight"] .page-socials a:nth-child(3) { animation-delay: 1020ms; }
+  [data-look="spotlight"] .page-socials a:nth-child(n + 4) { animation-delay: 1080ms; }
+  @supports (animation-timeline: view()) {
+    /* scrolling: the capsule recedes (scale + fade only — never `translate`) */
+    [data-look="spotlight"] .page-avatar > button {
+      animation: spotlight-away linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
+    [data-look="spotlight"] :is(.bento > .card, .bento > * > .card) {
+      animation: spotlight-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

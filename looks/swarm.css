@@ -1,0 +1,414 @@
+/* ── Swarm: a dark design tool with a team at work. Near-black with a purple glow, rulers along the top and left
+      edges, the clock as a mono path label, the photo as the selected layer (blue outline + corner handles), a tight
+      bold white name, and colourful multiplayer cursors drifting around the header. The first button is a purple-pink
+      gradient. When the page opens, the cards are built like a design-tool timelapse:
+      one after another a cursor drags out a frame, lays in a grey wireframe, and the real card fades in. Cards are dark hairline panels with a blue selection outline on hover. ── */
+:root:has(main[data-look="swarm"]),
+[data-look="swarm"] {
+  --color-page: #0b0d10;
+  --color-card: #121418;
+  --color-ink: #f2f3f5;
+  --color-accent: #3b82f6; /* the selection blue */
+  --color-muted: #8b919c;
+  --color-subtle: #6d727c;
+  --color-fill: #1a1d22;
+  --color-ring: #23262d;
+  --radius-card: 14px;
+  --look-shadow: 0 0 0 1px #23262d;
+  --look-grad: linear-gradient(100deg, #7c3aed, #c026d3);
+  /* the four corner handles of a selection, as background layers */
+  --look-handles:
+    linear-gradient(#fff, #fff) 0 0 / 7px 7px no-repeat, linear-gradient(#fff, #fff) 100% 0 / 7px 7px no-repeat,
+    linear-gradient(#fff, #fff) 0 100% / 7px 7px no-repeat, linear-gradient(#fff, #fff) 100% 100% / 7px 7px no-repeat;
+}
+/* the canvas: a purple glow behind the header */
+[data-look="swarm"] {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(50% 360px at 30% 160px, rgb(124 58 237 / 0.22), transparent 70%),
+    var(--color-page);
+}
+/* rulers along the top and left edges: small ticks every 10px, tall ones every 100px; fixed, like a tool's UI */
+[data-look="swarm"]::before,
+[data-look="swarm"]::after {
+  content: "";
+  position: fixed;
+  z-index: 30;
+  pointer-events: none;
+  background-color: #0b0d10;
+}
+[data-look="swarm"]::before {
+  inset: 0 0 auto 0;
+  height: 16px;
+  background-image:
+    repeating-linear-gradient(90deg, #3a3f48 0 1px, transparent 1px 100px),
+    repeating-linear-gradient(90deg, #262a31 0 1px, transparent 1px 10px);
+  background-size: 100% 16px, 100% 5px;
+  background-position: 0 0, 0 100%;
+  background-repeat: no-repeat;
+  box-shadow: 0 1px 0 #1d2026;
+}
+[data-look="swarm"]::after {
+  inset: 0 auto 0 0;
+  width: 16px;
+  background-image:
+    repeating-linear-gradient(180deg, #3a3f48 0 1px, transparent 1px 100px),
+    repeating-linear-gradient(180deg, #262a31 0 1px, transparent 1px 10px);
+  background-size: 16px 100%, 5px 100%;
+  background-position: 0 0, 100% 0;
+  background-repeat: no-repeat;
+  box-shadow: 1px 0 0 #1d2026;
+}
+
+/* header: left-aligned on the grid's width */
+[data-look="swarm"] header {
+  position: relative;
+  width: min(100cqw - 32px, 848px);
+  margin-inline: auto;
+  padding-top: 64px;
+  align-items: flex-start;
+  gap: 24px;
+}
+/* the clock: a mono path label */
+[data-look="swarm"] .page-clock {
+  height: auto;
+  color: var(--color-subtle);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: lowercase;
+}
+[data-look="swarm"] .page-clock::before {
+  content: "/"; /* decoration: a path slash */
+  margin-right: 6px;
+}
+/* photo + name, left-aligned; the photo is the selected layer */
+[data-look="swarm"] .page-identity {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 100%;
+}
+[data-look="swarm"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 92px;
+  height: 92px;
+  margin: 6px 0 0 6px;
+}
+/* the selection: a blue outline a few px out, with white handles on its corners */
+[data-look="swarm"] .page-avatar::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: 2;
+  pointer-events: none;
+  outline: 1px solid var(--color-accent);
+  outline-offset: -3px;
+  background: var(--look-handles);
+  filter: drop-shadow(0 0 0.5px var(--color-accent));
+}
+[data-look="swarm"] .page-avatar :is(button, img, span) {
+  border-radius: 10px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 1px #23262d;
+}
+[data-look="swarm"] .page-name {
+  text-align: left;
+  color: var(--color-ink);
+  font-size: min(96px, calc((100cqw - 32px) / var(--fit) * 1.04));
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+/* the cursors: four colourful pointers drifting around the header (decoration, drawn here) */
+[data-look="swarm"] header::before,
+[data-look="swarm"] header::after,
+[data-look="swarm"] .page-identity::before,
+[data-look="swarm"] .page-identity::after {
+  content: "";
+  position: absolute;
+  z-index: 25;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+  background: var(--cursor) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5));
+}
+[data-look="swarm"] header::before {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%23f472b6' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  top: 70px;
+  right: 8%;
+}
+[data-look="swarm"] header::after {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%2322d3ee' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  right: 22%;
+  bottom: 40px;
+}
+[data-look="swarm"] .page-identity::before {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%23a3e635' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  top: 150px;
+  right: 34%;
+}
+[data-look="swarm"] .page-identity::after {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%23fb923c' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+  top: 108px;
+  left: 124px;
+}
+/* social buttons: dark hairline buttons; the first is the purple-pink gradient */
+[data-look="swarm"] .page-socials {
+  justify-content: flex-start;
+  gap: 8px;
+}
+[data-look="swarm"] .page-socials a {
+  height: 44px;
+  border-radius: 10px;
+  background: var(--color-card);
+  color: var(--color-ink);
+  box-shadow: 0 0 0 1px #2a2e36;
+  transition: filter 200ms var(--ease-smooth), background-color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="swarm"] .page-socials a:first-child {
+  background: var(--look-grad);
+  color: #fff;
+  box-shadow: 0 8px 24px -10px rgb(192 38 211 / 0.7);
+}
+[data-look="swarm"] .page-socials a:active {
+  scale: 0.95;
+}
+
+/* cards: dark hairline panels; small text in mono */
+[data-look="swarm"] .bento :is(.text-muted, .text-subtle):not(svg):not(dialog *) {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+}
+[data-look="swarm"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.6;
+  color: var(--color-ink);
+}
+[data-look="swarm"] .bento .card-arrow {
+  color: var(--color-muted);
+  transition: translate 250ms var(--ease-spring), color 200ms var(--ease-smooth);
+}
+/* the selection outline: shown on hover / press (--swarm-hov), and flashed once when a card is finished (--swarm-o) */
+[data-look="swarm"] :is(.bento > .card, .bento > * > .card) {
+  position: relative;
+  --swarm-hov: 0;
+  outline: 1.5px solid rgb(59 130 246 / max(var(--swarm-o), var(--swarm-hov)));
+  outline-offset: -1.5px;
+  transition: scale 200ms var(--ease-spring);
+}
+[data-look="swarm"] .bento a.card:active {
+  scale: 0.98;
+  --swarm-hov: 1;
+}
+
+/*
+ * The build timelapse: when the page opens, the cards are designed one after another, like a sped-up recording of
+ * someone working in a design tool. Each card, step by step (the registered numbers below, all 0 → 1):
+ *   1. frame   — the cursor drags an empty frame out from the top-left corner; white handles sit on its
+ *                corners and a blue size tag rides under it                                        (--swarm-p, --swarm-h)
+ *   2. icon    — an icon placeholder is picked up in the middle (highlighted blue) and dragged into
+ *                the top-left corner, the cursor holding it                                        (--swarm-b, --swarm-d)
+ *   3. typing  — two text lines type out left to right, one after the other, with a blue caret    (--swarm-t1, --swarm-t2,
+ *                                                                                                    --swarm-k1, --swarm-k2)
+ *   4. done    — the wireframe fades into the real card, a selection flashes, the cursor leaves    (--swarm-f, --swarm-o)
+ * ::before draws steps 1–3 (above everything the card draws), ::after is the cursor (--swarm-x / --swarm-y, as a share
+ * of the card; --swarm-c = it's there). Every value starts where a finished card is, so without the animation
+ * (reduced motion) the card simply shows.
+ */
+@property --swarm-p { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-h { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --swarm-b { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-d { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-t1 { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-t2 { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-k1 { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --swarm-k2 { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --swarm-f { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-o { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --swarm-x { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-y { syntax: "<number>"; inherits: true; initial-value: 1; }
+@property --swarm-c { syntax: "<number>"; inherits: true; initial-value: 0; }
+[data-look="swarm"] :is(.bento > .card, .bento > * > .card)::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 30; /* above everything a card draws (cards use up to z-20) */
+  pointer-events: none;
+  --bar: rgb(255 255 255 / calc(var(--swarm-b) * 0.1));
+  --handle: rgb(255 255 255 / var(--swarm-h));
+  --at: calc(var(--swarm-p) * 100%);
+  --away: calc(1 - var(--swarm-d)); /* how far the icon still is from its corner */
+  background:
+    /* typing carets, one per line, riding the end of the line being typed */
+    linear-gradient(rgb(59 130 246 / var(--swarm-k1)), rgb(59 130 246 / var(--swarm-k1))) calc(19px + 62% * var(--swarm-t1)) calc(100% - 40px) / 2px 14px no-repeat,
+    linear-gradient(rgb(59 130 246 / var(--swarm-k2)), rgb(59 130 246 / var(--swarm-k2))) calc(19px + 38% * var(--swarm-t2)) calc(100% - 20px) / 2px 14px no-repeat,
+    /* the frame's corner handles and size tag */
+    linear-gradient(var(--handle), var(--handle)) 0 0 / 7px 7px no-repeat,
+    linear-gradient(var(--handle), var(--handle)) var(--at) 0 / 7px 7px no-repeat,
+    linear-gradient(var(--handle), var(--handle)) 0 var(--at) / 7px 7px no-repeat,
+    linear-gradient(var(--handle), var(--handle)) var(--at) var(--at) / 7px 7px no-repeat,
+    linear-gradient(rgb(59 130 246 / var(--swarm-h)), rgb(59 130 246 / var(--swarm-h))) 0 calc(var(--at) + 10px) / 46px 14px no-repeat,
+    /* the wireframe: two text lines (they grow as they're typed) and the icon block (dragged into its corner) */
+    linear-gradient(var(--bar), var(--bar)) 17px calc(100% - 42px) / calc(62% * var(--swarm-t1)) 10px no-repeat,
+    linear-gradient(var(--bar), var(--bar)) 17px calc(100% - 22px) / calc(38% * var(--swarm-t2)) 10px no-repeat,
+    linear-gradient(var(--bar), var(--bar)) calc(17px + 48% * var(--away)) calc(17px + 40% * var(--away)) / 26px 26px no-repeat,
+    linear-gradient(rgb(59 130 246 / calc(var(--swarm-b) * var(--away))), rgb(59 130 246 / calc(var(--swarm-b) * var(--away))))
+      calc(14px + 48% * var(--away)) calc(14px + 40% * var(--away)) / 32px 32px no-repeat,
+    /* the frame being dragged out: a card-coloured rectangle with a blue edge, growing from the top-left */
+    linear-gradient(#171a20, #171a20) 0 0 / var(--at) var(--at) no-repeat,
+    linear-gradient(var(--color-accent), var(--color-accent)) 0 0 / calc(var(--at) + 1.5px) calc(var(--at) + 1.5px) no-repeat,
+    /* empty canvas around it */
+    var(--color-page);
+  opacity: calc(1 - var(--swarm-f));
+}
+[data-look="swarm"] :is(.bento > .card, .bento > * > .card)::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--swarm-x) * 100%);
+  top: calc(var(--swarm-y) * 100%);
+  z-index: 31;
+  width: 22px;
+  height: 22px;
+  margin: -3px 0 0 -3px;
+  pointer-events: none;
+  background: var(--cursor) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.5));
+  opacity: min(var(--swarm-c), calc((1 - var(--swarm-f)) * 3));
+}
+/* the order cards are built in: one after another, a little overlapped (cards past the 14th all start with the 14th) */
+[data-look="swarm"] .bento > * { --i: 14; }
+[data-look="swarm"] .bento > :nth-child(1) { --i: 0; }
+[data-look="swarm"] .bento > :nth-child(2) { --i: 1; }
+[data-look="swarm"] .bento > :nth-child(3) { --i: 2; }
+[data-look="swarm"] .bento > :nth-child(4) { --i: 3; }
+[data-look="swarm"] .bento > :nth-child(5) { --i: 4; }
+[data-look="swarm"] .bento > :nth-child(6) { --i: 5; }
+[data-look="swarm"] .bento > :nth-child(7) { --i: 6; }
+[data-look="swarm"] .bento > :nth-child(8) { --i: 7; }
+[data-look="swarm"] .bento > :nth-child(9) { --i: 8; }
+[data-look="swarm"] .bento > :nth-child(10) { --i: 9; }
+[data-look="swarm"] .bento > :nth-child(11) { --i: 10; }
+[data-look="swarm"] .bento > :nth-child(12) { --i: 11; }
+[data-look="swarm"] .bento > :nth-child(13) { --i: 12; }
+[data-look="swarm"] .bento > :nth-child(14) { --i: 13; }
+/* each card gets a teammate in its own colour */
+[data-look="swarm"] .bento > :nth-child(4n + 1) {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%23f472b6' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+[data-look="swarm"] .bento > :nth-child(4n + 2) {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%2322d3ee' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+[data-look="swarm"] .bento > :nth-child(4n + 3) {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%23a3e635' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+[data-look="swarm"] .bento > :nth-child(4n + 4) {
+  --cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M4 3l14 7-6.4 1.8L8.7 18z' fill='%23fb923c' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+@media (hover: hover) {
+  [data-look="swarm"] .bento a.card:hover {
+    --swarm-hov: 1;
+  }
+  [data-look="swarm"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+    color: var(--color-ink);
+  }
+  [data-look="swarm"] .page-socials a:not(:first-child):hover {
+    background: var(--color-fill);
+  }
+  [data-look="swarm"] .page-socials a:first-child:hover {
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes swarm-fly {
+  from { opacity: 0; translate: 60px 40px; }
+}
+@keyframes swarm-drift-a {
+  0%, 100% { translate: 0 0; }
+  50% { translate: -26px 14px; }
+}
+@keyframes swarm-drift-b {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 20px -18px; }
+}
+@keyframes swarm-select {
+  from { opacity: 0; scale: 1.15; }
+}
+@keyframes swarm-type {
+  from { clip-path: inset(-0.2em 100% -0.2em 0); }
+  to { clip-path: inset(-0.2em -0.3em -0.2em -0.1em); }
+}
+@keyframes swarm-caret-off {
+  to { opacity: 0; }
+}
+@keyframes swarm-blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+}
+/* one card's build (see "The build timelapse" above) */
+@keyframes swarm-build {
+  0% { --swarm-p: 0; --swarm-h: 0; --swarm-b: 0; --swarm-d: 0; --swarm-t1: 0; --swarm-t2: 0; --swarm-k1: 0; --swarm-k2: 0;
+       --swarm-f: 0; --swarm-o: 0; --swarm-x: 0; --swarm-y: 0; --swarm-c: 0; }
+  3% { --swarm-c: 1; --swarm-h: 1; }
+  28% { --swarm-p: 1; --swarm-h: 1; --swarm-b: 0; --swarm-x: 1; --swarm-y: 1; }            /* 1. frame dragged out */
+  33% { --swarm-h: 0; --swarm-b: 1; --swarm-d: 0; --swarm-x: 0.56; --swarm-y: 0.5; }        /* 2. picks up the icon… */
+  48% { --swarm-d: 1; --swarm-x: 0.12; --swarm-y: 0.16; --swarm-k1: 0; --swarm-k2: 0; }     /*    …and drops it in its corner */
+  51% { --swarm-k1: 0; }
+  52% { --swarm-t1: 0; --swarm-k1: 1; --swarm-x: 0.05; --swarm-y: 0.7; }                    /* 3. clicks into the first line */
+  65% { --swarm-t1: 1; --swarm-k1: 1; --swarm-k2: 0; }                                                     /*    types it */
+  66% { --swarm-k1: 0; --swarm-t2: 0; --swarm-k2: 1; }                                      /*    next line */
+  78% { --swarm-t2: 1; --swarm-k2: 1; --swarm-f: 0; --swarm-o: 0; --swarm-x: 0.08; --swarm-y: 0.75; }
+  80% { --swarm-k2: 0; --swarm-x: 0.5; --swarm-y: 0.5; }
+  90% { --swarm-f: 1; --swarm-o: 1; }                                                       /* 4. the real card, selected */
+  100% { --swarm-p: 1; --swarm-h: 0; --swarm-b: 1; --swarm-d: 1; --swarm-t1: 1; --swarm-t2: 1; --swarm-k1: 0; --swarm-k2: 0;
+         --swarm-f: 1; --swarm-o: 0; --swarm-x: 1.15; --swarm-y: -0.15; --swarm-c: 1; }     /*    deselected; the cursor leaves */
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name types itself out line by line, then a caret blinks a few times and goes; the photo's selection
+     snaps on, the cursors fly in from the side and keep drifting, each on its own path, like people working */
+  [data-look="swarm"] .page-name span {
+    animation: swarm-type 650ms steps(10, end) 150ms both;
+  }
+  [data-look="swarm"] .page-name span + span {
+    animation-delay: 800ms;
+  }
+  [data-look="swarm"] .page-name span:last-child::after {
+    content: "";
+    display: inline-block;
+    width: 0.06em;
+    height: 0.78em;
+    margin-left: 0.06em;
+    vertical-align: -0.04em;
+    background: var(--color-accent);
+    opacity: 0; /* without motion: no caret */
+    animation: swarm-blink 500ms steps(1, end) 1450ms 6 both, swarm-caret-off 1ms 4450ms forwards;
+  }
+  [data-look="swarm"] .page-avatar::before {
+    animation: swarm-select 400ms var(--ease-spring) 500ms both;
+  }
+  [data-look="swarm"] header::before {
+    animation: swarm-fly 800ms var(--ease-smooth) 300ms both, swarm-drift-a 7s ease-in-out 1.2s infinite;
+  }
+  [data-look="swarm"] header::after {
+    animation: swarm-fly 800ms var(--ease-smooth) 450ms both, swarm-drift-b 9s ease-in-out 1.3s infinite;
+  }
+  [data-look="swarm"] .page-identity::before {
+    animation: swarm-fly 800ms var(--ease-smooth) 600ms both, swarm-drift-b 8s ease-in-out 1.4s infinite;
+  }
+  [data-look="swarm"] .page-identity::after {
+    animation: swarm-fly 800ms var(--ease-smooth) 750ms both, swarm-drift-a 10s ease-in-out 1.6s infinite;
+  }
+  /* the build timelapse: each card takes 3.4s, the next one starts 0.5s later — the first screen is built in about
+     6 seconds after the header */
+  [data-look="swarm"] :is(.bento > .card, .bento > * > .card) {
+    animation: swarm-build 3400ms ease-in-out both;
+    animation-delay: calc(1200ms + var(--i) * 500ms);
+  }
+}

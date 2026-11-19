@@ -1,0 +1,234 @@
+/* ── Arc: near-black with lilac and plum. The photo is an arch set on two big shapes (a lilac quarter circle behind
+      it, a plum one below), on the right; a huge tall condensed name in capitals — first line lilac, second white —
+      runs over it from the left. The clock is a status line with a green dot, the buttons plain line icons. Cards
+      are square: dark, the first of every few lilac, and on hover a card floods lilac with dark text. ── */
+:root:has(main[data-look="arc"]),
+[data-look="arc"] {
+  --color-page: #161314;
+  --color-card: #201b1f;
+  --color-ink: #f4eff4;
+  --color-accent: #c5a6ea;
+  --look-plum: #6e2342;
+  --color-muted: rgb(244 239 244 / 0.62);
+  --color-subtle: rgb(244 239 244 / 0.5);
+  --color-fill: rgb(244 239 244 / 0.08);
+  --radius-card: 0px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+  /* the photo block's width (it is 1.25× as tall) */
+  --look-photo: min(54cqw, 400px);
+}
+
+/* header: left-aligned; the photo block hangs on the right, the name runs over its lower half */
+[data-look="arc"] header {
+  position: relative;
+  width: min(100cqw - 32px, 848px);
+  min-height: calc(var(--look-photo) * 1.25 + 72px);
+  margin-inline: auto;
+  padding: calc(var(--look-photo) * 0.5) 0 40px;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 22px;
+}
+[data-look="arc"] .page-identity {
+  position: static;
+  max-width: 100%;
+}
+/* the photo block: an arch photo on a lilac quarter circle (behind) and a plum one (below) */
+[data-look="arc"] .page-avatar {
+  position: absolute;
+  inset: 32px 0 auto auto;
+  translate: none;
+  width: var(--look-photo);
+  height: calc(var(--look-photo) * 1.25);
+  padding: 12% 6% 0 14%;
+}
+[data-look="arc"] .page-avatar::before,
+[data-look="arc"] .page-avatar::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+[data-look="arc"] .page-avatar::before {
+  top: 0;
+  left: 8%;
+  width: 72%;
+  height: 62%;
+  border-radius: 0 100% 0 0;
+  background: var(--color-accent);
+}
+[data-look="arc"] .page-avatar::after {
+  right: 0;
+  bottom: 0;
+  width: 86%;
+  height: 52%;
+  border-radius: 0 0 0 100%;
+  background: var(--look-plum);
+}
+[data-look="arc"] .page-avatar :is(button, img, span) {
+  border-radius: 999px 999px 0 0;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-look="arc"] .page-avatar img {
+  object-position: 50% 20%;
+}
+/* name: huge tall condensed capitals over the photo — first line lilac, second white */
+[data-look="arc"] .page-name {
+  position: relative;
+  z-index: 20;
+  text-align: left;
+  color: var(--color-accent);
+  font-family: var(--font-bebas), var(--font-sans);
+  font-size: min(210px, calc((100cqw - 32px) / var(--fit) * 1.42));
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+[data-look="arc"] .page-name span + span {
+  color: #ffffff;
+}
+/* the clock: a status line with a green dot */
+[data-look="arc"] .page-clock {
+  order: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: auto;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+[data-look="arc"] .page-clock::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #4ade80;
+}
+/* social buttons: plain line icons */
+[data-look="arc"] .page-socials {
+  order: 3;
+  justify-content: flex-start;
+  gap: 6px;
+}
+[data-look="arc"] .page-socials a {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-ink);
+  transition: color 200ms var(--ease-smooth), translate 250ms var(--ease-spring);
+}
+[data-look="arc"] .page-socials a:active {
+  color: var(--color-accent);
+}
+
+/* cards: square and dark; the first of every five lilac with dark text */
+[data-look="arc"] .bento > :nth-child(5n + 1) {
+  --color-card: var(--color-accent);
+  --color-ink: #161314;
+  --color-muted: rgb(22 19 20 / 0.7);
+  --color-subtle: rgb(22 19 20 / 0.6);
+  --color-fill: rgb(22 19 20 / 0.1);
+}
+[data-look="arc"] dialog {
+  --color-card: #201b1f;
+  --color-ink: #f4eff4;
+  --color-muted: rgb(244 239 244 / 0.62);
+  --color-subtle: rgb(244 239 244 / 0.5);
+  --color-fill: rgb(244 239 244 / 0.08);
+}
+[data-look="arc"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: var(--color-accent);
+}
+[data-look="arc"] .bento > :nth-child(5n + 1) :is(svg.lucide, .icon-mono) {
+  color: var(--color-ink);
+}
+[data-look="arc"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="arc"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, color, scale;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-smooth);
+}
+/* hover / press: the card floods lilac and its text turns dark (tokens on the card, so everything inside follows) */
+[data-look="arc"] .bento a.card:active {
+  scale: 0.98;
+  --color-card: var(--color-accent);
+  --color-hover: var(--color-accent);
+  --color-ink: #161314;
+  --color-muted: rgb(22 19 20 / 0.7);
+}
+@media (hover: hover) {
+  [data-look="arc"] .bento a.card:hover {
+    --color-card: var(--color-accent);
+    --color-hover: var(--color-accent);
+    --color-ink: #161314;
+    --color-muted: rgb(22 19 20 / 0.7);
+    --color-subtle: rgb(22 19 20 / 0.6);
+  }
+  [data-look="arc"] .bento a.card:hover :is(svg.lucide, .icon-mono) {
+    color: #161314;
+  }
+  [data-look="arc"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="arc"] .page-socials a:hover {
+    color: var(--color-accent);
+    translate: 0 -3px;
+  }
+}
+
+@keyframes arc-grow {
+  from { scale: 0; }
+}
+@keyframes arc-photo {
+  from { opacity: 0; transform: translateY(40px); }
+}
+@keyframes arc-line {
+  from { clip-path: inset(100% 0 0 0); transform: translateY(0.3em); }
+  to { clip-path: inset(-10% -5% -10% -5%); }
+}
+@keyframes arc-in {
+  from { opacity: 0; transform: translateY(20px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the two shapes grow out of their corners, the arch photo rises onto them, the name's lines rise out
+     of a mask one after the other, the status line and buttons follow */
+  [data-look="arc"] .page-avatar::before {
+    transform-origin: 0 100%;
+    animation: arc-grow 800ms var(--ease-smooth) both;
+  }
+  [data-look="arc"] .page-avatar::after {
+    transform-origin: 100% 0;
+    animation: arc-grow 800ms var(--ease-smooth) 120ms both;
+  }
+  [data-look="arc"] .page-avatar > * {
+    animation: arc-photo 800ms var(--ease-smooth) 250ms both;
+  }
+  [data-look="arc"] .page-name span {
+    animation: arc-line 800ms var(--ease-smooth) 450ms both;
+  }
+  [data-look="arc"] .page-name span + span {
+    animation-delay: 580ms;
+  }
+  [data-look="arc"] :is(.page-clock, .page-socials) {
+    animation: arc-in 600ms var(--ease-smooth) 800ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="arc"] :is(.bento > .card, .bento > * > .card) {
+      animation: arc-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}

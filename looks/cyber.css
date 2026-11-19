@@ -1,0 +1,181 @@
+/* ── Cyber: near-black with red neon, a wide futuristic name with the last word in red, a photo in a neon ring,
+      digital red numbers, outlined pills, dark rounded panels. ── */
+:root:has(main[data-look="cyber"]),
+[data-look="cyber"] {
+  --color-page: #0b0809;
+  --color-card: #0f0c0d;
+  --color-ink: #eef4f4;
+  --color-accent: #ff3b3b;
+  --color-muted: #9a9a9a;
+  --color-subtle: #858585;
+  --color-fill: #1a1516;
+  --color-pill: #1a1516;
+  --color-hover: #141011;
+  --color-hover-strong: #1a1516;
+  --color-popup: #120e0f;
+  --color-ring: rgb(255 255 255 / 0.1);
+  --radius-card: 26px;
+  --look-shadow: 0 0 0 1px rgb(255 255 255 / 0.12);
+  --look-icon: var(--color-accent);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+[data-look="cyber"] {
+  background:
+    radial-gradient(40% 50% at 0% 0%, rgb(255 40 40 / 0.18), transparent 70%),
+    radial-gradient(40% 50% at 100% 70%, rgb(255 40 40 / 0.16), transparent 70%),
+    radial-gradient(30% 30% at 50% 20%, rgb(60 200 210 / 0.08), transparent 70%),
+    #0b0809;
+}
+[data-look="cyber"] header {
+  padding-top: 52px;
+  gap: 28px;
+}
+[data-look="cyber"] .page-clock {
+  height: auto;
+  color: var(--color-accent);
+  font-family: var(--font-orbitron), var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 10px rgb(255 59 59 / 0.6);
+}
+/* photo: round in a red neon ring, above the name */
+[data-look="cyber"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 26px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px var(--color-accent), 0 0 34px 2px rgb(255 59 59 / 0.55), inset 0 0 24px rgb(60 200 210 / 0.35);
+}
+[data-look="cyber"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 4px #0b0809;
+}
+/* name: wide futuristic capitals; the last word in red */
+[data-look="cyber"] .page-name {
+  color: var(--color-ink);
+  font-family: var(--font-michroma), var(--font-sans);
+  /* a very wide face: ~1em a capital with its spacing, so about half the standard fit-to-screen size */
+  font-size: min(96px, calc((100cqw - 32px) / var(--fit) * 0.5));
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+[data-look="cyber"] .page-name span:last-child {
+  color: var(--color-accent);
+  text-shadow: 0 0 24px rgb(255 59 59 / 0.45);
+}
+[data-look="cyber"] .page-socials {
+  gap: 10px;
+}
+[data-look="cyber"] .page-socials a {
+  height: 44px;
+  border-radius: 999px;
+  background: #000;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+  transition: box-shadow 200ms var(--ease-smooth), background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth);
+}
+[data-look="cyber"] .page-socials a:first-child,
+[data-look="cyber"] .page-socials a:active {
+  background: #e8f6f6;
+  color: #0b0809;
+}
+/* big numbers in panels turn into red digital figures */
+[data-look="cyber"] .bento :is(.text-2xl, .text-3xl, .text-4xl, .text-5xl) {
+  color: var(--color-accent);
+  font-family: var(--font-orbitron), var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+[data-look="cyber"] .bento > :nth-child(6n + 3) {
+  --look-shadow: 0 0 0 1px rgb(255 59 59 / 0.6), inset 0 0 40px -10px rgb(255 59 59 / 0.35);
+}
+[data-look="cyber"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: var(--look-icon);
+}
+[data-look="cyber"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="cyber"] :is(.bento > .card, .bento > * > .card) {
+  background-image: linear-gradient(180deg, transparent 0 45%, rgb(255 59 59 / 0.12) 50%, transparent 55%);
+  background-size: 100% 300%;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition-property: box-shadow, background-position, scale;
+  transition-duration: 300ms, 900ms, 200ms;
+}
+[data-look="cyber"] .bento a.card:active {
+  scale: 0.97;
+  --tw-shadow: 0 0 0 1px var(--color-accent), 0 0 30px -8px var(--color-accent);
+}
+/* hover: neon edge and a red scan line sweeping down the panel */
+@media (hover: hover) {
+  [data-look="cyber"] .bento a.card:hover {
+    background-position: 0 0;
+    --tw-shadow: 0 0 0 1px var(--color-accent), 0 0 36px -8px var(--color-accent);
+  }
+  [data-look="cyber"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="cyber"] .page-socials a:hover {
+    box-shadow: inset 0 0 0 1px var(--color-accent), 0 0 18px -4px var(--color-accent);
+  }
+}
+/* glitch: slices of the line jump sideways for a moment */
+@keyframes cyber-glitch {
+  0% { opacity: 0; clip-path: inset(40% 0 40% 0); transform: translateX(-24px); }
+  20% { opacity: 1; clip-path: inset(0 0 60% 0); transform: translateX(14px); }
+  40% { clip-path: inset(50% 0 10% 0); transform: translateX(-8px); }
+  60% { clip-path: inset(20% 0 30% 0); transform: translateX(4px); }
+  80% { clip-path: inset(0); transform: translateX(-2px); }
+  100% { clip-path: inset(-10%); transform: none; }
+}
+@keyframes cyber-power {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  30% { opacity: 0.2; }
+  45% { opacity: 1; }
+  55% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+@keyframes cyber-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px #ff3b3b, 0 0 34px 2px rgb(255 59 59 / 0.55), inset 0 0 24px rgb(60 200 210 / 0.35); }
+  50% { box-shadow: 0 0 0 2px #ff3b3b, 0 0 50px 8px rgb(255 59 59 / 0.7), inset 0 0 30px rgb(60 200 210 / 0.45); }
+}
+@keyframes cyber-in {
+  0% { opacity: 0; transform: translateY(30px); }
+  60% { opacity: 1; }
+  70% { opacity: 0.4; }
+  100% { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the photo ring powers on with a flicker, the name glitches into place, the pills slide up; the ring
+     keeps pulsing */
+  [data-look="cyber"] .page-avatar {
+    animation: cyber-power 900ms steps(1) both, cyber-pulse 3s ease-in-out 1.2s infinite;
+  }
+  [data-look="cyber"] .page-name span {
+    animation: cyber-glitch 700ms steps(1) 300ms both;
+  }
+  [data-look="cyber"] .page-name span + span {
+    animation-delay: 450ms;
+  }
+  [data-look="cyber"] :is(.page-clock, .page-socials) {
+    animation: cyber-in 700ms var(--ease-smooth) 700ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="cyber"] :is(.bento > .card, .bento > * > .card) {
+      animation: cyber-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+  }
+}

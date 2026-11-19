@@ -1,0 +1,558 @@
+@import "tailwindcss";
+@import "../looks/all.css"; /* page looks — looks/README.md */
+
+/* Design tokens — change these to re-theme the whole site. */
+@theme {
+  --color-page: #f8f8f8;
+  --color-card: #ffffff;
+  --color-ink: #141414; /* primary text */
+  --color-muted: #737373; /* secondary text, icons */
+  --color-subtle: #8c8c8c; /* tertiary text, header icons */
+  --color-fill: #f2f2f2; /* inputs, popup row hover */
+  --color-pill: #f2f2f2; /* header social buttons */
+  --color-hover: #f2f2f2; /* card background on hover */
+  --color-hover-strong: #e8e8e8; /* email card + header buttons on hover */
+  --color-popup: #f2f2f2; /* popup frame around the list */
+  --color-ring: rgb(11 11 11 / 0.08); /* 1px card outline */
+  --color-accent: #1d9bf0;
+  --color-brand: #ff5b2e; /* logo dot (public/brand/index.html) — same in light and dark */
+  --color-brand-deep: #d63f12; /* buttons with white text (4.6:1); one orange thing per screen */
+  --color-glow: #3b6cff; /* home hero: the cool corner glow (.hero-glow) — same in light and dark */
+  --color-whatsapp: #25d366; /* WhatsApp's own green: WhatsApp card + item button (same in light and dark) */
+  --color-device: #0d0d0f; /* home hero phone mockup: frame + dynamic island (hardware — same in light and dark) */
+  --color-device-edge: #3a3a3f; /* the phone's metal edge + side buttons */
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 24px;
+  --shadow-card: 0 0 0 1px var(--color-ring), 0 1px 2px 0 rgb(0 0 0 / 0.1);
+
+  --animate-wave: wave 0.9s ease-in-out infinite alternate;
+  --animate-record: spin 27s linear infinite; /* ~13°/s, as measured */
+  --animate-fade-up: fade-up 400ms var(--ease-spring);
+  --animate-confetti: confetti 2.4s ease-in infinite;
+  --animate-sheet-up: sheet-up 320ms var(--ease-smooth);
+  --animate-fade-in: fade-in 200ms var(--ease-smooth);
+  --animate-step-in: step-in 320ms var(--ease-smooth); /* set --from: 24px (next) or -24px (back) */
+  --animate-rise: rise 800ms var(--ease-smooth) both; /* home hero: a line rises in, out of a soft blur (see .stagger) */
+
+  /* Hover motion */
+  --ease-smooth: cubic-bezier(0.44, 0, 0.56, 1);
+  --ease-spring: cubic-bezier(0.3, 1.4, 0.6, 1);
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes sheet-up {
+    from { transform: translateY(100%); }
+    to { transform: none; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes step-in {
+    from { opacity: 0; transform: translateX(var(--from, 24px)); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes confetti {
+    0% { transform: translateY(-20px) rotate(0); opacity: 1; }
+    100% { transform: translateY(220px) rotate(540deg); opacity: 0; }
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  }
+
+  @keyframes wave {
+    0% { transform: scaleY(1); }
+    50% { transform: scaleY(0.25); }
+    100% { transform: scaleY(0.7); }
+  }
+}
+
+/* Dark theme (values from the original template). Follows the OS setting,
+   or is forced with site.colorScheme in content/site.ts. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-page: #0c0c0c;
+    --color-card: #171717;
+    --color-ink: #ffffff;
+    --color-muted: #8c8c8c;
+    --color-subtle: #737373;
+    --color-fill: #1f1f1f;
+    --color-pill: #171717;
+    --color-hover: #1f1f1f;
+    --color-hover-strong: #1f1f1f;
+    --color-popup: #0f0f0f;
+    --color-ring: rgb(255 255 255 / 0.08);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --color-page: #0c0c0c;
+  --color-card: #171717;
+  --color-ink: #ffffff;
+  --color-muted: #8c8c8c;
+  --color-subtle: #737373;
+  --color-fill: #1f1f1f;
+  --color-pill: #171717;
+  --color-hover: #1f1f1f;
+  --color-hover-strong: #1f1f1f;
+  --color-popup: #0f0f0f;
+  --color-ring: rgb(255 255 255 / 0.08);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+}
+
+/* Feel like an app on touch screens: no grey tap flash, no double-tap zoom delay,
+   page doesn't scroll behind an open popup. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+a,
+button,
+label,
+summary {
+  touch-action: manipulation;
+}
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+/* Scrolls like a phone list: no visible scrollbar (still scrolls by touch, wheel and keyboard). */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Bento grid: square cells that fill the width on mobile and lock to 200px on desktop. */
+.bento {
+  --gap: 16px; /* space between cards */
+  --cols: 2; /* columns on mobile (desktop value is below) */
+  --max: 848px; /* grid width on desktop: 4 × 200px cells + 3 gaps */
+  --cell: calc((min(100vw - 32px, var(--max)) - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  grid-auto-rows: var(--cell);
+  grid-auto-flow: row; /* not dense: cards keep the owner's order; a wide card that doesn't fit leaves a gap */
+  justify-content: center;
+}
+@media (min-width: 768px) {
+  .bento {
+    --cols: 4;
+  }
+}
+
+/* Blog post body (rendered from Markdown) */
+.prose-post {
+  color: var(--color-muted);
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+}
+.prose-post > * + * {
+  margin-top: 20px;
+}
+.prose-post h2,
+.prose-post h3 {
+  color: var(--color-ink);
+  font-size: 20px;
+  line-height: 28px;
+  margin-top: 32px;
+}
+.prose-post strong {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+.prose-post a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-post ul,
+.prose-post ol {
+  padding-left: 1.25em;
+}
+.prose-post ul {
+  list-style: disc;
+}
+.prose-post ol {
+  list-style: decimal;
+}
+.prose-post li + li,
+.prose-post li > ul {
+  margin-top: 8px;
+}
+
+/* Help articles (/help): same as posts, plus tables and inline code */
+.prose-help table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 20px;
+}
+.prose-help th,
+.prose-help td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid var(--color-ring);
+  text-align: left;
+  vertical-align: top;
+}
+.prose-help th {
+  color: var(--color-ink);
+  font-weight: 500;
+}
+.prose-help thead th:empty {
+  padding: 0;
+}
+.prose-help code {
+  border-radius: 6px;
+  background: var(--color-fill);
+  padding: 1px 6px;
+  color: var(--color-ink);
+  font-size: 0.9em;
+}
+
+/* Website card: the tall screenshot plays like a screen recording — scroll, pause to "read", scroll… then back to
+   the top, on a loop (cq units = the frame's size; --end = how far the shot can scroll). Hover pauses it (mouse). */
+.site-frame {
+  container-type: size;
+}
+.site-shot {
+  --end: min(0px, calc(-100% + 100cqh));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .site-shot {
+    animation: site-play 18s var(--ease-smooth) infinite;
+  }
+  @media (hover: hover) {
+    .group:hover .site-shot {
+      animation-play-state: paused;
+    }
+  }
+}
+@keyframes site-play {
+  0%,
+  10% {
+    translate: 0 0;
+  }
+  22%,
+  32% {
+    translate: 0 calc(var(--end) * 0.3);
+  }
+  44%,
+  54% {
+    translate: 0 calc(var(--end) * 0.62);
+  }
+  66%,
+  80% {
+    translate: 0 var(--end);
+  }
+  92%,
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* Logo motion (public/brand/index.html → Motion). Used through <TileMark motion="…">.
+   build = once on load · hello = hop on hover (of the mark or its parent link) · loading = instead of a spinner ·
+   live = page is live · loop = build over and over. Off for "reduce motion". */
+.tv-dot,
+.tv-tile,
+.tv-wide {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tv-build .tv-dot { animation: tv-pop 520ms var(--ease-spring) both; }
+  .tv-build .tv-tile { animation: tv-pop 520ms var(--ease-spring) 90ms both; }
+  .tv-build .tv-wide { animation: tv-pop 520ms var(--ease-spring) 180ms both; transform-origin: left center; }
+
+  .tv-hello .tv-dot { transform-origin: center bottom; }
+  .tv-hello:hover .tv-dot,
+  :hover > .tv-hello .tv-dot { animation: tv-hop 640ms var(--ease-smooth); }
+
+  .tv-loading :is(.tv-dot, .tv-tile, .tv-wide) { animation: tv-breathe 1200ms var(--ease-smooth) infinite; }
+  .tv-loading .tv-tile { animation-delay: 150ms; }
+  .tv-loading .tv-wide { animation-delay: 300ms; }
+
+  .tv-live .tv-dot { animation: tv-live 2400ms var(--ease-smooth) infinite; }
+
+  /* loop = build, hold, fade, again (404) */
+  .tv-loop :is(.tv-dot, .tv-tile, .tv-wide) { animation: tv-rebuild 3600ms var(--ease-spring) infinite both; }
+  .tv-loop .tv-tile { animation-delay: 90ms; }
+  .tv-loop .tv-wide { animation-delay: 180ms; transform-origin: left center; }
+}
+@keyframes tv-rebuild {
+  0% { transform: scale(0); opacity: 0; }
+  15%, 80% { transform: scale(1); opacity: 1; }
+  92%, 100% { transform: scale(0.6); opacity: 0; }
+}
+@keyframes tv-pop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes tv-hop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  20% { transform: translateY(0) scale(1.08, 0.9); }
+  45% { transform: translateY(-22%) scale(0.95, 1.05); }
+  70% { transform: translateY(0) scale(1.05, 0.95); }
+  85% { transform: translateY(-5%); }
+}
+@keyframes tv-breathe {
+  0%, 60%, 100% { transform: scale(1); opacity: 1; }
+  30% { transform: scale(0.82); opacity: 0.45; }
+}
+@keyframes tv-live {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.86); }
+}
+
+dialog::backdrop {
+  background: rgb(128 128 128 / 0.2);
+  background: color-mix(in srgb, var(--color-page) 60%, transparent);
+  backdrop-filter: blur(12px);
+}
+dialog[open]::backdrop {
+  animation: var(--animate-fade-in);
+}
+
+/* Home page motion. All of it is off with reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  /* .stagger: its children rise in one after another on load (up to 6; more share the last delay). */
+  .stagger > * { animation: var(--animate-rise); animation-delay: 450ms; }
+  .stagger > :nth-child(1) { animation-delay: 0ms; }
+  .stagger > :nth-child(2) { animation-delay: 90ms; }
+  .stagger > :nth-child(3) { animation-delay: 180ms; }
+  .stagger > :nth-child(4) { animation-delay: 270ms; }
+  .stagger > :nth-child(5) { animation-delay: 360ms; }
+
+  /* .reveal: a section rises into view as it is scrolled to. Native scroll-driven animation —
+     browsers without it skip this block and simply show the section. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(40px); }
+}
+
+/* Off-screen sections aren't rendered and their animation loops pause (the size is a guess until first drawn). */
+.reveal {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
+/* Home "Looks" (components/LooksStage.tsx). The new look spreads over the old one as a circle from the top of the
+   screen; the phone springs a little (two names, so every change restarts it); the active preview's bar fills, and
+   when it's full the next look plays — hovering the phone (only the phone) pauses the bar and with it the show.
+   Reduced motion: no bar (so no automatic changes), no repaint, no spring — a tap switches instantly. */
+@media (prefers-reduced-motion: no-preference) {
+  .look-repaint { animation: look-repaint 1000ms var(--ease-smooth) both; }
+  .look-spring-a { animation: look-spring-a 700ms var(--ease-spring); }
+  .look-spring-b { animation: look-spring-b 700ms var(--ease-spring); }
+  .look-progress { animation: look-progress 3200ms linear both; transform-origin: left; }
+  .looks-stage:has(.looks-phone:hover) .look-progress { animation-play-state: paused; }
+}
+@keyframes look-repaint {
+  from { clip-path: circle(0% at 50% 12%); }
+  to { clip-path: circle(140% at 50% 12%); }
+}
+@keyframes look-spring-a {
+  40% { scale: 0.975; rotate: -0.6deg; }
+}
+@keyframes look-spring-b {
+  40% { scale: 0.975; rotate: 0.6deg; }
+}
+@keyframes look-progress {
+  from { transform: scaleX(0); }
+}
+
+/* Home "Cards" (components/CardsToggle.tsx): buttons ↔ cards via View Transitions. Each item's box glides from the
+   pill to the card (or back); the pictures inside aren't stretched — the new one is uncovered from its centre as the
+   box grows (object-fit: none + clip). The per-item stagger is set inline by the component. */
+::view-transition-group(*.tv-card) {
+  animation-duration: 650ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: clip;
+  border-radius: 24px;
+}
+::view-transition-old(*.tv-card),
+::view-transition-new(*.tv-card) {
+  height: 100%;
+  object-fit: none;
+  object-position: center;
+}
+::view-transition-old(*.tv-card) { animation: 250ms ease-out both fade-out-vt; }
+::view-transition-new(*.tv-card) { animation: 450ms ease-out 120ms both fade-in-vt; }
+@keyframes fade-out-vt { to { opacity: 0; } }
+
+/* Home "Cards that keep up" (app/page.tsx). .count: a number written by CSS (counter) that counts from --from up
+   to --to while the tile scrolls in; without scroll-driven animation or with reduced motion it just shows --to.
+   .live-dot: the countdown tile's "live" dot breathes. */
+@property --count {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+.count {
+  --count: var(--to);
+  counter-reset: n var(--count);
+}
+.count::after { content: counter(n); }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .count {
+      animation: count-up linear both;
+      animation-timeline: view();
+      animation-range: entry 30% cover 45%;
+    }
+  }
+  .live-dot { animation: live-dot 2s var(--ease-smooth) infinite; }
+}
+@keyframes count-up {
+  from { --count: var(--from); }
+  to { --count: var(--to); }
+}
+/* Home "Insights" (app/page.tsx): the example Insights board — its bars grow in as the card scrolls in: the 30 day
+   bars up from the bottom, the list bars out from the left. Selectors follow InsightsView's markup (the chart is
+   `[role=img]`, each list bar is `li > div + div > div`). No scroll-driven animation / reduced motion: just there. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .insights-board [role="img"] > div > div,
+    .insights-board li > div:last-child > div {
+      animation: linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+    .insights-board [role="img"] > div > div { animation-name: bar-up; transform-origin: bottom; }
+    .insights-board li > div:last-child > div { animation-name: bar-out; transform-origin: left; }
+  }
+}
+@keyframes bar-up { from { transform: scaleY(0); } }
+@keyframes bar-out { from { transform: scaleX(0); } }
+
+/* Home "How it works" (app/page.tsx): a small loop on each step card. The plain styles are the finished picture
+   (what reduced motion shows); the loops run only with motion allowed.
+   pick: the selection walks down three roles (negative delays put each one at its turn from the first frame).
+   type: three links take turns in the field (3s each, 9s loop), typed a character at a time, the right border
+   blinking as the caret. pop-0/1/2: each link's card pops into the row once typed and stays until the loop ends.
+   copy: "Copy" flips to "Copied". */
+.hiw-pick:nth-child(2) { background: var(--color-card); box-shadow: var(--shadow-card); }
+.hiw-copy-b { opacity: 0; }
+.hiw-type { border-color: transparent; }
+.hiw-type:not(:last-child) { visibility: hidden; } /* still picture: the last link, all three cards */
+@media (prefers-reduced-motion: no-preference) {
+  .hiw-pick { animation: hiw-pick 6s var(--ease-smooth) calc(var(--k) * 2s - 6s) infinite; }
+  .hiw-type {
+    visibility: visible !important;
+    animation: hiw-type 9s steps(var(--n), end) calc(var(--k) * 3s - 9s) infinite, hiw-caret 0.8s step-end infinite;
+  }
+  .hiw-pop-0 { animation: hiw-pop-0 9s var(--ease-spring) infinite; }
+  .hiw-pop-1 { animation: hiw-pop-1 9s var(--ease-spring) infinite; }
+  .hiw-pop-2 { animation: hiw-pop-2 9s var(--ease-spring) infinite; }
+  .hiw-copy-a { animation: hiw-copy-a 4s var(--ease-smooth) infinite; }
+  .hiw-copy-b { animation: hiw-copy-b 4s var(--ease-smooth) infinite; }
+}
+@keyframes hiw-pick {
+  0%, 28% { background: var(--color-card); box-shadow: var(--shadow-card); }
+  34%, 100% { background: transparent; box-shadow: none; }
+}
+/* a 3s turn = the first third of the 9s loop: type (2%→18%), hold, gone before the next link starts */
+@keyframes hiw-type {
+  0%, 2% { max-width: 0; opacity: 1; }
+  18%, 31% { max-width: calc(var(--n) * 1ch + 1px); opacity: 1; }
+  33%, 100% { max-width: calc(var(--n) * 1ch + 1px); opacity: 0; }
+}
+@keyframes hiw-caret { 0% { border-color: var(--color-ink); } 50% { border-color: transparent; } }
+/* card k appears once its link is typed (k × 3s + ~1.7s), all three leave together at the end of the loop */
+@keyframes hiw-pop-0 { 0%, 19% { opacity: 0; scale: 0.6; } 25%, 93% { opacity: 1; scale: 1; } 99%, 100% { opacity: 0; scale: 0.96; } }
+@keyframes hiw-pop-1 { 0%, 52% { opacity: 0; scale: 0.6; } 58%, 93% { opacity: 1; scale: 1; } 99%, 100% { opacity: 0; scale: 0.96; } }
+@keyframes hiw-pop-2 { 0%, 85% { opacity: 0; scale: 0.6; } 90%, 93% { opacity: 1; scale: 1; } 99%, 100% { opacity: 0; scale: 0.96; } }
+@keyframes hiw-copy-a {
+  0%, 40% { opacity: 1; }
+  48%, 88% { opacity: 0; }
+  96%, 100% { opacity: 1; }
+}
+@keyframes hiw-copy-b {
+  0%, 40% { opacity: 0; }
+  48%, 88% { opacity: 1; }
+  96%, 100% { opacity: 0; }
+}
+
+/* Home "Templates" (components/TemplatesStage.tsx): the picked page slides up over the old one, which sinks back. */
+@media (prefers-reduced-motion: no-preference) {
+  .tpl-in { animation: tpl-in 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .tpl-out { animation: tpl-out 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+}
+@keyframes tpl-in {
+  from { transform: translateY(100%); border-radius: 44px; }
+}
+@keyframes tpl-out {
+  to { transform: scale(0.92); opacity: 0.3; border-radius: 44px; }
+}
+@keyframes live-dot {
+  50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-glow) 0%, transparent); opacity: 0.45; }
+}
+@keyframes fade-in-vt { from { opacity: 0; } }
+
+/* Home hero ring (components/HeroPages.tsx): pages stand in a circle of radius --r, facing its centre; we look
+   from just behind the centre, so the row bends towards us at both screen edges. --n and --i come from the component.
+   --w = width of one mini page (keep in step with its zoom there). */
+.hero-ring {
+  --w: 200px;
+  --gap: 16px;
+  --r: calc((var(--w) + var(--gap)) * var(--n) / 6.2832); /* circumference = n pages */
+  --pull: calc(var(--r) * 0.72); /* how far the ring comes towards us: nearer 1 = stronger bend */
+  height: 420px;
+  perspective: var(--r);
+}
+@media (min-width: 768px) {
+  .hero-ring {
+    --w: 240px;
+    --gap: 24px;
+    height: 500px;
+  }
+}
+.hero-ring-spin {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--pull));
+}
+.hero-ring-item {
+  position: absolute;
+  top: 0;
+  left: calc(50% - var(--w) / 2);
+  width: var(--w);
+  backface-visibility: hidden;
+  transform: rotateY(calc(var(--i) * 360deg / var(--n))) translateZ(calc(var(--r) * -1));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-ring-spin { animation: ring-spin 120s linear infinite; }
+}
+@keyframes ring-spin {
+  from { transform: translateZ(var(--pull)) rotateY(0deg); }
+  to { transform: translateZ(var(--pull)) rotateY(-360deg); }
+}
+
+/* Home hero light: a warm glow from the bottom-left corner, a cool one from the top-right. */
+.hero-glow {
+  background:
+    radial-gradient(55% 55% at 0% 100%, color-mix(in srgb, var(--color-brand) 16%, transparent), transparent),
+    radial-gradient(55% 55% at 100% 0%, color-mix(in srgb, var(--color-glow) 14%, transparent), transparent);
+}

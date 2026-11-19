@@ -1,0 +1,223 @@
+/* ── Bubble: black, a fat bubbly name with coloured app-icon shapes floating round it (a yellow enter key, a blue
+      folder, a sticky note) and a blue cursor tag; dark rounded rows. ── */
+:root:has(main[data-look="bubble"]),
+[data-look="bubble"] {
+  --color-page: #000000;
+  --color-card: #1c1c1c;
+  --color-ink: #ffffff;
+  --color-accent: #1d8cf8;
+  --color-muted: #a3a3a3;
+  --color-subtle: #8e8e8e;
+  --color-fill: #262626;
+  --color-pill: #262626;
+  --color-hover: #232323;
+  --color-hover-strong: #2a2a2a;
+  --color-popup: #1a1a1a;
+  --color-ring: rgb(255 255 255 / 0.06);
+  --radius-card: 30px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+}
+[data-look="bubble"] header {
+  position: relative;
+  padding-top: 70px;
+  padding-bottom: 20px;
+  gap: 22px;
+}
+[data-look="bubble"] .page-identity { order: 1; }
+[data-look="bubble"] .page-clock { order: 2; }
+[data-look="bubble"] .page-socials { order: 3; }
+/* floating shapes: a yellow enter key (top right) and a blue folder (top left) */
+[data-look="bubble"] header::before,
+[data-look="bubble"] header::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+[data-look="bubble"] header::before {
+  top: 30px;
+  right: max(8px, calc(50% - 300px));
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: #ffd000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6v6a2 2 0 0 1-2 2H6'/%3E%3Cpath d='m9 11-3 3 3 3'/%3E%3C/svg%3E") 50% 40% / 26px no-repeat;
+  box-shadow: inset 0 -6px 0 #e0a800, 0 0 0 2px #111;
+  rotate: 8deg;
+}
+[data-look="bubble"] header::after {
+  top: 64px;
+  left: max(8px, calc(50% - 290px));
+  width: 58px;
+  height: 44px;
+  border-radius: 6px 10px 10px 10px;
+  background:
+    linear-gradient(#5ec8ff, #5ec8ff) 8px 9px / 30px 3px no-repeat,
+    linear-gradient(160deg, #42b4ff, #1786e8);
+  box-shadow: inset 0 6px 0 rgb(255 255 255 / 0.25);
+  rotate: -14deg;
+}
+/* the sticky note, beside the name */
+[data-look="bubble"] .page-name::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  bottom: -18px;
+  width: 48px;
+  height: 52px;
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(transparent 0 9px, #d9d9d9 9px 10px) 0 16px / 100% calc(100% - 16px) no-repeat,
+    linear-gradient(#ffd34d 0 14px, #ffffff 14px);
+  rotate: 12deg;
+  pointer-events: none;
+}
+/* the clock: a blue cursor tag */
+[data-look="bubble"] .page-clock {
+  position: relative;
+  height: auto;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  rotate: -4deg;
+}
+[data-look="bubble"] .page-clock::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: -18px;
+  width: 22px;
+  height: 22px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 3l15 7-6.5 1.8L10 18z' fill='%23111' stroke='%23fff' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* photo: a rounded squircle, floating, above the name */
+[data-look="bubble"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 22px;
+  rotate: -6deg;
+}
+[data-look="bubble"] .page-avatar :is(button, img, span) {
+  border-radius: 24px;
+  --tw-shadow: 0 16px 30px -10px rgb(0 0 0 / 0.8);
+  --tw-ring-shadow: 0 0 0 3px #fff;
+}
+/* name: fat and bubbly, white */
+[data-look="bubble"] .page-name {
+  position: relative;
+  color: #fff;
+  font-family: var(--font-modak), var(--font-sans);
+  font-size: min(150px, calc((100cqw - 32px) / var(--fit) * 0.95));
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.82;
+}
+[data-look="bubble"] .page-socials {
+  gap: 8px;
+}
+[data-look="bubble"] .page-socials a {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 14px;
+  background: #1c1c1c;
+  color: #fff;
+  transition: scale 250ms var(--ease-spring), background-color 200ms var(--ease-smooth);
+}
+[data-look="bubble"] .page-socials a:first-child,
+[data-look="bubble"] .page-socials a:active {
+  background: #fff;
+  color: #000;
+}
+[data-look="bubble"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: #fff;
+}
+[data-look="bubble"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="bubble"] .bento .card-top > .card-icon {
+  transition: scale 300ms var(--ease-spring);
+}
+[data-look="bubble"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, translate, scale;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-spring);
+}
+[data-look="bubble"] .bento a.card:active {
+  scale: 0.96;
+}
+@media (hover: hover) {
+  [data-look="bubble"] .bento a.card:hover:not(:active) {
+    translate: 0 -4px;
+  }
+  [data-look="bubble"] :is(.bento > .card, .bento > * > .card):hover .card-top > .card-icon {
+    scale: 1.2;
+  }
+  [data-look="bubble"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="bubble"] .page-socials a:hover {
+    scale: 1.1;
+  }
+}
+@keyframes bubble-pop {
+  from { opacity: 0; transform: scale(0.4); }
+  65% { opacity: 1; transform: scale(1.08); }
+}
+@keyframes bubble-float-a {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes bubble-float-b {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(6px, 8px); }
+}
+@keyframes bubble-fly {
+  from { opacity: 0; transform: translateY(40px) scale(0.6); }
+}
+@keyframes bubble-in {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name pops, the shapes fly in, the cursor tag lands; then everything floats at its own pace */
+  [data-look="bubble"] .page-name span {
+    animation: bubble-pop 700ms var(--ease-spring) 150ms both;
+  }
+  [data-look="bubble"] .page-name span + span {
+    animation-delay: 280ms;
+  }
+  [data-look="bubble"] .page-avatar > button {
+    animation: bubble-pop 600ms var(--ease-spring) both, bubble-float-a 5s ease-in-out 1s infinite;
+  }
+  [data-look="bubble"] header::before {
+    animation: bubble-fly 700ms var(--ease-spring) 400ms both, bubble-float-a 4.5s ease-in-out 1.2s infinite;
+  }
+  [data-look="bubble"] header::after {
+    animation: bubble-fly 700ms var(--ease-spring) 500ms both, bubble-float-b 6s ease-in-out 1.3s infinite;
+  }
+  [data-look="bubble"] .page-name::after {
+    animation: bubble-fly 700ms var(--ease-spring) 600ms both, bubble-float-a 5.5s ease-in-out 1.4s infinite;
+  }
+  [data-look="bubble"] .page-clock {
+    animation: bubble-fly 600ms var(--ease-spring) 750ms both;
+  }
+  [data-look="bubble"] .page-socials a {
+    animation: bubble-pop 500ms var(--ease-spring) 900ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="bubble"] :is(.bento > .card, .bento > * > .card) {
+      animation: bubble-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

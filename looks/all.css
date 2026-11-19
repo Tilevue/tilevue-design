@@ -1,0 +1,41 @@
+/*
+ * Every look, in picker order. A new look = one file here + one entry in looks/registry.ts (see looks/README.md).
+ * Imported once, from app/globals.css. Each file only applies inside [data-look="<id>"], so a look the page
+ * isn't using costs nothing but bytes in the stylesheet.
+ * (This list is all.css rather than index.css because "index" is itself a look id → looks/index.css.)
+ */
+@import "./base.css";
+@import "./sticker.css";
+@import "./editorial.css";
+@import "./canvas.css";
+@import "./mat.css";
+@import "./glass.css";
+@import "./poster.css";
+@import "./resume.css";
+@import "./blueprint.css";
+@import "./crimson.css";
+@import "./noir.css";
+@import "./departures.css";
+@import "./vertical.css";
+@import "./spotlight.css";
+@import "./forest.css";
+@import "./daybreak.css";
+@import "./pop.css";
+@import "./reel.css";
+@import "./bubble.css";
+@import "./cyber.css";
+@import "./lumiere.css";
+@import "./index.css";
+@import "./notebook.css";
+@import "./dusk.css";
+@import "./swatch.css";
+@import "./riso.css";
+@import "./drafting.css";
+@import "./brief.css";
+@import "./scrapbook.css";
+@import "./tiles.css";
+@import "./split.css";
+@import "./arc.css";
+@import "./cobalt.css";
+@import "./swarm.css";
+@import "./christmas.css";

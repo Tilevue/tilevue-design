@@ -1,0 +1,222 @@
+/* ── Vertical: near-black with acid green. A huge green name in tight capitals over a big photo set at the right;
+      mono labels, square buttons, hairline panels. Photo, name and cards load in pixelated — big blocks, then
+      finer, then sharp. ── */
+:root:has(main[data-look="vertical"]),
+[data-look="vertical"] {
+  --color-page: #050609;
+  --color-card: #0b0c10;
+  --color-ink: #f2f2f2;
+  --color-accent: #84ff2a;
+  --color-muted: #8b8f98;
+  --color-subtle: #7b7f88;
+  --color-fill: #15171c;
+  --color-pill: #15171c;
+  --color-hover: var(--color-card);
+  --color-hover-strong: #15171c;
+  --color-popup: #0f1014;
+  --color-ring: #1d1f25;
+  --radius-card: 0px;
+  --look-shadow: 0 0 0 1px #1d1f25;
+  --look-icon: var(--color-accent);
+  --look-photo: clamp(150px, 44cqw, 380px);
+  /* a checkerboard: the pixel-loading mask (see vertical-pixels) */
+  --look-px: conic-gradient(#000 25%, transparent 0 50%, #000 0 75%, transparent 0);
+  --font-sans: var(--font-figtree), system-ui, sans-serif;
+}
+/* hero: left aligned; the photo stands at the top right, the name runs over it */
+[data-look="vertical"] header {
+  position: relative;
+  align-items: flex-start;
+  width: min(100cqw - 32px, 848px);
+  min-height: calc(var(--look-photo) * 4 / 3 + 70px);
+  margin-inline: auto;
+  padding-top: 48px;
+  gap: 22px;
+}
+/* the wrapper steps out of the way so the photo is placed against the whole hero */
+[data-look="vertical"] .page-identity {
+  position: static;
+}
+[data-look="vertical"] .page-avatar {
+  position: absolute;
+  inset: auto;
+  top: 48px;
+  right: 0;
+  z-index: 0;
+  translate: none;
+  width: var(--look-photo);
+  height: calc(var(--look-photo) * 4 / 3);
+  margin: 0;
+  overflow: hidden;
+}
+[data-look="vertical"] .page-avatar :is(button, img, span) {
+  border-radius: 0;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-look="vertical"] .page-avatar img {
+  filter: contrast(1.12) saturate(0.85);
+}
+/* a green scanline drifts down the photo */
+[data-look="vertical"] .page-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(transparent 0 46%, rgb(132 255 42 / 0.22) 50%, transparent 54%) 0 0 / 100% 300%;
+  mix-blend-mode: screen;
+}
+/* the clock: a mono label with a little pixel meter */
+[data-look="vertical"] .page-clock {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: auto;
+  color: var(--color-accent);
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+[data-look="vertical"] .page-clock::before {
+  content: "IDX /";
+  color: #f2f2f2;
+}
+[data-look="vertical"] .page-clock::after {
+  content: "";
+  width: 18px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-accent) 0 4px, transparent 4px 7px, var(--color-accent) 7px 11px, transparent 11px 14px, #2c3a22 14px 18px);
+}
+/* name: huge acid-green capitals, left aligned, over the photo */
+[data-look="vertical"] .page-name {
+  position: relative;
+  z-index: 2;
+  color: var(--color-accent);
+  font-family: var(--font-inter-tight), var(--font-sans);
+  font-size: min(170px, calc((100cqw - 32px) / var(--fit) * 0.82)); /* 0.9 ran edge to edge with "MAYA" (wide M, A at 800) */
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.84;
+  text-align: left;
+  text-transform: uppercase;
+}
+/* social buttons: square; the first is solid green */
+[data-look="vertical"] .page-socials {
+  position: relative;
+  z-index: 2;
+  justify-content: flex-start;
+  gap: 6px;
+}
+[data-look="vertical"] .page-socials a {
+  height: 40px;
+  border-radius: 0;
+  background: rgb(5 6 9 / 0.6);
+  color: #f2f2f2;
+  box-shadow: inset 0 0 0 1px #2a2d34;
+  transition: background-color 150ms steps(2), color 150ms steps(2);
+}
+[data-look="vertical"] .page-socials a:first-child,
+[data-look="vertical"] .page-socials a:active {
+  background: var(--color-accent);
+  color: #050609;
+}
+/* panels: hairline boxes, square; small grey text is a mono label; every few panels, solid green with black text */
+[data-look="vertical"] .bento {
+  --gap: 10px;
+}
+[data-look="vertical"] .bento :is(.text-muted, .text-subtle):not(svg) {
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+[data-look="vertical"] .bento > :nth-child(6n + 4) {
+  --color-card: var(--color-accent);
+  --color-ink: #050609;
+  --color-muted: rgb(5 6 9 / 0.68);
+  --color-subtle: rgb(5 6 9 / 0.68);
+  --color-fill: rgb(5 6 9 / 0.08);
+  --color-hover: var(--color-card);
+  --color-ring: rgb(5 6 9 / 0.2);
+  --look-icon: #050609;
+}
+[data-look="vertical"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--look-icon);
+}
+[data-look="vertical"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 200ms steps(3);
+}
+[data-look="vertical"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: box-shadow, scale;
+  transition-duration: 150ms;
+}
+/* tap / hover: the edge turns green and fine scanlines run across the panel */
+[data-look="vertical"] .bento a.card:active {
+  scale: 0.98;
+  --tw-shadow: 0 0 0 1px var(--color-accent);
+}
+@media (hover: hover) {
+  [data-look="vertical"] .bento a.card:hover {
+    --tw-shadow: 0 0 0 1px var(--color-accent);
+    background-image: repeating-linear-gradient(rgb(132 255 42 / 0.07) 0 1px, transparent 1px 4px);
+  }
+  [data-look="vertical"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="vertical"] .page-socials a:hover {
+    background: var(--color-accent);
+    color: #050609;
+  }
+}
+/* pixel loading: a checkerboard mask whose squares halve each step while a blur clears, then the mask is dropped.
+   steps(1) on every keyframe makes each stage a hard jump, like a low-res image resolving. */
+@keyframes vertical-pixels {
+  0% { opacity: 0; -webkit-mask-image: var(--look-px); mask-image: var(--look-px); -webkit-mask-size: 64px 64px; mask-size: 64px 64px; filter: blur(10px); animation-timing-function: steps(1, end); }
+  12% { opacity: 1; -webkit-mask-image: var(--look-px); mask-image: var(--look-px); -webkit-mask-size: 64px 64px; mask-size: 64px 64px; filter: blur(10px); animation-timing-function: steps(1, end); }
+  30% { -webkit-mask-size: 32px 32px; mask-size: 32px 32px; filter: blur(6px); animation-timing-function: steps(1, end); }
+  48% { -webkit-mask-size: 16px 16px; mask-size: 16px 16px; filter: blur(3px); animation-timing-function: steps(1, end); }
+  66% { -webkit-mask-size: 8px 8px; mask-size: 8px 8px; filter: blur(1.5px); animation-timing-function: steps(1, end); }
+  84% { -webkit-mask-size: 4px 4px; mask-size: 4px 4px; filter: blur(0.5px); animation-timing-function: steps(1, end); }
+  100% { opacity: 1; -webkit-mask-image: none; mask-image: none; filter: none; }
+}
+@keyframes vertical-scan {
+  from { background-position: 0 100%; }
+  to { background-position: 0 0; }
+}
+@keyframes vertical-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.25; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the photo resolves from big pixels to sharp, then the name, then the buttons pop in */
+  [data-look="vertical"] .page-avatar {
+    animation: vertical-pixels 1100ms linear both;
+  }
+  [data-look="vertical"] .page-avatar::after {
+    animation: vertical-scan 5s linear 1.2s infinite;
+  }
+  [data-look="vertical"] .page-name {
+    animation: vertical-pixels 900ms linear 300ms both;
+  }
+  [data-look="vertical"] .page-clock::after {
+    animation: vertical-blink 1.2s steps(1) infinite;
+  }
+  [data-look="vertical"] .page-socials a {
+    animation: vertical-pixels 500ms linear 900ms both;
+  }
+  [data-look="vertical"] .page-socials a:nth-child(2) { animation-delay: 980ms; }
+  [data-look="vertical"] .page-socials a:nth-child(3) { animation-delay: 1060ms; }
+  [data-look="vertical"] .page-socials a:nth-child(n + 4) { animation-delay: 1140ms; }
+  /* on scroll: each panel resolves from pixels as it enters the screen */
+  @supports (animation-timeline: view()) {
+    [data-look="vertical"] :is(.bento > .card, .bento > * > .card) {
+      animation: vertical-pixels linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+  }
+}

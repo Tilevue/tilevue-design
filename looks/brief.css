@@ -1,0 +1,195 @@
+/* ── Brief: a clean case-study page. White, a huge left-aligned black grotesk name with a yellow highlighter swept
+      behind its first line, the round photo beside it (below it on phones), the clock as a small status line with a
+      green dot, a solid black first button. Cards are calm white panels with hairlines (pale blue every few) and a
+      highlighter sweeps across a card on hover. ── */
+:root:has(main[data-look="brief"]),
+[data-look="brief"] {
+  --color-page: #ffffff;
+  --color-card: #ffffff;
+  --color-ink: #111111;
+  --color-accent: #ffe24d; /* the highlighter */
+  --color-muted: #6b6b6b;
+  --color-subtle: #8a8a8a;
+  --color-fill: #f3f3f1;
+  --radius-card: 18px;
+  --look-shadow: 0 0 0 1px #e9e9e6;
+  --font-sans: var(--font-host-grotesk), system-ui, sans-serif;
+}
+
+/* header: everything left-aligned, on the grid's width */
+[data-look="brief"] header {
+  width: min(100cqw - 32px, 848px);
+  margin-inline: auto;
+  padding-top: 64px;
+  align-items: flex-start;
+  gap: 26px;
+}
+/* the clock: a small status line with a green dot */
+[data-look="brief"] .page-clock {
+  order: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: auto;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+[data-look="brief"] .page-clock::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #1f9d55;
+}
+/* name + photo: the name first, then the photo (side by side from 768px) */
+[data-look="brief"] .page-identity {
+  order: 1;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 100%;
+}
+[data-look="brief"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  flex: none;
+  width: 88px;
+  height: 88px;
+  margin: 0;
+}
+[data-look="brief"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+[data-look="brief"] .page-name {
+  text-align: left;
+  color: var(--color-ink);
+  font-size: min(104px, calc((100cqw - 32px) / var(--fit) * 1.02));
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+}
+/* each line is only as wide as its words, so the highlighter hugs them */
+[data-look="brief"] .page-name span {
+  width: fit-content;
+}
+/* the highlighter: a slightly uneven yellow band behind the first line */
+[data-look="brief"] .page-name span:first-child {
+  margin-left: -0.06em;
+  padding: 0 0.08em;
+  border-radius: 0.08em 0.28em 0.12em 0.22em;
+  background: linear-gradient(var(--color-accent), var(--color-accent)) 0 0 / 100% 100% no-repeat;
+}
+[data-look="brief"] .page-socials {
+  order: 3;
+  justify-content: flex-start;
+  gap: 8px;
+}
+@media (min-width: 768px) {
+  /* the name on the left, the photo at the far right */
+  [data-look="brief"]:not(.look-thumb) .page-identity {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    width: 100%;
+  }
+  [data-look="brief"]:not(.look-thumb) .page-avatar {
+    width: 112px;
+    height: 112px;
+  }
+  [data-look="brief"]:not(.look-thumb) .page-name {
+    font-size: min(104px, calc((min(100cqw - 32px, 848px) - 144px) / var(--fit) * 1.02));
+  }
+}
+/* social buttons: light outlined pills; the first is solid black */
+[data-look="brief"] .page-socials a {
+  height: 44px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px #e1e1de;
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="brief"] .page-socials a:first-child {
+  background: var(--color-ink);
+  color: #fff;
+  box-shadow: none;
+}
+[data-look="brief"] .page-socials a:active {
+  scale: 0.95;
+}
+
+/* cards: white panels with a hairline; every few a pale blue panel without one */
+[data-look="brief"] .bento > :nth-child(6n + 4) {
+  --color-card: #e8effb;
+  --color-fill: #dbe5f7;
+  --look-shadow: 0 0 #0000;
+}
+/* the hover highlighter: a soft yellow band that sweeps in from the left */
+[data-look="brief"] :is(.bento > .card, .bento > * > .card) {
+  background-image: linear-gradient(color-mix(in srgb, var(--color-accent) 45%, transparent), color-mix(in srgb, var(--color-accent) 45%, transparent));
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  transition: background-size 500ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="brief"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.6;
+  color: var(--color-ink);
+}
+[data-look="brief"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="brief"] .bento a.card:active {
+  scale: 0.98;
+  background-size: 100% 100%;
+}
+@media (hover: hover) {
+  [data-look="brief"] .bento a.card:hover {
+    background-size: 100% 100%;
+  }
+  [data-look="brief"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="brief"] .page-socials a:not(:first-child):hover {
+    background: var(--color-fill);
+  }
+}
+
+@keyframes brief-mark {
+  from { background-size: 0% 100%; }
+}
+@keyframes brief-rise {
+  from { opacity: 0; transform: translateY(0.25em); }
+}
+@keyframes brief-in {
+  from { opacity: 0; transform: translateY(16px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name rises, then the highlighter sweeps across its first line; photo, status and buttons follow */
+  [data-look="brief"] .page-name span {
+    animation: brief-rise 700ms var(--ease-smooth) both;
+  }
+  [data-look="brief"] .page-name span + span {
+    animation-delay: 90ms;
+  }
+  [data-look="brief"] .page-name span:first-child {
+    animation: brief-rise 700ms var(--ease-smooth) both, brief-mark 700ms var(--ease-smooth) 600ms both;
+  }
+  [data-look="brief"] :is(.page-avatar > *, .page-clock, .page-socials) {
+    animation: brief-in 600ms var(--ease-smooth) 400ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="brief"] :is(.bento > .card, .bento > * > .card) {
+      animation: brief-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}

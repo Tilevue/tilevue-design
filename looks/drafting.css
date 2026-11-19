@@ -1,0 +1,207 @@
+/* ── Drafting: an architect's drawing sheet. Warm grey paper with a faint grid; the header is a framed sheet (thin
+      double line, round registration marks on the top corners) with the clock as a boxed tag, a left-aligned tight
+      grotesk name and outlined pill buttons. The cards form a title block: no gaps, every card sharing single
+      hairlines with its neighbours, small labels in mono capitals, a rust accent on arrows. ── */
+:root:has(main[data-look="drafting"]),
+[data-look="drafting"] {
+  --color-page: #f1ede5;
+  --color-card: #f6f3ec;
+  --color-ink: #1d1b18;
+  --color-accent: #b0683a;
+  --color-muted: color-mix(in srgb, #1d1b18 62%, #f6f3ec);
+  --color-subtle: color-mix(in srgb, #1d1b18 52%, #f6f3ec);
+  --color-ring: rgb(29 27 24 / 0.18);
+  --radius-card: 0px;
+  --look-shadow: 0 0 #0000; /* the hairlines are drawn below */
+  --font-sans: var(--font-schibsted), system-ui, sans-serif;
+}
+/* the paper: a faint grid */
+[data-look="drafting"] {
+  background-image:
+    linear-gradient(rgb(29 27 24 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(29 27 24 / 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* header: the drawing sheet — outer hairline + an inner line 7px in, left-aligned contents */
+[data-look="drafting"] header {
+  position: relative;
+  width: min(100cqw - 32px, 848px);
+  margin: 40px auto 36px;
+  padding: 36px 28px 30px;
+  align-items: flex-start;
+  gap: 22px;
+  background: var(--color-card);
+  box-shadow: 0 0 0 1px var(--color-ink);
+  outline: 1px solid var(--color-ink);
+  outline-offset: -7px;
+}
+/* registration marks: a small circle with a crosshair, centred on each top corner */
+[data-look="drafting"] header::before,
+[data-look="drafting"] header::after {
+  content: "";
+  position: absolute;
+  top: -12px;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, transparent 4px, var(--color-ink) 4px 5px, transparent 5.5px),
+    linear-gradient(var(--color-ink), var(--color-ink)) center / 100% 1px no-repeat,
+    linear-gradient(var(--color-ink), var(--color-ink)) center / 1px 100% no-repeat;
+}
+[data-look="drafting"] header::before { left: -12px; }
+[data-look="drafting"] header::after { right: -12px; }
+/* the clock: a boxed drawing tag */
+[data-look="drafting"] .page-clock {
+  height: auto;
+  padding: 5px 9px;
+  border: 1px solid var(--color-ink);
+  border-radius: 4px;
+  color: var(--color-ink);
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+/* photo + name: left-aligned, the photo a small square with a hairline */
+[data-look="drafting"] .page-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: 100%;
+}
+[data-look="drafting"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 84px;
+  height: 84px;
+  margin: 0;
+}
+[data-look="drafting"] .page-avatar :is(button, img, span) {
+  border-radius: 2px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 1px var(--color-ink);
+}
+[data-look="drafting"] .page-name {
+  text-align: left;
+  color: var(--color-ink);
+  font-size: min(96px, calc((min(100cqw - 32px, 848px) - 56px) / var(--fit) * 1.08));
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+/* social buttons: outlined pills; the first is solid black */
+[data-look="drafting"] .page-socials {
+  justify-content: flex-start;
+  gap: 8px;
+}
+[data-look="drafting"] .page-socials a {
+  height: 42px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px var(--color-ink);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth);
+}
+[data-look="drafting"] .page-socials a:first-child,
+[data-look="drafting"] .page-socials a:active {
+  background: var(--color-ink);
+  color: var(--color-card);
+}
+
+/* cards: a title block. No gaps; each card draws its right/bottom line outside (a shadow) and its top/left line
+   inside, on top of its content (::after, so a full-bleed photo doesn't hide it) — neighbours share one hairline. */
+[data-look="drafting"] .bento {
+  --gap: 0px;
+}
+[data-look="drafting"] :is(.bento > .card, .bento > * > .card) {
+  position: relative;
+  --tw-shadow: 1px 1px 0 0 var(--color-ink);
+  transition: background-color 200ms var(--ease-smooth);
+}
+[data-look="drafting"] :is(.bento > .card, .bento > * > .card)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: inset 1px 1px 0 0 var(--color-ink);
+}
+/* small grey text becomes a mono label in capitals (not inside popups: long answers stay easy to read) */
+[data-look="drafting"] .bento :is(.text-muted, .text-subtle):not(svg):not(dialog *) {
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+[data-look="drafting"] dialog {
+  --look-shadow: 0 0 0 1px var(--color-ink);
+}
+[data-look="drafting"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.25;
+  color: var(--color-ink);
+}
+[data-look="drafting"] .bento .card-arrow {
+  color: var(--color-accent);
+  transition: translate 250ms var(--ease-spring);
+}
+[data-look="drafting"] .bento a.card:active {
+  background-color: color-mix(in srgb, var(--color-accent) 10%, var(--color-card));
+}
+@media (hover: hover) {
+  [data-look="drafting"] .bento a.card:hover {
+    background-color: color-mix(in srgb, var(--color-accent) 7%, var(--color-card));
+  }
+  [data-look="drafting"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="drafting"] .page-socials a:hover {
+    background: var(--color-ink);
+    color: var(--color-card);
+  }
+}
+
+@keyframes drafting-draw {
+  from { clip-path: inset(0 100% 100% 0); }
+  to { clip-path: inset(-20px -20px -20px -20px); }
+}
+@keyframes drafting-mark {
+  from { opacity: 0; rotate: -90deg; scale: 0.4; }
+}
+@keyframes drafting-rise {
+  from { opacity: 0; transform: translateY(0.3em); }
+}
+@keyframes drafting-in {
+  from { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the sheet is drawn in from the top-left corner, the registration marks spin into place, the name and
+     the rest rise in */
+  [data-look="drafting"] header {
+    animation: drafting-draw 900ms var(--ease-smooth) both;
+  }
+  [data-look="drafting"] header::before,
+  [data-look="drafting"] header::after {
+    animation: drafting-mark 700ms var(--ease-spring) 700ms both;
+  }
+  [data-look="drafting"] .page-name span {
+    animation: drafting-rise 700ms var(--ease-smooth) 400ms both;
+  }
+  [data-look="drafting"] .page-name span + span {
+    animation-delay: 500ms;
+  }
+  [data-look="drafting"] :is(.page-clock, .page-avatar > *, .page-socials) {
+    animation: drafting-in 600ms var(--ease-smooth) 300ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="drafting"] :is(.bento > .card, .bento > * > .card) {
+      animation: drafting-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}

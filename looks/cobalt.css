@@ -1,0 +1,208 @@
+/* ── Cobalt: one blue ink on cool white. A serif name in cobalt with a blinking red typing cursor after it, the clock
+      as a grey status line with a green dot, a small square photo, circle-outlined buttons, and quiet white cards with
+      hairlines whose arrows turn red. On wide screens the header becomes a sticky sidebar on the left, behind a thin
+      rule, with the cards beside it. ── */
+:root:has(main[data-look="cobalt"]),
+[data-look="cobalt"] {
+  --color-page: #fafafa;
+  --color-card: #ffffff;
+  --color-ink: #24479b;
+  --color-accent: #d23a2b;
+  --color-muted: color-mix(in srgb, #24479b 72%, #ffffff);
+  --color-subtle: color-mix(in srgb, #24479b 58%, #ffffff);
+  --color-fill: color-mix(in srgb, #24479b 6%, #ffffff);
+  --color-ring: color-mix(in srgb, #24479b 16%, transparent);
+  --radius-card: 6px;
+  --look-shadow: 0 0 0 1px #e2e6f0;
+  --font-sans: var(--font-grotesk), system-ui, sans-serif;
+}
+
+/* header (phones, and anywhere without room for the sidebar): left-aligned, status line first */
+[data-look="cobalt"] header {
+  width: min(100cqw - 32px, 848px);
+  margin-inline: auto;
+  padding-top: 40px;
+  align-items: flex-start;
+  gap: 20px;
+}
+/* the clock: a grey status line in capitals with a green dot */
+[data-look="cobalt"] .page-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: auto;
+  color: #6f7380;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+[data-look="cobalt"] .page-clock::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgb(34 197 94 / 0.18);
+}
+/* photo + name: a small square photo above a left-aligned serif name */
+[data-look="cobalt"] .page-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  max-width: 100%;
+}
+[data-look="cobalt"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 64px;
+  height: 64px;
+  margin: 0;
+}
+[data-look="cobalt"] .page-avatar :is(button, img, span) {
+  border-radius: 6px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 1px #e2e6f0;
+}
+[data-look="cobalt"] .page-name {
+  text-align: left;
+  color: var(--color-ink);
+  font-family: var(--font-domine), Georgia, serif;
+  font-size: min(84px, calc((100cqw - 32px) / var(--fit) * 0.95));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+/* the typing cursor: a thin red bar after the last line (decoration) */
+[data-look="cobalt"] .page-name span:last-child::after {
+  content: "";
+  display: inline-block;
+  width: 0.07em;
+  height: 0.82em;
+  margin-left: 0.1em;
+  vertical-align: -0.06em;
+  background: var(--color-accent);
+}
+/* social buttons: small circles with a blue outline */
+[data-look="cobalt"] .page-socials {
+  justify-content: flex-start;
+  gap: 10px;
+}
+[data-look="cobalt"] .page-socials a {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-ink) 45%, transparent);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth);
+}
+[data-look="cobalt"] .page-socials a:active {
+  background: var(--color-ink);
+  color: #ffffff;
+}
+
+/* wide screens: the header is a sticky sidebar on the left (only where the header sits directly in the page — the
+   editor wraps it in a button, so it keeps the stacked layout), every other block goes in the right column */
+@media (min-width: 1100px) {
+  [data-look="cobalt"]:not(.look-thumb):has(> header) {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    align-items: start;
+  }
+  [data-look="cobalt"]:not(.look-thumb):has(> header) > * {
+    grid-column: 2;
+  }
+  [data-look="cobalt"]:not(.look-thumb):has(> header) > header {
+    grid-column: 1;
+    grid-row: 1 / span 30;
+    position: sticky;
+    top: 0;
+    width: auto;
+    height: 100svh;
+    margin: 0;
+    padding: 40px 36px;
+    justify-content: flex-end;
+    box-shadow: inset -1px 0 0 #e2e6f0;
+  }
+  [data-look="cobalt"]:not(.look-thumb):has(> header) .page-clock {
+    margin-bottom: auto; /* the status line at the top, everything else at the bottom of the sidebar */
+  }
+  [data-look="cobalt"]:not(.look-thumb):has(> header) .page-name {
+    font-size: min(48px, calc(268px / var(--fit) * 0.95));
+  }
+  /* the grid's cells follow the right column instead of the whole window */
+  [data-look="cobalt"]:not(.look-thumb):has(> header) .bento {
+    --cell: calc((min(100vw - 340px - 64px, var(--max)) - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    margin-top: 40px;
+  }
+}
+
+/* cards: quiet white panels with a hairline; blue line icons; the arrow turns red on hover */
+[data-look="cobalt"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.5;
+  color: var(--color-ink);
+}
+[data-look="cobalt"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 250ms var(--ease-spring), color 200ms var(--ease-smooth);
+}
+[data-look="cobalt"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: box-shadow, scale;
+  transition-duration: 250ms;
+  transition-timing-function: var(--ease-smooth);
+}
+[data-look="cobalt"] .bento a.card:active {
+  scale: 0.98;
+  --tw-shadow: 0 0 0 1px var(--color-ink);
+}
+@media (hover: hover) {
+  [data-look="cobalt"] .bento a.card:hover {
+    --tw-shadow: 0 0 0 1px var(--color-ink);
+  }
+  [data-look="cobalt"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+    color: var(--color-accent);
+  }
+  [data-look="cobalt"] .page-socials a:hover {
+    background: var(--color-ink);
+    color: #ffffff;
+  }
+}
+
+@keyframes cobalt-type {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(-0.2em -0.4em -0.2em -0.2em); }
+}
+@keyframes cobalt-blink {
+  50% { opacity: 0; }
+}
+@keyframes cobalt-in {
+  from { opacity: 0; transform: translateY(14px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the name types itself out line by line, then the red cursor keeps blinking; the rest fades up */
+  [data-look="cobalt"] .page-name span {
+    animation: cobalt-type 900ms steps(14, end) 200ms both;
+  }
+  [data-look="cobalt"] .page-name span + span {
+    animation-delay: 1100ms;
+  }
+  [data-look="cobalt"] .page-name span:last-child::after {
+    animation: cobalt-blink 1s steps(1) 2s infinite;
+  }
+  [data-look="cobalt"] :is(.page-clock, .page-avatar > *, .page-socials) {
+    animation: cobalt-in 600ms var(--ease-smooth) both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="cobalt"] :is(.bento > .card, .bento > * > .card) {
+      animation: cobalt-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}

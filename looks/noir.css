@@ -1,0 +1,222 @@
+/* ── Noir: pure black, a huge tight white name in capitals with a big black-and-white photo floating in front of it
+      like an object (it tilts in 3D and turns as you scroll); the clock is a white pill bar; panels are dark and
+      flat, photos lead. ── */
+:root:has(main[data-look="noir"]),
+[data-look="noir"] {
+  --color-page: #050505;
+  --color-card: #131313;
+  --color-ink: #ffffff;
+  --color-accent: #ffffff;
+  --color-muted: #8f8f8f;
+  --color-subtle: #7a7a7a;
+  --color-fill: #1f1f1f;
+  --color-pill: #1f1f1f;
+  --color-hover: #181818;
+  --color-hover-strong: #1f1f1f;
+  --color-popup: #161616;
+  --color-ring: rgb(255 255 255 / 0.08);
+  --radius-card: 12px;
+  --look-shadow: 0 0 #0000;
+  --font-sans: var(--font-instrument-sans), system-ui, sans-serif;
+}
+[data-look="noir"] header {
+  padding-top: 28px;
+  gap: 34px;
+}
+/* the clock becomes the white bar at the top: black text on white, a black button with three dots at its end */
+[data-look="noir"] .page-clock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(320px, 100cqw - 32px);
+  height: 52px;
+  padding: 0 6px 0 16px;
+  border-radius: 12px;
+  background: #fff;
+  color: #0a0a0a;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+[data-look="noir"] .page-clock::after {
+  content: "\2022\2022\2022";
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: #0a0a0a;
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+/* name: as big as the screen allows, heavy, set very tight */
+[data-look="noir"] .page-name {
+  color: #fff;
+  font-family: var(--font-inter-tight), var(--font-sans);
+  /* heavy capitals run ~0.64em a letter even set tight, so 0.9 of the standard fit-to-screen size */
+  font-size: min(190px, calc((100cqw - 32px) / var(--fit) * 0.9));
+  padding-top: 0.1em; /* headroom for accents (É) above the tight line height */
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.84;
+  text-transform: uppercase;
+}
+/* photo: big, black and white, floating in front of the name (between its lines, as the standard header places
+   it); colour comes back on hover / tap */
+[data-look="noir"] .page-avatar {
+  z-index: 1;
+  width: clamp(110px, 30cqw, 230px);
+  height: clamp(110px, 30cqw, 230px);
+  perspective: 700px;
+}
+[data-look="noir"] .page-avatar > button {
+  transform-style: preserve-3d;
+}
+/* phones: the photo sits above the name instead of in front of it (as the reference does on a phone), so a short
+   line such as "CAFÉ" is not hidden behind it */
+@media (max-width: 767px) {
+  [data-look="noir"] .page-avatar {
+    position: relative;
+    inset: auto;
+    translate: none;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 26px;
+  }
+  [data-look="noir"] .page-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+[data-look="noir"] .page-avatar :is(button, img, span) {
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12), 0 40px 60px -20px rgb(0 0 0 / 0.9);
+}
+[data-look="noir"] .page-avatar img {
+  filter: grayscale(1) contrast(1.15) brightness(0.92);
+  transition: filter 500ms var(--ease-smooth);
+}
+[data-look="noir"] .page-avatar:is(:hover, :active) img {
+  filter: none;
+}
+/* a gloss across the photo, like light on a polished object */
+[data-look="noir"] .page-avatar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: 999px;
+  background: radial-gradient(60% 40% at 35% 18%, rgb(255 255 255 / 0.28), transparent 70%);
+  pointer-events: none;
+}
+/* social buttons: small pills like a filter row — the first is the white one */
+[data-look="noir"] .page-socials {
+  gap: 6px;
+}
+[data-look="noir"] .page-socials a {
+  height: 38px;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.16);
+  transition: background-color 200ms var(--ease-smooth), color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="noir"] .page-socials a:first-child,
+[data-look="noir"] .page-socials a:active {
+  background: #fff;
+  color: #0a0a0a;
+}
+/* panels: dark, flat, a little tighter; white line icons; arrows take the text colour */
+[data-look="noir"] .bento {
+  --gap: 14px;
+}
+[data-look="noir"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: #fff;
+}
+[data-look="noir"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="noir"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, scale;
+  transition-duration: 300ms;
+}
+/* big photos in a panel ease in a little on hover (not icons or small logos) */
+[data-look="noir"] :is(.bento > .card, .bento > * > .card) img:not(.size-5):not([src^="/icons/"]) {
+  transition: scale 900ms var(--ease-smooth);
+}
+[data-look="noir"] .bento a.card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  [data-look="noir"] .bento a.card:hover img:not(.size-5):not([src^="/icons/"]) {
+    scale: 1.05;
+  }
+  [data-look="noir"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="noir"] .page-socials a:hover {
+    background: #fff;
+    color: #0a0a0a;
+  }
+}
+@keyframes noir-rise {
+  from { opacity: 0; transform: translateY(0.3em); filter: blur(14px); }
+}
+@keyframes noir-drop {
+  from { opacity: 0; transform: translateY(-60px) rotateX(40deg) rotateZ(-18deg) scale(0.8); }
+}
+/* the object's slow idle: it tilts in 3D */
+@keyframes noir-float {
+  0%, 100% { transform: rotateY(-14deg) rotateX(6deg) translateY(0); }
+  50% { transform: rotateY(14deg) rotateX(-6deg) translateY(-10px); }
+}
+/* scroll: the object turns and shrinks a little as the page scrolls under it. No `translate` here: the header
+   centres the photo with `translate`, and animating it would throw the photo off centre (onto the buttons). */
+@keyframes noir-turn {
+  to { rotate: 28deg; scale: 0.86; }
+}
+@keyframes noir-bar {
+  from { opacity: 0; transform: translateY(-16px); }
+}
+@keyframes noir-in {
+  from { opacity: 0; transform: translateY(40px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the bar slides down, the name lines come out of a blur, the photo drops in with a turn and then floats */
+  [data-look="noir"] .page-clock {
+    animation: noir-bar 600ms var(--ease-smooth) both;
+  }
+  [data-look="noir"] .page-name span {
+    animation: noir-rise 900ms var(--ease-smooth) 150ms both;
+  }
+  [data-look="noir"] .page-name span + span {
+    animation-delay: 270ms;
+  }
+  [data-look="noir"] .page-avatar > button {
+    animation: noir-drop 900ms var(--ease-spring) 450ms both, noir-float 7s ease-in-out 1.4s infinite;
+  }
+  [data-look="noir"] .page-socials a {
+    animation: noir-in 500ms var(--ease-smooth) 800ms both;
+  }
+  [data-look="noir"] .page-socials a:nth-child(2) { animation-delay: 860ms; }
+  [data-look="noir"] .page-socials a:nth-child(3) { animation-delay: 920ms; }
+  [data-look="noir"] .page-socials a:nth-child(n + 4) { animation-delay: 980ms; }
+  @supports (animation-timeline: view()) {
+    [data-look="noir"] .page-avatar {
+      animation: noir-turn linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70vh;
+    }
+    /* panels rise into place */
+    [data-look="noir"] :is(.bento > .card, .bento > * > .card) {
+      animation: noir-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

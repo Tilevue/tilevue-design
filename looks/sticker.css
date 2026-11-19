@@ -1,0 +1,182 @@
+/* ── Sticker: cream paper, thick ink outlines, hard offset shadows, colour-block cards, label name, badge icons ── */
+:root:has(main[data-look="sticker"]),
+[data-look="sticker"] {
+  --color-page: #f6efdf;
+  --color-card: #fffdf8;
+  --color-ink: #141210;
+  --color-accent: #ffd23f;
+  --color-ring: var(--color-ink);
+  --color-pill: var(--color-accent);
+  --color-hover: var(--color-accent);
+  --color-hover-strong: var(--color-accent);
+  --radius-card: 20px;
+  --look-shadow: 0 0 0 2px var(--color-ink), 5px 5px 0 2px var(--color-ink);
+  --font-sans: var(--font-grotesk), system-ui, sans-serif;
+}
+[data-look="sticker"] {
+  background-image: radial-gradient(color-mix(in srgb, var(--color-ink) 16%, transparent) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+/* name: each line is a tilted colour label in a fat display font */
+[data-look="sticker"] .page-name {
+  color: var(--color-ink);
+  font-family: var(--font-bagel), var(--font-sans);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+[data-look="sticker"] .page-name span {
+  width: fit-content;
+  margin-inline: auto;
+  padding: 0.1em 0.32em 0.16em;
+  font-size: 0.74em; /* room for the label padding inside the fit-to-screen size */
+  border-radius: 0.28em;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-ink), 5px 5px 0 3px var(--color-ink);
+  rotate: -2.5deg;
+}
+[data-look="sticker"] .page-name span + span {
+  margin-top: 0.14em;
+  background: #ffa8d5;
+  rotate: 1.5deg;
+}
+/* photo: a rounded-square sticker with a white edge, above the name instead of on top of the letters */
+[data-look="sticker"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 22px;
+  rotate: 5deg;
+  border-radius: 26px;
+  box-shadow: 0 0 0 5px var(--color-card), 0 0 0 8px var(--color-ink), 6px 6px 0 8px var(--color-ink);
+}
+[data-look="sticker"] .page-avatar :is(button, img, span) {
+  border-radius: 26px;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+}
+/* icons: round outlined badges with thicker strokes (the arrow stays plain) */
+[data-look="sticker"] {
+  --look-badge: var(--color-accent);
+}
+[data-look="sticker"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2.4;
+  color: var(--color-ink);
+}
+/* = the icon in a card's top-left corner (CardTop's first child); span.bg-current is a mask icon, left as is */
+[data-look="sticker"] .bento .card-top > .card-icon {
+  box-sizing: content-box;
+  padding: 7px;
+  margin: -5px;
+  border-radius: 999px;
+  background: var(--look-badge);
+  box-shadow: 0 0 0 2px var(--color-ink), 2px 2px 0 2px var(--color-ink);
+}
+/* colour logos (YouTube, Instagram…) always sit on white */
+[data-look="sticker"] .bento .card-icon:has(> img[src^="/icons/"]) {
+  --look-badge: #fff;
+}
+[data-look="sticker"] .page-socials {
+  gap: 10px;
+}
+[data-look="sticker"] .page-socials a {
+  border-radius: 999px;
+  color: var(--color-ink);
+  box-shadow: 0 0 0 2px var(--color-ink), 3px 3px 0 2px var(--color-ink);
+}
+[data-look="sticker"] .page-socials a:hover {
+  background: var(--color-card);
+}
+/* colour blocks: every few cards is a sticker colour (cards the owner coloured, or covered by a photo, keep theirs) */
+[data-look="sticker"] .bento > :nth-child(5n + 2) { --color-card: #ffd23f; }
+[data-look="sticker"] .bento > :nth-child(5n + 4) { --color-card: #ffa8d5; }
+[data-look="sticker"] .bento > :nth-child(7n + 6) { --color-card: #a9cbff; }
+[data-look="sticker"] .bento > :is(:nth-child(5n + 2), :nth-child(5n + 4), :nth-child(7n + 6)) {
+  --color-muted: color-mix(in srgb, var(--color-ink) 72%, var(--color-card));
+  --color-subtle: var(--color-muted);
+  --color-hover: var(--color-card);
+  --look-badge: #fffdf8;
+}
+[data-look="sticker"] .bento a.card {
+  transition-property: background-color, scale, translate, box-shadow;
+}
+/* tap (phone + desktop): a card or button presses down into its shadow */
+[data-look="sticker"] .bento a.card:active {
+  translate: 3px 3px;
+  --tw-shadow: 0 0 0 2px var(--color-ink), 2px 2px 0 2px var(--color-ink);
+}
+[data-look="sticker"] .page-socials a {
+  transition: translate 150ms var(--ease-smooth), box-shadow 150ms var(--ease-smooth), background-color 200ms var(--ease-smooth);
+}
+[data-look="sticker"] .page-socials a:active {
+  translate: 2px 2px;
+  box-shadow: 0 0 0 2px var(--color-ink), 1px 1px 0 2px var(--color-ink);
+}
+/* hover (devices with a pointer only — on touch a hover would stick after the tap) */
+[data-look="sticker"] .page-avatar,
+[data-look="sticker"] .page-name span,
+[data-look="sticker"] .bento .card-top > .card-icon {
+  transition: rotate 300ms var(--ease-spring), scale 300ms var(--ease-spring);
+}
+@media (hover: hover) {
+  [data-look="sticker"] .bento a.card:hover:not(:active) {
+    translate: -2px -2px;
+    --tw-shadow: 0 0 0 2px var(--color-ink), 8px 8px 0 2px var(--color-ink);
+  }
+  /* only a real icon turns — on some cards the first child is the icon + title group, which must stay straight */
+  [data-look="sticker"] :is(.bento > .card, .bento > * > .card):hover .card-top > .card-icon {
+    rotate: -12deg;
+    scale: 1.12;
+  }
+  [data-look="sticker"] .page-avatar:hover {
+    rotate: -4deg;
+    scale: 1.08;
+  }
+  [data-look="sticker"] .page-name span:hover {
+    rotate: 0deg;
+    scale: 1.05;
+  }
+}
+
+/* motion: keyframes use `transform`, so they add to the tilt / hover / press above (which use rotate, scale, translate) */
+@keyframes sticker-slap {
+  from { opacity: 0; transform: scale(1.7) rotate(-14deg); }
+  55% { opacity: 1; }
+}
+@keyframes sticker-pop {
+  from { opacity: 0; transform: translateY(32px) scale(0.9) rotate(-3deg); }
+}
+@keyframes sticker-wobble {
+  0%, 84%, 100% { transform: rotate(0); }
+  88% { transform: rotate(-9deg); }
+  92% { transform: rotate(6deg); }
+  96% { transform: rotate(-3deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: photo, name labels, social buttons — one after another; then the photo wobbles now and then */
+  [data-look="sticker"] .page-avatar {
+    animation: sticker-slap 500ms var(--ease-spring) both, sticker-wobble 5s ease-in-out 1.6s infinite;
+  }
+  [data-look="sticker"] .page-name span {
+    animation: sticker-slap 450ms var(--ease-spring) 150ms both;
+  }
+  [data-look="sticker"] .page-name span + span {
+    animation-delay: 280ms;
+  }
+  [data-look="sticker"] .page-socials a {
+    animation: sticker-pop 420ms var(--ease-spring) 420ms both;
+  }
+  [data-look="sticker"] .page-socials a:nth-child(2) { animation-delay: 490ms; }
+  [data-look="sticker"] .page-socials a:nth-child(3) { animation-delay: 560ms; }
+  [data-look="sticker"] .page-socials a:nth-child(n + 4) { animation-delay: 630ms; }
+  /* on scroll: each card pops in as it enters the screen (browsers without scroll-driven animation just show it) */
+  @supports (animation-timeline: view()) {
+    [data-look="sticker"] :is(.bento > .card, .bento > * > .card) {
+      animation: sticker-pop linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

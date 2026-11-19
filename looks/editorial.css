@@ -1,0 +1,134 @@
+/* ── Editorial: warm paper, hairlines instead of shadows, square corners, big serif name, arch photo ── */
+:root:has(main[data-look="editorial"]),
+[data-look="editorial"] {
+  --color-page: #f3efe6;
+  --color-card: #f8f5ee;
+  --color-ink: #1b1916;
+  --color-accent: #c8401f;
+  /* fixed copies for the inverted card (which swaps --color-ink itself) */
+  --look-ink: #1b1916;
+  --look-paper: #f3efe6;
+  --look-paper-dim: #b9b3a6;
+  --color-ring: color-mix(in srgb, var(--color-ink) 22%, transparent);
+  --color-pill: transparent;
+  --radius-card: 3px;
+  --look-shadow: 0 0 0 1px color-mix(in srgb, var(--color-ink) 85%, transparent);
+  --font-sans: var(--font-newsreader), Georgia, serif;
+}
+/* name: large serif, second line italic in the accent colour, between two hairlines */
+[data-look="editorial"] .page-name {
+  padding: 0.14em 0.3em 0.2em;
+  border-block: 1px solid var(--color-ink);
+  color: var(--color-ink);
+  font-family: var(--font-instrument), var(--font-sans);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+[data-look="editorial"] .page-name span {
+  font-size: 1.2em; /* this serif is narrower than the font the fit-to-screen size was measured for */
+}
+[data-look="editorial"] .page-name span + span {
+  color: var(--color-accent);
+  font-style: italic;
+}
+/* photo: a black-and-white arch above the name; colour comes back on hover / tap */
+[data-look="editorial"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 92px;
+  height: 120px;
+  margin: 0 auto 22px;
+}
+[data-look="editorial"] .page-avatar :is(button, img, span) {
+  border-radius: 999px 999px 0 0;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 1px var(--color-ink);
+}
+[data-look="editorial"] .page-avatar img {
+  filter: grayscale(1) contrast(1.08);
+  transition: filter 500ms var(--ease-smooth);
+}
+[data-look="editorial"] .page-avatar:is(:hover, :active) img {
+  filter: none;
+}
+/* social buttons: hairline circles that fill with ink */
+[data-look="editorial"] .page-socials {
+  gap: 10px;
+}
+[data-look="editorial"] .page-socials a {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  color: var(--color-ink);
+  box-shadow: 0 0 0 1px var(--color-ink);
+}
+[data-look="editorial"] .page-socials a:is(:hover, :active) {
+  background: var(--color-ink);
+  color: var(--color-page);
+}
+/* icons: thin lines, everything monochrome (colour logos included) */
+[data-look="editorial"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.25;
+  color: var(--color-ink);
+}
+[data-look="editorial"] .bento img[src^="/icons/"] {
+  filter: grayscale(1) contrast(1.15);
+}
+/* tap / hover: the card inverts — ink paper, paper text */
+[data-look="editorial"] .bento a.card {
+  transition-property: background-color, color, scale;
+  transition-duration: 300ms;
+}
+[data-look="editorial"] .bento a.card:active {
+  --color-card: var(--look-ink);
+  --color-hover: var(--look-ink);
+  --color-ink: var(--look-paper);
+  --color-muted: var(--look-paper-dim);
+  --color-subtle: var(--look-paper-dim);
+  color: var(--look-paper);
+}
+@media (hover: hover) {
+  [data-look="editorial"] .bento a.card:hover {
+    --color-card: var(--look-ink);
+    --color-hover: var(--look-ink);
+    --color-ink: var(--look-paper);
+    --color-muted: var(--look-paper-dim);
+    --color-subtle: var(--look-paper-dim);
+    color: var(--look-paper);
+  }
+}
+@keyframes editorial-rise {
+  from { opacity: 0; transform: translateY(0.5em); clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(-0.2em -0.3em); }
+}
+@keyframes editorial-fade {
+  from { opacity: 0; transform: translateY(24px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the photo fades in, then each name line rises out of its rule, then the buttons */
+  [data-look="editorial"] .page-avatar {
+    animation: editorial-fade 900ms var(--ease-smooth) both;
+  }
+  [data-look="editorial"] .page-name span {
+    animation: editorial-rise 800ms var(--ease-smooth) 200ms both;
+  }
+  [data-look="editorial"] .page-name span + span {
+    animation-delay: 380ms;
+  }
+  [data-look="editorial"] .page-socials a {
+    animation: editorial-fade 600ms var(--ease-smooth) 650ms both;
+  }
+  [data-look="editorial"] .page-socials a:nth-child(2) { animation-delay: 730ms; }
+  [data-look="editorial"] .page-socials a:nth-child(3) { animation-delay: 810ms; }
+  [data-look="editorial"] .page-socials a:nth-child(n + 4) { animation-delay: 890ms; }
+  /* on scroll: cards drift up into place */
+  @supports (animation-timeline: view()) {
+    [data-look="editorial"] :is(.bento > .card, .bento > * > .card) {
+      animation: editorial-fade linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}

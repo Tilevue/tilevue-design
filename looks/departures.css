@@ -1,0 +1,206 @@
+/* ── Departures: a black departures board hangs on two cables over a light page. The name is spelt in split-flap
+      tiles (a monospace font + a tile pattern, one tile per letter, a space is an empty tile); a small passenger
+      photo sits on the board; the social buttons are board tiles, the first one orange. White cards, black arrows
+      in little flap tiles. ── */
+:root:has(main[data-look="departures"]),
+[data-look="departures"] {
+  --color-page: #f4f3ee;
+  --color-card: #ffffff;
+  --color-ink: #111111;
+  --color-accent: #ff5a1f;
+  --color-muted: #6b6b6b;
+  --color-subtle: #7d7d7d;
+  --color-fill: #f1f0eb;
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 20px;
+  --look-shadow: 0 0 0 1px rgb(0 0 0 / 0.07);
+  --look-board: #0b0b0b;
+  --look-tile: #232323;
+  --font-sans: var(--font-mona), system-ui, sans-serif;
+}
+/* the board */
+[data-look="departures"] header {
+  position: relative;
+  width: min(100cqw - 32px, 848px);
+  margin: 86px auto 44px;
+  padding: 18px 20px 22px;
+  gap: 20px;
+  border-radius: 18px;
+  background: var(--look-board);
+  box-shadow: 0 34px 60px -24px rgb(0 0 0 / 0.5);
+  --color-ink: #ffffff;
+  --color-muted: #b9b9b9;
+  --color-subtle: #b9b9b9;
+  transform-origin: 50% -86px; /* it swings from where the cables are fixed */
+}
+/* the two cables the board hangs from */
+[data-look="departures"] header::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 86px;
+  pointer-events: none;
+  background:
+    linear-gradient(#9b9ba2, #9b9ba2) 12% 0 / 3px 100% no-repeat,
+    linear-gradient(#9b9ba2, #9b9ba2) 88% 0 / 3px 100% no-repeat;
+}
+/* top row: "DEPARTURES" on the left, the time on the right */
+[data-look="departures"] .page-clock {
+  align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  height: auto;
+  color: #b9b9b9;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+[data-look="departures"] .page-clock::before {
+  content: "DEPARTURES";
+  color: #fff;
+}
+/* passenger photo: small rounded square above the tiles */
+[data-look="departures"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+}
+[data-look="departures"] .page-avatar :is(button, img, span) {
+  border-radius: 12px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 2px #2c2c2c;
+}
+/* name: split-flap tiles. A letter is 0.6em wide + 0.22em letter spacing = 0.82em a tile (0.72em tile + gap) */
+[data-look="departures"] .page-name {
+  color: #fff;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: min(64px, calc((min(100cqw - 32px, 848px) - 40px) / var(--fit) * 0.72));
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  perspective: 600px;
+}
+[data-look="departures"] .page-name span {
+  width: fit-content;
+  margin-inline: auto;
+  padding-left: 0.06em; /* centres each letter in its tile */
+  background:
+    linear-gradient(transparent calc(50% - 1px), var(--look-board) calc(50% - 1px) calc(50% + 1px), transparent 0),
+    repeating-linear-gradient(90deg, var(--look-tile) 0 0.72em, transparent 0.72em 0.82em) 0 0 / calc(100% - 0.1em) 100% no-repeat;
+  /* (the tile layer stops just short of the end, so no sliver of a next tile shows after the last letter) */
+}
+[data-look="departures"] .page-name span + span {
+  margin-top: 0.12em;
+}
+/* social buttons: board tiles under a hairline; the first is orange, like "boarding" */
+[data-look="departures"] .page-socials {
+  align-self: stretch;
+  justify-content: center;
+  gap: 6px;
+  padding-top: 18px;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
+}
+[data-look="departures"] .page-socials a {
+  height: 44px;
+  border-radius: 6px;
+  background: var(--look-tile);
+  color: #fff;
+  transition: background-color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="departures"] .page-socials a:first-child,
+[data-look="departures"] .page-socials a:active {
+  background: var(--color-accent);
+}
+/* cards: white, hairline; black line icons; the arrow sits in a little black flap tile */
+[data-look="departures"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--color-ink);
+}
+[data-look="departures"] .bento .card-arrow {
+  box-sizing: content-box;
+  padding: 5px;
+  margin: -5px;
+  border-radius: 5px;
+  background: #111;
+  color: #fff;
+  transition: rotate 500ms var(--ease-smooth);
+}
+[data-look="departures"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, scale, box-shadow, translate;
+  transition-duration: 300ms;
+}
+[data-look="departures"] .bento a.card:active {
+  scale: 0.98;
+}
+@media (hover: hover) {
+  [data-look="departures"] .bento a.card:hover {
+    translate: 0 -3px;
+    --tw-shadow: 0 0 0 1px rgb(0 0 0 / 0.07), 0 22px 40px -22px rgb(0 0 0 / 0.35);
+  }
+  /* the arrow tile flips over once */
+  [data-look="departures"] .bento a.card:hover .card-arrow {
+    rotate: x 360deg;
+  }
+  [data-look="departures"] .page-socials a:hover {
+    background: var(--color-accent);
+  }
+}
+@keyframes departures-hang {
+  from { opacity: 0; transform: translateY(-50px) rotate(-3deg); }
+  60% { opacity: 1; transform: translateY(6px) rotate(1deg); }
+}
+@keyframes departures-sway {
+  0%, 100% { transform: rotate(-0.35deg); }
+  50% { transform: rotate(0.35deg); }
+}
+/* split-flap: the line flips down through a few flaps before it settles */
+@keyframes departures-flap {
+  0% { opacity: 0; transform: rotateX(-90deg); }
+  20% { opacity: 1; transform: rotateX(70deg); }
+  40% { transform: rotateX(-50deg); }
+  60% { transform: rotateX(30deg); }
+  80% { transform: rotateX(-12deg); }
+}
+@keyframes departures-card {
+  from { opacity: 0; transform: perspective(900px) rotateX(-55deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the board drops onto its cables and swings, the name lines flap into place, the tiles follow; then the
+     board keeps swaying a little */
+  [data-look="departures"] header {
+    animation: departures-hang 1000ms var(--ease-spring) both, departures-sway 7s ease-in-out 1.2s infinite;
+  }
+  [data-look="departures"] .page-name span {
+    transform-origin: 50% 50%;
+    animation: departures-flap 900ms steps(10) 350ms both;
+  }
+  [data-look="departures"] .page-name span + span {
+    animation-delay: 550ms;
+  }
+  [data-look="departures"] .page-socials a {
+    transform-origin: 50% 0;
+    animation: departures-flap 600ms steps(8) 900ms both;
+  }
+  [data-look="departures"] .page-socials a:nth-child(2) { animation-delay: 980ms; }
+  [data-look="departures"] .page-socials a:nth-child(3) { animation-delay: 1060ms; }
+  [data-look="departures"] .page-socials a:nth-child(n + 4) { animation-delay: 1140ms; }
+  /* on scroll: each card flaps down from its top edge */
+  @supports (animation-timeline: view()) {
+    [data-look="departures"] :is(.bento > .card, .bento > * > .card) {
+      transform-origin: 50% 0;
+      animation: departures-card linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

@@ -1,0 +1,191 @@
+/* ── Blueprint: one colour only — pure blue on white, in a monospace font. Square corners, hairline blue boxes,
+      a solid blue block of social buttons; whatever you touch flips to white-on-blue. The name is typed in. ── */
+:root:has(main[data-look="blueprint"]),
+[data-look="blueprint"] {
+  --color-page: #ffffff;
+  --color-card: #ffffff;
+  --color-ink: #0000ff;
+  --color-accent: #0000ff;
+  --color-muted: color-mix(in srgb, var(--color-ink) 78%, var(--color-card));
+  --color-subtle: color-mix(in srgb, var(--color-ink) 70%, var(--color-card));
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 0px;
+  --look-blue: #0000ff;
+  --look-icon: var(--look-blue);
+  --look-shadow: 0 0 0 1px var(--look-blue);
+  --font-sans: var(--font-roboto-mono), ui-monospace, monospace;
+}
+[data-look="blueprint"] ::selection {
+  background: var(--look-blue);
+  color: #fff;
+}
+/* the clock gets a blinking square in front, like a status light */
+[data-look="blueprint"] .page-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--look-blue);
+  font-family: var(--font-sans);
+  text-transform: none;
+}
+[data-look="blueprint"] .page-clock::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--look-blue);
+}
+/* photo: a round cut-out with a blue outline, above the name */
+[data-look="blueprint"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 116px;
+  height: 116px;
+  margin: 0 auto 26px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--look-blue);
+  transition: scale 200ms steps(2);
+}
+[data-look="blueprint"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* name: capitals with wide spacing on one line (wraps between words if it has to), with a block cursor after it */
+[data-look="blueprint"] .page-name {
+  color: var(--look-blue);
+  /* sized so the longest word plus the cursor fit on one line (a letter is 0.66em wide here, with its spacing) */
+  font-size: min(72px, calc((100cqw - 32px) / (var(--fit) + 0.75) * 0.88));
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+[data-look="blueprint"] .page-name span {
+  display: inline;
+}
+[data-look="blueprint"] .page-name span + span::before {
+  content: " ";
+}
+[data-look="blueprint"] .page-name::after {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.78em;
+  margin-left: 0.12em;
+  background: var(--look-blue);
+  vertical-align: baseline;
+}
+/* social buttons: one solid blue block; the first (and the one you touch) is the inverted white box */
+[data-look="blueprint"] .page-socials {
+  gap: 0;
+  padding: 3px;
+  background: var(--look-blue);
+}
+[data-look="blueprint"] .page-socials a {
+  height: 38px;
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  transition: none;
+}
+[data-look="blueprint"] .page-socials a:first-child,
+[data-look="blueprint"] .page-socials a:active {
+  background: #fff;
+  color: var(--look-blue);
+}
+/* cards: hairline blue boxes; blue line icons */
+[data-look="blueprint"] .bento {
+  --gap: 12px;
+}
+[data-look="blueprint"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 1.75;
+  color: var(--look-icon);
+}
+[data-look="blueprint"] .bento .card-arrow {
+  color: inherit;
+}
+/* tap / hover: the box flips — blue fill, white text. No fade: it switches like a terminal. */
+[data-look="blueprint"] :is(.bento > .card, .bento > * > .card) {
+  transition: none;
+}
+[data-look="blueprint"] .bento a.card:active {
+  --color-card: var(--look-blue);
+  --color-hover: var(--look-blue);
+  --color-ink: #ffffff;
+  --color-muted: rgb(255 255 255 / 0.82);
+  --color-subtle: rgb(255 255 255 / 0.82);
+  --color-fill: rgb(255 255 255 / 0.18);
+  --color-ring: rgb(255 255 255 / 0.3);
+  --look-icon: #ffffff;
+  color: #ffffff;
+}
+@media (hover: hover) {
+  [data-look="blueprint"] .bento a.card:hover {
+    --color-card: var(--look-blue);
+    --color-hover: var(--look-blue);
+    --color-ink: #ffffff;
+    --color-muted: rgb(255 255 255 / 0.82);
+    --color-subtle: rgb(255 255 255 / 0.82);
+    --color-fill: rgb(255 255 255 / 0.18);
+    --color-ring: rgb(255 255 255 / 0.3);
+    --look-icon: #ffffff;
+    color: #ffffff;
+  }
+  [data-look="blueprint"] .page-avatar:hover {
+    scale: 1.08;
+  }
+  [data-look="blueprint"] .page-socials a:hover {
+    background: #fff;
+    color: var(--look-blue);
+  }
+}
+@keyframes blueprint-type {
+  from { clip-path: inset(-10% 100% -10% 0); }
+  to { clip-path: inset(-10% -5% -10% 0); }
+}
+@keyframes blueprint-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes blueprint-pop {
+  from { opacity: 0; transform: scale(0.6); }
+}
+/* the photo "looks around": it holds a pose, then snaps to the next */
+@keyframes blueprint-look {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-7deg); }
+  50% { transform: rotate(0) scale(1.04); }
+  75% { transform: rotate(7deg); }
+}
+@keyframes blueprint-wipe {
+  from { clip-path: inset(-2px -2px 100% -2px); }
+  to { clip-path: inset(-2px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the photo pops in, the name is typed out, the button block appears. Afterwards: cursor and status
+     square blink, the photo changes pose every second or so. */
+  [data-look="blueprint"] .page-avatar {
+    animation: blueprint-pop 300ms steps(3) both, blueprint-look 5s steps(1) 1.2s infinite;
+  }
+  [data-look="blueprint"] .page-name {
+    animation: blueprint-type 900ms steps(14) 300ms both;
+  }
+  [data-look="blueprint"] .page-name::after {
+    animation: blueprint-blink 1s steps(1) infinite;
+  }
+  [data-look="blueprint"] .page-clock::before {
+    animation: blueprint-blink 1.6s steps(1) infinite;
+  }
+  [data-look="blueprint"] .page-socials {
+    animation: blueprint-pop 250ms steps(3) 1250ms both;
+  }
+  /* on scroll: each box is drawn from the top down as it enters the screen */
+  @supports (animation-timeline: view()) {
+    [data-look="blueprint"] :is(.bento > .card, .bento > * > .card) {
+      animation: blueprint-wipe linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}

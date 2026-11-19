@@ -1,0 +1,203 @@
+/* ── Riso: a one-colour risograph print. Cream graph paper with a red grid, every word in red mono capitals, the
+      header a red-outlined panel with the clock as a solid red band, the profile photo printed as a red duotone (hover or
+      press reveals the real photo; card photos keep their colours), cards with thick red outlines that jump to a print-offset shadow on hover. ── */
+:root:has(main[data-look="riso"]),
+[data-look="riso"] {
+  --color-page: #fbf5ea;
+  --color-card: #fffaf2;
+  --color-ink: #d22b2b;
+  --color-accent: #d22b2b;
+  --color-muted: color-mix(in srgb, #d22b2b 78%, #fffaf2);
+  --color-subtle: color-mix(in srgb, #d22b2b 66%, #fffaf2);
+  --color-fill: color-mix(in srgb, #d22b2b 8%, #fffaf2);
+  --color-ring: color-mix(in srgb, #d22b2b 40%, transparent);
+  --radius-card: 14px;
+  --look-shadow: 0 0 0 2px var(--color-accent);
+  --font-sans: var(--font-mono), ui-monospace, monospace;
+}
+/* the paper: a fine red grid */
+[data-look="riso"] {
+  background-image:
+    linear-gradient(color-mix(in srgb, #d22b2b 40%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, #d22b2b 40%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
+}
+/* header: a cream panel with a thick red outline */
+[data-look="riso"] header {
+  width: min(100cqw - 32px, 600px);
+  margin: 32px auto 40px;
+  padding: 0 20px 24px;
+  gap: 22px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--color-card);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+/* the clock: a solid red band across the top of the panel */
+[data-look="riso"] .page-clock {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  margin: 0 -20px;
+  background: var(--color-accent);
+  color: var(--color-card);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* photo: a square above the name (the red print is below) */
+[data-look="riso"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 132px;
+  height: 132px;
+  margin: 0 auto 16px;
+}
+[data-look="riso"] .page-avatar :is(button, img, span) {
+  border-radius: 10px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 2px var(--color-accent);
+}
+/* the profile photo as a red print (card photos keep their real colours): red ink behind the photo, the photo in
+   grey on top with "screen" — dark parts print red, light parts stay paper-white. The red goes on the photo's own
+   holder. Hover (or press, on phones) reveals the real photo: the red fades out while the photo gets its colour back. */
+[data-look="riso"] .page-avatar,
+[data-look="riso"] .page-avatar :has(> img) {
+  background-color: var(--color-accent);
+  transition: background-color 600ms var(--ease-smooth);
+}
+/* the outline sits on the frame, not the photo (on the photo it would be blended into grey) */
+[data-look="riso"] .page-avatar {
+  border-radius: 10px;
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+[data-look="riso"] .page-avatar img {
+  --tw-ring-shadow: 0 0 #0000;
+  filter: grayscale(1) contrast(1.25) brightness(1.05);
+  mix-blend-mode: screen;
+  transition: filter 600ms var(--ease-smooth);
+}
+[data-look="riso"] .page-avatar:active,
+[data-look="riso"] .page-avatar:active :has(> img) {
+  background-color: transparent;
+}
+[data-look="riso"] .page-avatar:active img {
+  filter: none;
+}
+[data-look="riso"] .page-name {
+  color: var(--color-ink);
+  font-size: min(64px, calc((100cqw - 72px) / var(--fit) * 0.92));
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+/* social buttons: small outlined red pills */
+[data-look="riso"] .page-socials {
+  gap: 8px;
+}
+[data-look="riso"] .page-socials a {
+  height: 34px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-accent);
+  box-shadow: inset 0 0 0 1.5px var(--color-accent);
+  transition: background-color 150ms var(--ease-smooth), color 150ms var(--ease-smooth);
+}
+[data-look="riso"] .page-socials a:active {
+  background: var(--color-accent);
+  color: var(--color-card);
+}
+
+/* cards: everything in red; small labels in capitals */
+[data-look="riso"] .bento :is(.text-muted, .text-subtle):not(svg):not(dialog *) {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+[data-look="riso"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--color-accent);
+}
+[data-look="riso"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 200ms var(--ease-spring);
+}
+[data-look="riso"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: translate, box-shadow, scale;
+  transition-duration: 180ms;
+  transition-timing-function: var(--ease-smooth);
+}
+[data-look="riso"] .bento a.card:active {
+  translate: 2px 2px;
+}
+@media (hover: hover) {
+  /* hover: the card jumps up-left and leaves a solid red offset behind, like a misregistered print */
+  [data-look="riso"] .bento a.card:hover {
+    translate: -3px -3px;
+    --tw-shadow: 0 0 0 2px var(--color-accent), 5px 5px 0 0 var(--color-accent);
+  }
+  [data-look="riso"] .page-avatar:hover,
+  [data-look="riso"] .page-avatar:hover :has(> img) {
+    background-color: transparent;
+  }
+  [data-look="riso"] .page-avatar:hover img {
+    filter: none;
+  }
+  [data-look="riso"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="riso"] .page-socials a:hover {
+    background: var(--color-accent);
+    color: var(--color-card);
+  }
+}
+
+@keyframes riso-band {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes riso-type {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes riso-print {
+  0% { opacity: 0; translate: 6px 4px; }
+  60% { opacity: 1; translate: -2px -1px; }
+  100% { translate: 0 0; }
+}
+@keyframes riso-up {
+  from { opacity: 0; transform: translateY(24px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the band runs across, the photo lands like a print pass (slightly off, then in register), the name
+     types itself out letter by letter, the buttons follow */
+  [data-look="riso"] .page-clock {
+    animation: riso-band 600ms var(--ease-smooth) both;
+  }
+  [data-look="riso"] .page-avatar > * {
+    animation: riso-print 700ms var(--ease-smooth) 200ms both;
+  }
+  [data-look="riso"] .page-name span {
+    animation: riso-type 700ms steps(12, end) 450ms both;
+  }
+  [data-look="riso"] .page-name span + span {
+    animation-delay: 900ms;
+  }
+  [data-look="riso"] .page-socials {
+    animation: riso-up 500ms var(--ease-smooth) 1100ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="riso"] :is(.bento > .card, .bento > * > .card) {
+      animation: riso-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}

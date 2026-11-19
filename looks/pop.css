@@ -1,0 +1,182 @@
+/* ── Pop: pink-white grid paper, heavy black condensed capitals with the second line on a tilted blue label, a photo
+      with a coloured offset block, colour-block social buttons and white outlined panels with colour panels mixed
+      in. ── */
+:root:has(main[data-look="pop"]),
+[data-look="pop"] {
+  --color-page: #fffbfa;
+  --color-card: #ffffff;
+  --color-ink: #1b1b1b;
+  --color-accent: #e8507a;
+  --color-muted: #5c5c5c;
+  --color-subtle: #6b6b6b;
+  --color-fill: #f6f1f0;
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 14px;
+  --look-blue: #5b8def;
+  --look-yellow: #ffc61a;
+  --look-pink: #e8507a;
+  --look-shadow: 0 0 0 1.5px var(--color-ink);
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+}
+[data-look="pop"] {
+  background-image:
+    linear-gradient(rgb(232 80 122 / 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(232 80 122 / 0.09) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+[data-look="pop"] header {
+  padding-top: 52px;
+  gap: 26px;
+}
+[data-look="pop"] .page-clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: auto;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+[data-look="pop"] .page-clock::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--look-pink);
+}
+/* photo: rounded, slightly turned, with a pink block behind it */
+[data-look="pop"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  display: block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 22px;
+  rotate: 3deg;
+  border-radius: 20px;
+  box-shadow: 0 0 0 2px var(--color-ink), 9px 9px 0 2px var(--look-pink);
+}
+[data-look="pop"] .page-avatar :is(button, img, span) {
+  border-radius: 20px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* name: heavy condensed capitals; the second line sits on a tilted blue label */
+[data-look="pop"] .page-name {
+  color: var(--color-ink);
+  font-family: var(--font-anton), var(--font-sans);
+  font-size: min(130px, calc((100cqw - 32px) / var(--fit) * 1.0));
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.98;
+  text-transform: uppercase;
+}
+[data-look="pop"] .page-name span + span {
+  width: fit-content;
+  margin: 0.06em auto 0;
+  padding: 0.02em 0.16em 0.06em;
+  font-size: 0.86em; /* room for the label padding */
+  background: var(--look-blue);
+  color: #fff;
+  rotate: -2deg;
+}
+[data-look="pop"] .page-socials {
+  gap: 10px;
+}
+[data-look="pop"] .page-socials a {
+  height: 46px;
+  border-radius: 4px;
+  background: var(--look-blue);
+  color: #fff;
+  rotate: -3deg;
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+  transition: rotate 250ms var(--ease-spring), scale 250ms var(--ease-spring);
+}
+[data-look="pop"] .page-socials a:nth-child(3n + 2) { background: var(--look-yellow); color: var(--color-ink); rotate: 2deg; }
+[data-look="pop"] .page-socials a:nth-child(3n + 3) { background: var(--look-pink); rotate: -1deg; }
+[data-look="pop"] .page-socials a:active {
+  scale: 0.92;
+}
+/* panels: white with a black outline; blue, yellow and pink panels mixed in */
+[data-look="pop"] .bento > :nth-child(5n + 2) { --color-card: var(--look-blue); }
+[data-look="pop"] .bento > :nth-child(5n + 4) { --color-card: var(--look-yellow); }
+[data-look="pop"] .bento > :nth-child(7n + 6) { --color-card: var(--look-pink); }
+[data-look="pop"] .bento > :is(:nth-child(5n + 2), :nth-child(7n + 6)) {
+  --color-ink: #ffffff;
+  --color-muted: rgb(255 255 255 / 0.82);
+  --color-subtle: rgb(255 255 255 / 0.82);
+  --color-fill: rgb(255 255 255 / 0.2);
+  --color-hover: var(--color-card);
+  --look-shadow: 0 0 0 1.5px #1b1b1b;
+}
+[data-look="pop"] .bento > :nth-child(5n + 4) {
+  --color-muted: rgb(27 27 27 / 0.72);
+  --color-subtle: rgb(27 27 27 / 0.72);
+  --color-hover: var(--color-card);
+}
+[data-look="pop"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--color-ink);
+}
+[data-look="pop"] .bento .card-arrow {
+  color: inherit;
+}
+[data-look="pop"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: translate, box-shadow, scale;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-smooth);
+}
+[data-look="pop"] .bento a.card:active {
+  scale: 0.97;
+}
+/* hover: the panel jumps up with a pink block behind it (the card stays level) */
+@media (hover: hover) {
+  [data-look="pop"] .bento a.card:hover:not(:active) {
+    translate: -3px -3px;
+    --tw-shadow: 0 0 0 1.5px #1b1b1b, 7px 7px 0 1.5px var(--look-pink);
+  }
+  [data-look="pop"] .page-socials a:hover {
+    rotate: 0deg;
+    scale: 1.08;
+  }
+}
+@keyframes pop-slam {
+  from { opacity: 0; transform: scale(1.5); }
+  60% { opacity: 1; transform: scale(0.96); }
+}
+@keyframes pop-label {
+  from { opacity: 0; transform: translateX(-60px) rotate(-10deg); }
+}
+@keyframes pop-drop {
+  from { opacity: 0; transform: translateY(-40px); }
+  70% { opacity: 1; transform: translateY(4px); }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(40px) scale(0.94); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the photo drops, the first line slams in, the blue label slides under the second, the blocks drop */
+  [data-look="pop"] .page-avatar {
+    animation: pop-drop 600ms var(--ease-spring) both;
+  }
+  [data-look="pop"] .page-name span {
+    animation: pop-slam 500ms var(--ease-spring) 200ms both;
+  }
+  [data-look="pop"] .page-name span + span {
+    animation: pop-label 600ms var(--ease-spring) 450ms both;
+  }
+  [data-look="pop"] .page-socials a {
+    animation: pop-drop 500ms var(--ease-spring) 750ms both;
+  }
+  [data-look="pop"] .page-socials a:nth-child(2) { animation-delay: 830ms; }
+  [data-look="pop"] .page-socials a:nth-child(n + 3) { animation-delay: 910ms; }
+  @supports (animation-timeline: view()) {
+    [data-look="pop"] :is(.bento > .card, .bento > * > .card) {
+      animation: pop-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}

@@ -1,0 +1,217 @@
+/* ── Swatch: a cream sheet with big round corners, framed in bright blue (the frame stays put while the page scrolls
+      inside it). The clock is a wide orange band, the name is heavy black type ending in an orange full stop,
+      the buttons are black squares, and some cards are solid primary-colour blocks among cream outlined ones. ── */
+:root:has(main[data-look="swatch"]),
+[data-look="swatch"] {
+  --color-page: #efe7da;
+  --color-card: #f7f2e9;
+  --color-ink: #16130f;
+  --color-accent: #ff5a36;
+  --look-blue: #2c50f0;
+  --look-yellow: #ffc21f;
+  --look-green: #22c55e;
+  --radius-card: 22px;
+  --look-shadow: 0 0 0 1px #d8cebe;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+}
+/* the blue frame: the window behind the page is blue, and the page itself is the cream sheet with round corners,
+   inset from the edges — it scrolls as one piece, so nothing slides over the frame */
+:root:has(main[data-look="swatch"]) {
+  --color-page: var(--look-blue);
+}
+[data-look="swatch"] {
+  margin: 8px;
+  padding-bottom: 32px;
+  border-radius: 28px;
+}
+main[data-look="swatch"] {
+  min-height: calc(100svh - 16px);
+}
+@media (min-width: 768px) {
+  [data-look="swatch"]:not(.look-thumb) {
+    margin: 16px;
+    border-radius: 40px;
+  }
+  main[data-look="swatch"] {
+    min-height: calc(100svh - 32px);
+  }
+}
+[data-look="swatch"] header {
+  padding-top: 40px;
+  gap: 22px;
+}
+/* the clock: a wide orange band of bold capitals */
+[data-look="swatch"] .page-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100cqw - 32px, 848px);
+  height: 52px;
+  border-radius: 16px;
+  background: var(--color-accent);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+/* photo: a rounded rectangle above the name */
+[data-look="swatch"] .page-avatar {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 18px;
+}
+[data-look="swatch"] .page-avatar :is(button, img, span) {
+  border-radius: 24px;
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 0 1px #d8cebe;
+}
+/* name: heavy black type; the last line ends in an orange full stop (decoration, not the owner's text) */
+[data-look="swatch"] .page-name {
+  color: var(--color-ink);
+  font-size: min(96px, calc((100cqw - 32px) / var(--fit) * 0.82));
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+[data-look="swatch"] .page-name span:last-child::after {
+  content: ".";
+  color: var(--color-accent);
+}
+/* social buttons: black rounded squares */
+[data-look="swatch"] .page-socials {
+  gap: 8px;
+}
+[data-look="swatch"] .page-socials a {
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 12px;
+  background: var(--color-ink);
+  color: var(--color-page);
+  transition: background-color 200ms var(--ease-smooth), translate 250ms var(--ease-spring);
+}
+[data-look="swatch"] .page-socials a:active {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* cards: cream with a thin outline; every few slots a solid colour block (blue, yellow with a black edge, orange,
+   green) — set as tokens on the grid slot, so everything inside the card follows */
+[data-look="swatch"] .bento > :nth-child(7n + 2) {
+  --color-card: var(--look-blue);
+  --color-ink: #ffffff;
+  --look-shadow: 0 0 0 0 #0000;
+}
+[data-look="swatch"] .bento > :nth-child(7n + 4) {
+  --color-card: var(--look-yellow);
+  --look-shadow: 0 0 0 2px var(--color-ink);
+}
+[data-look="swatch"] .bento > :nth-child(7n + 6) {
+  --color-card: #ff7a1a;
+  --look-shadow: 0 0 0 0 #0000;
+}
+[data-look="swatch"] .bento > :nth-child(7n) {
+  --color-card: var(--look-green);
+  --look-shadow: 0 0 0 0 #0000;
+}
+[data-look="swatch"] .bento > :is(:nth-child(7n + 2), :nth-child(7n + 4), :nth-child(7n + 6), :nth-child(7n)) {
+  --color-muted: color-mix(in srgb, var(--color-ink) 72%, transparent);
+  --color-subtle: color-mix(in srgb, var(--color-ink) 62%, transparent);
+  --color-fill: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  --color-hover: var(--color-card);
+}
+/* popups opened from a coloured card are inside its grid slot: back to the cream sheet colours */
+[data-look="swatch"] dialog {
+  --color-card: #f7f2e9;
+  --color-ink: #16130f;
+  --color-muted: color-mix(in srgb, #16130f 60%, #f7f2e9);
+  --color-subtle: color-mix(in srgb, #16130f 50%, #f7f2e9);
+  --color-fill: color-mix(in srgb, #16130f 6%, #f7f2e9);
+  --color-hover: var(--color-fill);
+  --look-shadow: 0 0 0 1px #d8cebe;
+}
+/* small grey text in cards becomes a mono label (not inside popups: long answers stay easy to read) */
+[data-look="swatch"] .bento :is(.text-muted, .text-subtle):not(svg):not(dialog *) {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+[data-look="swatch"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--color-ink);
+}
+[data-look="swatch"] .bento .card-arrow {
+  color: inherit;
+  transition: translate 300ms var(--ease-spring);
+}
+[data-look="swatch"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: translate, scale, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-spring);
+}
+[data-look="swatch"] .bento a.card:active {
+  scale: 0.97;
+}
+@media (hover: hover) {
+  [data-look="swatch"] .bento a.card:hover {
+    translate: 0 -4px;
+  }
+  [data-look="swatch"] .bento a.card:hover .card-arrow {
+    translate: 3px -3px;
+  }
+  [data-look="swatch"] .page-socials a:hover {
+    translate: 0 -3px;
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+}
+
+@keyframes swatch-band {
+  from { opacity: 0; clip-path: inset(0 100% 0 0 round 16px); }
+  to { opacity: 1; clip-path: inset(0 0 0 0 round 16px); }
+}
+@keyframes swatch-rise {
+  from { opacity: 0; transform: translateY(0.4em); }
+}
+@keyframes swatch-dot {
+  0% { opacity: 0; scale: 0; }
+  70% { scale: 1.4; }
+  100% { opacity: 1; scale: 1; }
+}
+@keyframes swatch-up {
+  from { opacity: 0; transform: translateY(30px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: the orange band wipes in from the left, the name rises, the full stop pops in last, buttons follow */
+  [data-look="swatch"] .page-clock {
+    animation: swatch-band 700ms var(--ease-smooth) both;
+  }
+  [data-look="swatch"] .page-avatar > * {
+    animation: swatch-rise 600ms var(--ease-smooth) 150ms both;
+  }
+  [data-look="swatch"] .page-name span {
+    animation: swatch-rise 700ms var(--ease-smooth) 250ms both;
+  }
+  [data-look="swatch"] .page-name span + span {
+    animation-delay: 340ms;
+  }
+  [data-look="swatch"] .page-name span:last-child::after {
+    display: inline-block;
+    animation: swatch-dot 500ms var(--ease-spring) 900ms both;
+  }
+  [data-look="swatch"] .page-socials a {
+    animation: swatch-rise 500ms var(--ease-smooth) 600ms both;
+  }
+  @supports (animation-timeline: view()) {
+    [data-look="swatch"] :is(.bento > .card, .bento > * > .card) {
+      animation: swatch-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+  }
+}

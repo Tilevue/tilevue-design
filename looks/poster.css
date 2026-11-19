@@ -1,0 +1,171 @@
+/* ── Poster: light grey page, a huge condensed name in electric blue with a tall capsule photo over its centre,
+      flat cards (no shadows, small corners) — white, solid blue or near-black. ── */
+:root:has(main[data-look="poster"]),
+[data-look="poster"] {
+  --color-page: #f0f0f0;
+  --color-card: #ffffff;
+  --color-ink: #121212;
+  --color-accent: #1f66f5;
+  --color-hover: var(--color-card);
+  --color-hover-strong: var(--color-card);
+  --radius-card: 8px;
+  --look-shadow: 0 0 #0000;
+  --look-blue: #1f66f5;
+  --look-dark: #1c1c1c;
+  --look-icon: var(--look-blue);
+  --look-hover-bg: var(--look-blue); /* what a card turns into on tap / hover */
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+}
+/* name: as big as the screen allows, condensed, blue. The fit-to-screen size is recomputed for this narrow font. */
+[data-look="poster"] .page-name {
+  color: var(--look-blue);
+  font-family: var(--font-shoulders), var(--font-sans);
+  font-size: min(210px, calc((100cqw - 32px) / var(--fit))); /* wide letters (M, O) run ~0.56em in this weight */
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 0.84;
+  text-transform: uppercase;
+}
+/* photo: a tall capsule (it keeps its place over the middle of the name) */
+[data-look="poster"] .page-avatar {
+  width: clamp(64px, 17cqw, 128px);
+  height: auto;
+  aspect-ratio: 5 / 8;
+  transition: scale 400ms var(--ease-spring), rotate 400ms var(--ease-spring);
+}
+[data-look="poster"] .page-avatar :is(button, img, span) {
+  --tw-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+}
+/* a four-point spark between the name and the buttons */
+[data-look="poster"] header nav {
+  order: 3;
+}
+[data-look="poster"] header::after {
+  content: "";
+  order: 2;
+  width: 44px;
+  height: 44px;
+  background: var(--look-blue);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+}
+/* social buttons: black pills that turn blue when pressed */
+[data-look="poster"] .page-socials {
+  gap: 8px;
+}
+[data-look="poster"] .page-socials a {
+  height: 44px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: #fff;
+  transition: background-color 200ms var(--ease-smooth), scale 200ms var(--ease-spring);
+}
+[data-look="poster"] .page-socials a:active {
+  background: var(--look-blue);
+  scale: 0.94;
+}
+/* cards: flat blocks — most white, some solid blue, some near-black (both with white text) */
+[data-look="poster"] .bento > :is(:nth-child(5n + 2), :nth-child(8n + 8)) {
+  --color-card: var(--look-blue);
+  --look-hover-bg: var(--look-dark);
+}
+[data-look="poster"] .bento > :nth-child(7n + 5) {
+  --color-card: var(--look-dark);
+}
+[data-look="poster"] .bento > :is(:nth-child(5n + 2), :nth-child(8n + 8), :nth-child(7n + 5)) {
+  --color-ink: #ffffff;
+  --color-muted: rgb(255 255 255 / 0.76);
+  --color-subtle: rgb(255 255 255 / 0.76);
+  --color-fill: rgb(255 255 255 / 0.16);
+  --color-pill: rgb(255 255 255 / 0.16);
+  --color-hover: var(--color-card);
+  --color-ring: rgb(255 255 255 / 0.2);
+  --look-icon: #ffffff;
+}
+[data-look="poster"] :is(.bento > .card, .bento > * > .card) {
+  transition-property: background-color, color, scale;
+  transition-duration: 250ms;
+}
+/* icons: blue lines (white on the coloured blocks), no badge */
+[data-look="poster"] .bento :is(svg.lucide, .icon-mono) {
+  stroke-width: 2;
+  color: var(--look-icon);
+}
+/* tap / hover: the block fills with blue (a blue block turns near-black) and its text goes white */
+[data-look="poster"] .bento a.card:active {
+  --color-card: var(--look-hover-bg);
+  --color-hover: var(--look-hover-bg);
+  --color-ink: #ffffff;
+  --color-muted: rgb(255 255 255 / 0.76);
+  --color-subtle: rgb(255 255 255 / 0.76);
+  --color-fill: rgb(255 255 255 / 0.16);
+  --look-icon: #ffffff;
+  color: #ffffff;
+}
+@media (hover: hover) {
+  [data-look="poster"] .bento a.card:hover {
+    --color-card: var(--look-hover-bg);
+    --color-hover: var(--look-hover-bg);
+    --color-ink: #ffffff;
+    --color-muted: rgb(255 255 255 / 0.76);
+    --color-subtle: rgb(255 255 255 / 0.76);
+    --color-fill: rgb(255 255 255 / 0.16);
+    --look-icon: #ffffff;
+    color: #ffffff;
+  }
+  [data-look="poster"] .page-avatar:hover {
+    scale: 1.06;
+    rotate: -4deg;
+  }
+  [data-look="poster"] .page-socials a:hover {
+    background: var(--look-blue);
+  }
+}
+@keyframes poster-line {
+  from { transform: translateY(45%); clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(-10% -5% -10% -5%); }
+}
+@keyframes poster-capsule {
+  from { opacity: 0; clip-path: inset(50% 0 round 999px); }
+  to { clip-path: inset(0 0 round 999px); }
+}
+@keyframes poster-spark-in {
+  from { opacity: 0; transform: scale(0) rotate(-180deg); }
+}
+@keyframes poster-spark {
+  0%, 100% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(90deg) scale(0.72); }
+}
+@keyframes poster-in {
+  from { opacity: 0; transform: translateY(40px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* on load: each name line slides up from behind an edge, the capsule opens from its middle, the spark spins in,
+     the buttons rise. Afterwards the spark keeps turning and breathing. */
+  [data-look="poster"] .page-name span {
+    animation: poster-line 800ms var(--ease-smooth) both;
+  }
+  [data-look="poster"] .page-name span + span {
+    animation-delay: 140ms;
+  }
+  [data-look="poster"] .page-avatar {
+    animation: poster-capsule 800ms var(--ease-smooth) 450ms both;
+  }
+  [data-look="poster"] header::after {
+    animation: poster-spark-in 700ms var(--ease-spring) 700ms both, poster-spark 5s ease-in-out 1.6s infinite;
+  }
+  [data-look="poster"] .page-socials a {
+    animation: poster-in 500ms var(--ease-smooth) 850ms both;
+  }
+  [data-look="poster"] .page-socials a:nth-child(2) { animation-delay: 920ms; }
+  [data-look="poster"] .page-socials a:nth-child(3) { animation-delay: 990ms; }
+  [data-look="poster"] .page-socials a:nth-child(n + 4) { animation-delay: 1060ms; }
+  @supports (animation-timeline: view()) {
+    /* on scroll: cards rise into place */
+    [data-look="poster"] :is(.bento > .card, .bento > * > .card) {
+      animation: poster-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
