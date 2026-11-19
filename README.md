@@ -1,10 +1,38 @@
-# Tilevue looks and cards
+<p align="center">
+  <a href="https://tilevue.com">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset=".github/assets/tilevue-logo-white.svg">
+      <img src=".github/assets/tilevue-logo.svg" alt="Tilevue" height="56">
+    </picture>
+  </a>
+</p>
 
-The design layer of [Tilevue](https://tilevue.com), the free link in bio page made of cards: all **34 looks** (page
-themes) and all **87 card types**, as the real Next.js + React + Tailwind code that runs on tilevue.com. Make a new
-look or a new card here, and once it's merged it ships on tilevue.com for everyone.
+<h1 align="center">Looks and cards</h1>
 
-**See them live:** [tilevue.com/looks](https://tilevue.com/looks)
+<p align="center">
+  The page themes and cards behind <a href="https://tilevue.com">Tilevue</a>, the free link in bio page made of cards.
+</p>
+
+<p align="center">
+  <a href="https://tilevue.com"><b>tilevue.com</b></a> ·
+  <a href="https://tilevue.com/looks">All looks</a> ·
+  <a href="https://www.instagram.com/tilevuecom/">Instagram</a> ·
+  <a href="https://x.com/tilevuecom">X</a> ·
+  <a href="https://www.youtube.com/@tilevue">YouTube</a>
+</p>
+
+<p align="center">
+  <img src=".github/assets/banner.png" alt="Five Tilevue pages, each in a different look: your link in bio, your look">
+</p>
+
+This repo has all **34 looks** (page themes) and all **87 card types**, as the real Next.js + React + Tailwind code
+that runs on tilevue.com. Make a new look or a new card here, and once it's merged it ships on tilevue.com for
+everyone.
+
+<p align="center">
+  <img src=".github/assets/playground.png" alt="The playground: a sample page with every card type, here in the Sticker look" width="720">
+  <br><sub>The playground: every card type, in the look you pick.</sub>
+</p>
 
 ## Run it
 
@@ -67,7 +95,8 @@ Sample photos load from tilevue.com (see `next.config.ts`). They aren't part of 
 
 The code is [MIT](LICENSE).
 
-- **The Tilevue name and logo are not covered by the license.** Please don't use them for your own product.
+- **The Tilevue name and logo are not covered by the license.** Please don't use them for your own product. The
+  logo files and images in `.github/assets` are here for this README and for linking to Tilevue.
 - Brand icons in `public/icons` belong to their owners and are for linking to those services.
 - Fonts come from Google Fonts under their own open licenses.
 
